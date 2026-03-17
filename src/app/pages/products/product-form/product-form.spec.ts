@@ -6,12 +6,16 @@ describe('ProductForm', () => {
   let component: ProductForm;
   let fixture: ComponentFixture<ProductForm>;
 
+  //This method Runs before every test and  use for Setup and Initialization
   beforeEach(async () => {
+    // Creates a testing module
     await TestBed.configureTestingModule({
       imports: [ProductForm],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ProductForm);
+    // creates component
+    fixture = TestBed.createComponent(ProductForm); 
+    // actual TS class
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

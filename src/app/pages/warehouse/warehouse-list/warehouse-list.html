@@ -1,1 +1,107 @@
-<p>warehouse-list works!</p>
+
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="flex sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Warehouses ({{totalWarehousesCount()}})</h1>
+      <p class="text-sm text-gray-500 mt-1">Manage available Warehouses</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <button
+        class="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors">
+        <span class="material-icons text-sm">download</span>
+        Export
+      </button>
+      <a routerLink="/warehouse-form"
+        class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors shadow-sm cursor-pointer">
+        <span class="material-icons text-sm">add</span>
+        Add Warehouse
+      </a>
+    </div>
+
+  </div>
+
+  <!-- Stats Cards -->
+  <!-- <div class="grid grid-cols-4 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    @for (stat of stats; track stat.title) {
+    <div class="bg-white p-5 rounded-xl border border-gray-200">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-gray-500 text-xs font-semibold tracking-wide flex items-center gap-2">
+          <span class="material-icons text-gray-400 text-lg">{{ stat.icon }}</span>
+          {{ stat.title }}
+        </span>
+        <button class="text-gray-400 hover:text-gray-600">
+          <span class="material-icons text-lg">more_vert</span>
+        </button>
+      </div>
+      <div class="flex items-end justify-between">
+        <div>
+          <p class="text-2xl font-bold text-gray-900">{{ stat.value }}</p>
+          <p class="text-xs font-medium mt-1 flex items-center gap-1" [class.text-emerald-600]="stat.trend === 'up'"
+            [class.text-red-600]="stat.trend === 'down'">
+            {{ stat.change }}
+          </p>
+        </div>
+        <span class="text-xs text-gray-400">Last 7 days</span>
+      </div>
+    </div>
+    }
+  </div> -->
+
+
+  <!-- Warehouse Table -->
+  <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead class="bg-gray-50 border-b border-gray-200">
+          <tr>
+            <th class="px-6 py-4 w-12">
+              <input type="checkbox"
+                class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
+            </th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Warehouse Name</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Warehouse Location</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Warehouse Capacity</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          @for (Warehouse of warehouses; track $index; let i = $index) {
+          <tr class="hover:bg-gray-50 transition-colors">
+            <td class="px-6 py-4">
+              <input type="checkbox"
+                class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
+            </td>
+            <td class="px-6 py-4">
+              <div class="flex items-center">
+                <div>
+                  <p class="font-medium text-sm text-gray-900">{{warehouse.name}}</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <div>
+                <p class="text-xs text-gray-500">{{warehouse.location}}</p>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <div>
+                <p class="text-xs text-gray-500">{{warehouse.Capacity}}</p>
+              </div>
+            </td>
+            <td>
+              <div class="flex gap-2 items-center justify-center">
+                <button
+                  class="px-2 py-1 bg-yellow-600 text-white rounded-lg text-sm font-medium hover:bg-yellow-700 cursor-pointer">Edit</button>
+                <button
+                  class="px-2 py-1 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 cursor-pointer">Delete</button>
+              </div>
+
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

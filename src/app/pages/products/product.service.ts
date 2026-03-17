@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,12 +10,12 @@ export class ProductService {
 
   private readonly httpClient = inject(HttpClient);
 
-  getAllProducts(){
-    return this.httpClient.get(this.baseUrl)
+  getAllProducts() : Observable<Product[]>{
+    return this.httpClient.get<Product[]>(this.baseUrl)
     .pipe(
       map((response: any) => {
-        console.log("getAllProducts::", response);
-        return response;
+        //console.log("getAllProducts::", response);
+        return response.data;
       })
     );
   }
@@ -24,8 +24,14 @@ export class ProductService {
 
   }
 
-  createProduct(product: any){
-
+  createProduct(productData: Product): Observable<Product>{
+    return this.httpClient.post<Product>(this.baseUrl, productData)
+    .pipe(
+      map((response: any) => {
+        //console.log("savedProduct::", response);
+        return response.data;
+      })
+    );
   }
 
   updateProductById(productId: number, productDetail: any){
