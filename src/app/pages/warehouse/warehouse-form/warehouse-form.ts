@@ -48,7 +48,7 @@ export class WarehouseForm {
   }
 
   // Clear Form Function
-  clearProductForm() {
+  clearWarehouseForm() {
     this.warehouseForm.reset();
   }
 }

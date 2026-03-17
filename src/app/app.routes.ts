@@ -31,7 +31,13 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/warehouse/warehouse-list/warehouse-list')
           .then(m => m.WarehouseList)
-      }
+      },
+       {
+        path: 'warehouse-form',
+        loadComponent: () =>
+          import('./pages/warehouse/warehouse-form/warehouse-form')
+          .then(m => m.WarehouseForm)
+      },
 
     ]
   }

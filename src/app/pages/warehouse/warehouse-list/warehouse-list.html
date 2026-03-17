@@ -65,7 +65,7 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
-          @for (Warehouse of warehouses; track $index; let i = $index) {
+          @for (warehouse of warehouses; track $index; let i = $index) {
           <tr class="hover:bg-gray-50 transition-colors">
             <td class="px-6 py-4">
               <input type="checkbox"
@@ -85,7 +85,7 @@
             </td>
             <td class="px-6 py-4">
               <div>
-                <p class="text-xs text-gray-500">{{warehouse.Capacity}}</p>
+                <p class="text-xs text-gray-500">{{warehouse.capacity}}</p>
               </div>
             </td>
             <td>

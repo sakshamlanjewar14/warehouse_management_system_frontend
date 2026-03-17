@@ -39,7 +39,7 @@
                     <input formControlName="location" type="text"
                         placeholder="e.g., City"
                         class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
-                    @if (productForm.get('location')?.touched && productForm.get('location')?.invalid) {
+                    @if (warehouseForm.get('location')?.touched && warehouseForm.get('location')?.invalid) {
                     <small class="error">Warehouse Location must be at least 3 characters.</small>
                     }
                 </div>
@@ -51,7 +51,7 @@
                     </label>
                     <input formControlName="capacity" type="number" placeholder="e.g., 123"
                         class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
-                    @if (productForm.get('capacity')?.touched && productForm.get('capacity')?.invalid) {
+                    @if (warehouseForm.get('capacity')?.touched && warehouseForm.get('capacity')?.invalid) {
                     <small class="error">Warehouse Capacity must have 1 Number.</small>
                     }
                 </div>

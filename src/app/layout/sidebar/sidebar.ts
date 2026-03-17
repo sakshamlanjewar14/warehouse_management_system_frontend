@@ -14,8 +14,9 @@ export class Sidebar {
   isMobileMenuOpen = true;
 
   mainNavItems = [
-    { icon: 'home', label: 'Dashboard', route: '/home', badge: null },
-    { icon: 'inventory_2', label: 'Products', route: '/products', badge: null, active: true },
+    { icon: 'home', label: 'Dashboard', route: '/home', badge: null , active:true},
+    { icon: 'inventory_2', label: 'Products', route: '/products', badge: null, active: false },
+     { icon: 'warehouse', label: 'Warehouse', route: '/warehouse', badge: null, active: false },
     // { icon: 'people', label: 'Customers', route: '/customers', badge: null },
     // { icon: 'article', label: 'Content', route: '/content', badge: null },
     // { icon: 'account_balance', label: 'Finances', route: '/finances', badge: null },
