@@ -3,8 +3,8 @@
   <!-- Page Header -->
   <div class="flex sm:flex-row sm:items-center justify-between gap-4">
     <div>
-      <h1 class="text-2xl font-bold text-gray-900">Warehouses ({{totalWarehousesCount()}})</h1>
-      <p class="text-sm text-gray-500 mt-1">Manage available Warehouses</p>
+      <h1 class="text-2xl font-bold text-gray-900">StorageBins ({{totalStorageBinCount()}})</h1>
+      <p class="text-sm text-gray-500 mt-1">Manage available StorageBins in Warehouses</p>
     </div>
     <div class="flex items-center gap-3">
       <button
@@ -12,7 +12,7 @@
         <span class="material-icons text-sm">download</span>
         Export
       </button>
-      <a routerLink="/warehouse-form"
+      <a routerLink="/bin-form"
         class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors shadow-sm cursor-pointer">
         <span class="material-icons text-sm">add</span>
         Add Warehouse
@@ -49,7 +49,7 @@
   </div> -->
 
 
-  <!-- Warehouse Table -->
+  <!-- StorageBin Table -->
   <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
     <div class="overflow-x-auto">
       <table class="w-full text-left">
@@ -59,15 +59,15 @@
               <input type="checkbox"
                 class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
             </th>
-            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Warehouse Name</th>
-            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Warehouse Location</th>
-            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Warehouse Capacity</th>
-            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Bin Count</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Bin Code</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Capacity</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Warehouse</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Inventary Items</th>
             <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
-          @for (warehouse of warehouses; track $index; let i = $index) {
+          @for (storageBin of storageBins; track $index; let i = $index) {
           <tr class="hover:bg-gray-50 transition-colors">
             <td class="px-6 py-4">
               <input type="checkbox"
@@ -76,23 +76,24 @@
             <td class="px-6 py-4">
               <div class="flex items-center">
                 <div>
-                  <p class="font-medium text-sm text-gray-900">{{warehouse.name}}</p>
+                  <p class="font-medium text-sm text-gray-900">{{storageBin.binCode}}</p>
                 </div>
               </div>
             </td>
             <td class="px-6 py-4">
               <div>
-                <p class="text-xs text-gray-500">{{warehouse.location}}</p>
+                <p class="text-xs text-gray-500">{{storageBin.capacity}}</p>
               </div>
             </td>
             <td class="px-6 py-4">
               <div>
-                <p class="text-xs text-gray-500">{{warehouse.capacity}}</p>
+                <p class="text-xs text-gray-500">
+                  {{storageBin.warehouseName ? storageBin.warehouseName : '--'}}</p>
               </div>
             </td>
-            <td class="px-6 py-4">
+             <td class="px-6 py-4">
               <div>
-                <p class="text-xs text-gray-500">{{warehouse.storageBins ? warehouse.storageBins.length : 0}}</p>
+                <p class="text-xs text-gray-500">{{storageBin.inventoryItems ? storageBin.inventoryItems.length : 0}}</p>
               </div>
             </td>
             <td>

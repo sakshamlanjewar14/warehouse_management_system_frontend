@@ -3,6 +3,5 @@ interface Warehouse{
   name: string;
   location: string;
   capacity: string;
-  barcode: string;
   storageBins?: []; 
 }

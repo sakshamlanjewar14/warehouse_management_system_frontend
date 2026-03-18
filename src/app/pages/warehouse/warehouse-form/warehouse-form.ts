@@ -21,7 +21,7 @@ export class WarehouseForm {
   warehouseForm = this.formBuilder.group({
      name: ['', [Validators.required, Validators.minLength(3)]],
      location : ['', [Validators.required, Validators.minLength(3)]],
-     capacity : ['', [Validators.required, Validators.minLength(1)]]
+    //  capacity : ['', [Validators.required, Validators.minLength(1)]]
   }) 
 
   onSubmit(){
@@ -34,7 +34,7 @@ export class WarehouseForm {
         .subscribe({
           next: (savedWarehouse) => {
             this.isSubmitting.set(false);
-            this.submitMessage.set('Warehouse saved successfully!');
+            this.submitMessage.set('Warehouse saved successfully !');
             this.warehouseForm.reset();
           },
           // Handle response--error

@@ -38,6 +38,18 @@ export const routes: Routes = [
           import('./pages/warehouse/warehouse-form/warehouse-form')
           .then(m => m.WarehouseForm)
       },
+      {
+        path: 'storageBin',
+        loadComponent: () =>
+          import('./pages/storageBin/bin-list/bin-list')
+          .then(m => m.StorageBinList)
+      },
+       {
+        path: 'storageBin-form',
+        loadComponent: () =>
+          import('./pages/storageBin/bin-form/bin-form')
+          .then(m => m.StorageBinForm)
+      },
 
     ]
   }
