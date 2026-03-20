@@ -13,7 +13,7 @@ export const routes: Routes = [
           import('./pages/dashboard/dashboard')
           .then(m => m.Dashboard)
       },
-
+      // For Products
       {
         path: 'products',
         loadComponent: () =>
@@ -26,6 +26,7 @@ export const routes: Routes = [
           import('./pages/products/product-form/product-form')
           .then(m => m.ProductForm)
       },
+      // For Warehouse
       {
         path: 'warehouse',
         loadComponent: () =>
@@ -38,6 +39,7 @@ export const routes: Routes = [
           import('./pages/warehouse/warehouse-form/warehouse-form')
           .then(m => m.WarehouseForm)
       },
+      // For StorageBin
       {
         path: 'storageBin',
         loadComponent: () =>
@@ -49,6 +51,19 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/storageBin/bin-form/bin-form')
           .then(m => m.StorageBinForm)
+      },
+      // For Inventory Item
+       {
+        path: 'inventoryitems',
+        loadComponent: () =>
+          import('./pages/inventoryItem/item-list/item-list')
+          .then(m => m.InventoryItemList)
+      },
+       {
+        path: 'inventoryItem-form',
+        loadComponent: () =>
+          import('./pages/inventoryItem/item-form/item-form')
+          .then(m => m.InventoryItemForm)
       },
 
     ]

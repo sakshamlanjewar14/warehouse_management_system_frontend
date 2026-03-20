@@ -1,4 +1,6 @@
-import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { inject, Injectable } from "@angular/core";
+import { map, Observable } from "rxjs";
 
 
 
@@ -6,26 +8,25 @@ import { Injectable } from "@angular/core";
   providedIn: 'root',
 })
 export class ItemService {
-  baseUrl= "http://localhost:8080/api/v1/products";
+  baseUrl= "http://localhost:8080/api/v1/inventoryitems";
 
   private readonly httpClient = inject(HttpClient);
 
-  getAllProducts() : Observable<Product[]>{
-    return this.httpClient.get<Product[]>(this.baseUrl)
+  getAllItems() : Observable<InventoryItem[]>{
+    return this.httpClient.get<InventoryItem[]>(this.baseUrl)
     .pipe(
       map((response: any) => {
-        //console.log("getAllProducts::", response);
         return response.data;
       })
     );
   }
 
-  getProductById(productId: number){
+  getItemById(inventoryItemId: number){
 
   }
 
-  createProduct(productData: Product): Observable<Product>{
-    return this.httpClient.post<Product>(this.baseUrl, productData)
+  createItem(itemData: InventoryItem): Observable<InventoryItem>{
+    return this.httpClient.post<InventoryItem>(this.baseUrl, itemData)
     .pipe(
       map((response: any) => {
         //console.log("savedProduct::", response);
@@ -34,11 +35,11 @@ export class ItemService {
     );
   }
 
-  updateProductById(productId: number, productDetail: any){
+  updateItemById(inventoryItemId: number, inventoryItemDetails: any){
 
   }
 
-  deleteProductById(productId: number){
+  deleteProductById(inventoryItemId: number){
   
   }
 }

@@ -12,10 +12,10 @@
         <span class="material-icons text-sm">download</span>
         Export
       </button>
-      <a routerLink="/bin-form"
+      <a routerLink="/storageBin-form"
         class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors shadow-sm cursor-pointer">
         <span class="material-icons text-sm">add</span>
-        Add Warehouse
+        Add StorageBin
       </a>
     </div>
 
@@ -91,7 +91,7 @@
                   {{storageBin.warehouseName ? storageBin.warehouseName : '--'}}</p>
               </div>
             </td>
-             <td class="px-6 py-4">
+            <td class="px-6 py-4">
               <div>
                 <p class="text-xs text-gray-500">{{storageBin.inventoryItems ? storageBin.inventoryItems.length : 0}}</p>
               </div>

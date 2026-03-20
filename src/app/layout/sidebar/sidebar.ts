@@ -21,6 +21,9 @@ export class Sidebar {
     {
       icon: 'archive', label: 'Storage Bin', route: '/storageBin', badge: null, active: false
     },
+     {
+      icon: 'inventory_2', label: 'Inventory Item', route: '/inventoryitems', badge: null, active: false
+    },
     // { icon: 'people', label: 'Customers', route: '/customers', badge: null },
     // { icon: 'article', label: 'Content', route: '/content', badge: null },
     // { icon: 'account_balance', label: 'Finances', route: '/finances', badge: null },

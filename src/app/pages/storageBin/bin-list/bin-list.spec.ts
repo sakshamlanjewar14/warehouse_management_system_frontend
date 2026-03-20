@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { StorageBinList } from "./bin-list";
 
 
 describe('StorageBinList', () => {
