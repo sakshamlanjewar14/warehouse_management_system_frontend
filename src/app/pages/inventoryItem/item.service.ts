@@ -12,8 +12,8 @@ export class ItemService {
 
   private readonly httpClient = inject(HttpClient);
 
-  getAllItems() : Observable<InventoryItem[]>{
-    return this.httpClient.get<InventoryItem[]>(this.baseUrl)
+  getAllItems() : Observable<InventoryItemResponseDto[]>{
+    return this.httpClient.get<InventoryItemResponseDto[]>(this.baseUrl)
     .pipe(
       map((response: any) => {
         return response.data;
@@ -25,8 +25,8 @@ export class ItemService {
 
   }
 
-  createItem(itemData: InventoryItem): Observable<InventoryItem>{
-    return this.httpClient.post<InventoryItem>(this.baseUrl, itemData)
+  createItem(itemData: InventoryItemRequestDto): Observable<InventoryItemResponseDto[]>{
+    return this.httpClient.post<InventoryItemResponseDto[]>(this.baseUrl, itemData)
     .pipe(
       map((response: any) => {
         //console.log("savedProduct::", response);

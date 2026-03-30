@@ -8,7 +8,8 @@ import { RouterModule } from '@angular/router';
   selector: 'app-product-list',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './product-list.html'
+  templateUrl: './product-list.html',
+  styleUrls: ['./product-list.scss']
 })
 export class ProductList implements OnInit {
 

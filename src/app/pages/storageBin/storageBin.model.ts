@@ -1,8 +1,18 @@
-interface StorageBin{
+interface StorageBinResponse{
     // ? → optional field ---Means: this may or may not come from backend
     binId? : number;
     binCode : string;
-    capacity : number
+    totalCapacity : number;
+    availableCapacity: number;
+    warehouseName? : string;
+    inventoryItems? :[];
+}
+
+interface StorageBinRequest{
+    // ? → optional field ---Means: this may or may not come from backend
+    binId? : number;
+    binCode : string;
+    capacity : number;
     warehouseName? : string;
     inventoryItems? :[];
 }

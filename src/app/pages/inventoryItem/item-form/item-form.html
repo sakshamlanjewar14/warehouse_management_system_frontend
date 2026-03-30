@@ -16,7 +16,7 @@
     </div>
 
 
-    <!-- InventoryItem From -->
+    <!-- InventoryItem Form -->
     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <div class="py-6 px-3">
             <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
@@ -27,14 +27,17 @@
                             Select Product <span class="text-red-500">*</span>
                         </label>
                         <select
-                            class="w-full px-2 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
-                            <option value="">-- Choose a Product --</option>
-                            @for (p of products; track p.id) {
-                            <option [value]="p.id">{{ p.name }}</option>
+                            formControlName="productId"
+                            class="w-full px-2 py-3 bg-gray-50 border border-gray-200 rounded-xl 
+                            focus:outline-none focus:ring-2 focus:ring-indigo-500/20 
+                            focus:border-indigo-500 transition-all">
+                            <option value="">-- Choose Product --</option>
+                            @for (p of products; track p?.productId) {
+                            <option [value]="p?.productId">{{ p.name }}</option>
                             }
                         </select>
 
-                        @if (itemForm.get('product')?.touched && itemForm.get('product')?.invalid) {
+                        @if (itemForm.get('productId')?.touched && itemForm.get('productId')?.invalid) {
                         <small class="error">Please select product first.</small>
                         }
                     </div>
@@ -43,7 +46,7 @@
                             [disabled]="!isProductSelected"
                             class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white 
                             rounded-lg text-sm font-medium hover:bg-indigo-700 
-                            transition-colors shadow-sm cursor-pointer">
+                            transition-colors shadow-sm cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed">
                             <span class="material-icons text-sm">add</span>
                             Add Quantity
                         </button>
@@ -64,23 +67,28 @@
                         @for (row of rows.controls; track row; let i = $index) {
                         <tr [formGroupName]="i">
                             <th class="border border-gray-300 px-4 py-2">{{(i+1)}}</th>
-                            <th class="border border-gray-300  px-4 py-2">
-                                <select formControlName="bin"
-                                    class="w-full px-2 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                            <th class="border border-gray-300  px-4 py-2" [class.disableSB]="!isProductSelected">
+                                <select 
+                                    formControlName="storageBinId"
+                                    class="w-full px-2 py-3 bg-gray-50 border border-gray-200 rounded-xl 
+                                    focus:outline-none focus:ring-2 focus:ring-indigo-500/20 
+                                    focus:border-indigo-500 transition-all
+                                    disabled:bg-gray-400 disabled:cursor-not-allowed">
                                     <option value="">Select Bin</option>
-                                    @for (bin of availableBins; track bin) {
-                                    <option [value]="bin.id" [disabled]="isBinDisabled(bin.id, i)">
-                                        {{ bin.name }}
+                                    @for (bin of bins; track bin) {
+                                    <option [value]="bin.binId" [disabled]="isBinDisabled(bin.binId, i)">
+                                        {{ bin.binCode }}
                                     </option>
                                     }
                                 </select>
                             </th>
                             <th class="border border-gray-300 px-4 py-2 text-green-600">Available Bin Capacity: {{
                                 getBinCapacity(i) }}</th>
-                            <th class="border border-gray-300 px-4 py-2">
+                            <th class="border border-gray-300 px-4 py-2" [class.disableSB]="!isProductSelected" >
                                 @let cap = getBinCapacity(i);
                                 @let qty = row.get('quantity')?.value;
-                                <input formControlName="quantity" type="number" [max]="getBinCapacity(i)" min="0"
+                                <input formControlName="quantity" 
+                                type="number" [max]="getBinCapacity(i)" min="0"
                                     class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
 
                                 @if (cap !== null && qty > cap) {
@@ -90,12 +98,15 @@
                                 }
                             </th>
                             <th class="border border-gray-300 px-4 py-2">
-                                <div class="flex items-center justify-center">
-                                    <button type="button" (click)="removeRow(i)"
-                                        class="flex items-center gap-2 px-2 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors shadow-sm cursor-pointer">
-                                        <span class="material-icons text-sm">delete</span>
-                                    </button>
-                                </div>
+                                @if(rows.length != (i+1)){
+                                    <div class="flex items-center justify-center">
+                                        <button type="button" (click)="removeRow(i)"
+                                            class="flex items-center gap-2 px-2 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors shadow-sm cursor-pointer">
+                                            <span class="material-icons text-sm">delete</span>
+                                        </button>
+                                    </div>
+                                }
+                                
 
                             </th>
                         </tr>

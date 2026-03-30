@@ -18,7 +18,7 @@ export class StorageBinList implements OnInit {
 
   }
 
-  storageBins: StorageBin[] = [];
+  storageBins: StorageBinResponse[] = [];
   totalStorageBinCount = signal<number>(0);
 
   ngOnInit(): void {

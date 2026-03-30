@@ -21,7 +21,7 @@ export class InventoryItemList implements OnInit {
 
   }
 
-  inventoryItems: InventoryItem[] = [];
+  inventoryItems: InventoryItemResponseDto[] = [];
   totalItemsCount = signal<number>(0);
   isOpen: boolean = false;
 

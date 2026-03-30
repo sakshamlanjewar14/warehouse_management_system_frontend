@@ -73,7 +73,10 @@
                 class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
             </td>
             <td class="px-6 py-4">
-              <div class="flex items-center">
+              <div class="flex items-center gap-2">
+                <div class="product-img-div">
+                  <img class="product-img" [src]="product.imageUrl" />
+                </div>
                 <div>
                   <p class="font-medium text-sm text-gray-900">{{ product.name }}</p>
                 </div>

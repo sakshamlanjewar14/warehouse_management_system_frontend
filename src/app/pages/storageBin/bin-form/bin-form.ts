@@ -37,7 +37,7 @@ export class StorageBinForm{
 
       console.log('StorageBin Data:', this.storageBinForm.value);
       // Get form data
-      const storageBinData = this.storageBinForm.getRawValue() as StorageBin;
+      const storageBinData = this.storageBinForm.getRawValue() as StorageBinRequest;
       // Call backend
       this.storageBinService.createStorageBin(storageBinData)
         .subscribe({
