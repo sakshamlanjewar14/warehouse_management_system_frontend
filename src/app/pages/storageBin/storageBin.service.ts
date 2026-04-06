@@ -19,7 +19,7 @@ export class StorageBinService{
         );
     }
 
-    getStorageBinBYiD(binId : Number){
+    getStorageBinBYID(binId : Number){
 
     }
 

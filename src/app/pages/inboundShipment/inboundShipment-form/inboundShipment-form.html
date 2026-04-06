@@ -1,0 +1,151 @@
+<!-- space-y-6 → adds vertical spacing between children -->
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="flex sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Create InboundShipment</h1>
+            <p class="text-sm text-gray-500 mt-1">Create new inboundShipment</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a routerLink="/inboundShipment"
+                class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors shadow-sm cursor-pointer">
+                <span class="material-icons text-sm"></span>
+                Back to inboundShipment list
+            </a>
+        </div>
+    </div>
+
+    <!-- InboundShipment From -->
+    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div class="py-6 px-3">
+            <form [formGroup]="inboundShipmentForm" (ngSubmit)="onSubmit()">
+
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xxl:grid-cols-2 gap-4">
+                    <div><!-- Inboundshipment code -->
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Shipment Code <span class="text-red-500">*</span>
+                        </label>
+                        <input formControlName="shipmentCode" type="text" placeholder="e.g., sg-12"
+                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                        @if (inboundShipmentForm.get('shipmentCode')?.touched &&
+                        inboundShipmentForm.get('shipmentCode')?.invalid) {
+                        <small class="error">InboundShipment code must be at least 3 characters.</small>
+                        }
+                    </div>
+                    <div><!-- Inboundshipment supplier name -->
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Supplier Name <span class="text-red-500">*</span>
+                        </label>
+                        <input formControlName="supplierName" type="text" placeholder="e.g., Rcm"
+                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                        @if (inboundShipmentForm.get('supplierName')?.touched &&
+                        inboundShipmentForm.get('supplierName')?.invalid) {
+                        <small class="error">Supplier name must be at least 2 characters.</small>
+                        }
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xxl:grid-cols-2 gap-4">
+                    <div>
+                        <!-- status -->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Sipment Status <span class="text-red-500">*</span>
+                            </label>
+                            <!-- <input formControlName="status" type="text"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                                 -->
+                            <select
+                                class="w-full px-2 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                                <option value="">-- Choose a Status --</option>
+                                @for (s of status; track s.value) {
+                                <option [value]="p.id">{{ p.name }}</option>
+                                }
+                            </select>
+
+                            @if (inboundShipmentForm.get('status')?.touched &&
+                            inboundShipmentForm.get('status')?.invalid) {
+                            <small class="error">Product sku must have 5 characters.</small>
+                            }
+                        </div>
+                    </div>
+                    <div>
+
+                        <!--ReferenceNumber -->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Reference Number <span class="text-red-500">*</span>
+                            </label>
+                            <input formControlName="referenceNumber" type="text" placeholder="e.g., gds14"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                            @if (inboundShipmentForm.get('referenceNumber')?.touched &&
+                            inboundShipmentForm.get('referenceNumber')?.invalid) {
+                            <small class="error">Enter Refrence Number</small>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xxl:grid-cols-2 gap-4">
+                    <div>
+                        <!-- ExpectedDate -->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                ExpectedDate <span class="text-red-500">*</span>
+                            </label>
+                            <input formControlName="expectedDate" type="date" placeholder="e.g.,10/2/2020"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                            @if (inboundShipmentForm.get('expectedDate')?.touched &&
+                            inboundShipmentForm.get('expectedDate')?.invalid) {
+                            <small class="error">Enter Expected Date</small>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <!-- ReceivedDate-->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                ReceivedDate <span class="text-red-500">*</span>
+                            </label>
+                            <input formControlName="receivedDate" type="date" placeholder="e.g., 10/2/2020"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                            <!-- Validation Block -->
+                            @if (inboundShipmentForm.get('receivedDate')?.touched &&
+                            inboundShipmentForm.get('receivedDate')?.invalid) {
+                            <small class="error">Enter Received Date</small>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xxl:grid-cols-2 gap-4">
+                    <div>
+                        <!-- Note -->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Note<span class="text-red-500">*</span>
+                            </label>
+                            <input formControlName="notes" type="text" placeholder="e.g.,"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                        </div>
+                    </div>
+                    <div class="flex gap-3 items-center mt-50px">
+                        <button type="submit" [disabled]="inboundShipmentForm.invalid || isSubmitting()"
+                            class="flex items-center gap-2 px-4 py-2 bg-green-600 
+                        text-white rounded-lg text-sm font-medium hover:bg-green-700 
+                        transition-colors shadow-sm cursor-pointer
+                        disabled:bg-gray-400 disabled:text-gray-700 disabled:opacity-75 disabled:cursor-not-allowed">Save</button>
+                        <button type="button" (click)="clearInboundShipmentForm()"
+                            class="flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg text-sm font-medium hover:bg-yellow-700 transition-colors shadow-sm cursor-pointer">Clear</button>
+                        <a routerLink="/products"
+                            class="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg text-sm font-medium hover:bg-orange-700 transition-colors shadow-sm cursor-pointer">Cancel</a>
+                    </div>
+                </div>
+
+                @if (submitMessage()) {
+                <div class="alert success mt-6">{{ submitMessage() }}</div>
+                }
+            </form>
+        </div>
+    </div>
+</div>

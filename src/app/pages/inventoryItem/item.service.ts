@@ -12,8 +12,8 @@ export class ItemService {
 
   private readonly httpClient = inject(HttpClient);
 
-  getAllItems() : Observable<InventoryItem[]>{
-    return this.httpClient.get<InventoryItem[]>(this.baseUrl)
+  getAllItems() : Observable<InventoryItemResponseDto[]>{
+    return this.httpClient.get<InventoryItemResponseDto[]>(this.baseUrl)
     .pipe(
       map((response: any) => {
         return response.data;

@@ -26,6 +26,8 @@ export const routes: Routes = [
           import('./pages/products/product-form/product-form')
           .then(m => m.ProductForm)
       },
+
+      
       // For Warehouse
       {
         path: 'warehouse',
@@ -39,6 +41,8 @@ export const routes: Routes = [
           import('./pages/warehouse/warehouse-form/warehouse-form')
           .then(m => m.WarehouseForm)
       },
+
+
       // For StorageBin
       {
         path: 'storageBin',
@@ -52,6 +56,8 @@ export const routes: Routes = [
           import('./pages/storageBin/bin-form/bin-form')
           .then(m => m.StorageBinForm)
       },
+
+
       // For Inventory Item
        {
         path: 'inventoryitems',
@@ -64,6 +70,21 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/inventoryItem/item-form/item-form')
           .then(m => m.InventoryItemForm)
+      },
+
+
+      // For InboundShipment Item
+       {
+        path: 'inboundShipment',
+        loadComponent: () =>
+          import('./pages/inboundShipment/inboundShipment-list/inboundShipment-list')
+          .then(m => m.InboundShipmentList)
+      },
+       {
+        path: 'inboundShipment-form',
+        loadComponent: () =>
+          import('./pages/inboundShipment/inboundShipment-form/inboundShipment-form')
+          .then(m => m.InboundShipmentForm)
       },
 
     ]
