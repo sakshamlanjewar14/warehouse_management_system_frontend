@@ -98,6 +98,7 @@ export class InventoryItemForm implements OnInit{
     return selected.includes(binId) && currentControlValue !== binId;
   }
 
+  // add rows
   addRow(){
     const row = new FormGroup({
       bin: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(1)] }),

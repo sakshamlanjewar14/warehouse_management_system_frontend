@@ -38,6 +38,7 @@
                         <small class="error">Please select product first.</small>
                         }
                     </div>
+                    <!-- Add row button -->
                     <div>
                         <button type="button" (click)="addRow()"
                             [disabled]="!isProductSelected"
@@ -63,7 +64,7 @@
                     <tbody formArrayName="rows">
                         @for (row of rows.controls; track row; let i = $index) {
                         <tr [formGroupName]="i">
-                            <th class="border border-gray-300 px-4 py-2">{{(i+1)}}</th>
+                            <th class="border border-gray-300 px-4 py-2">{{(i+1)}}</th>             
                             <th class="border border-gray-300  px-4 py-2">
                                 <select formControlName="bin"
                                     class="w-full px-2 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">

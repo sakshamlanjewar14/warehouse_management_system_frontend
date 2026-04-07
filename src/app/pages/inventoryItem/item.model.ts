@@ -4,7 +4,7 @@ interface InventoryItem {
   quantity: number,
   product?: [],
   storageBin?: [];
-  // when we get many things that time we use [].
+  // when we get many things(list) that time we use [].
 }
 
 interface InventoryItemResponseDto {

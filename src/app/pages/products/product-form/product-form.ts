@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ProductService } from '../product.service';
+import { Product } from '../product.model';
 
 // Component Setup
 @Component({
