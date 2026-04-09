@@ -2,6 +2,7 @@ import { Component, signal, computed, inject, OnInit, ChangeDetectorRef } from '
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../product.service';
 import { RouterModule } from '@angular/router';
+import { Product } from '../product.model';
 
 
 @Component({

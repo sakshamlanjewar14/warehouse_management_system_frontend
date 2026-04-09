@@ -5,38 +5,38 @@ import { map, Observable } from "rxjs";
 @Injectable({
   providedIn: 'root',
 })
-export class StorageBinService {
-  baseUrl = "http://localhost:8080/api/v1/storagebins";
+export class StorageBinService{
+    baseUrl ="http://localhost:8080/api/v1/storagebins";
 
-  private readonly httpClient = inject(HttpClient);
+    private readonly httpClient = inject(HttpClient);
 
-  getAllStorageBins(): Observable<StorageBinResponse[]> {
-    return this.httpClient.get<StorageBinResponse[]>(this.baseUrl)
-      .pipe(
-        map((Response: any) => {
-          return Response.data;
-        })
-      );
+    getAllStorageBins() :Observable<StorageBin[]>{
+        return this.httpClient.get<StorageBin[]>(this.baseUrl)
+        .pipe(
+            map((Response : any)=>{
+                return Response.data;
+            })
+        );
+    }
+
+    getStorageBinBYiD(binId : Number){
+
+    }
+
+     createStorageBin(storageBinData: StorageBin): Observable<StorageBin>{
+    return this.httpClient.post<StorageBin>(this.baseUrl, storageBinData)
+    .pipe(
+      map((response: any) => {
+        return response.data;
+      })
+    );
   }
 
-  getStorageBinBYiD(binId: Number) {
+  updateStorageBinById(binId : number){
 
   }
 
-  createStorageBin(storageBinData: StorageBinRequest): Observable<StorageBinResponse> {
-    return this.httpClient.post<StorageBinRequest>(this.baseUrl, storageBinData)
-      .pipe(
-        map((response: any) => {
-          return response.data;
-        })
-      );
-  }
-
-  updateStorageBinById(binId: number) {
-
-  }
-
-  deleteStorageBinById(binId: number) {
+  deleteStorageBinById(binId : number){
 
   }
 }
