@@ -1,8 +1,17 @@
-interface InventoryItem{
-      // ? → optional field ---Means: this may or may not come from backend
-    inventoryItemId? : number,
-    quantity : number,
-    product?: [],
-    storageBin? : [];
-    // when we get many things that time we use [].
+
+interface InventoryItemRequestDto {
+    productId: string;
+  rows: InventoryItemQuantityRequestDto[];
+}
+
+interface InventoryItemQuantityRequestDto {
+  storageBinId: string;
+  quantity: number;
+}
+
+interface InventoryItemResponseDto {
+    inventoryItemId: number;
+    quantity: number;
+    productName: string;
+    storageBinCode: string;
 }

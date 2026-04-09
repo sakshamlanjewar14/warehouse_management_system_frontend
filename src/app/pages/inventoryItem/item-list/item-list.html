@@ -84,12 +84,12 @@
             </td>
             <td class="px-6 py-4">
               <div>
-                <p class="text-xs text-gray-500">{{item.product ? item.product.length : 0}}</p>
+                <p class="text-xs text-gray-500">{{item.productName}}</p>
               </div>
             </td>
             <td class="px-6 py-4">
               <div>
-                <p class="text-xs text-gray-500">{{item.storageBin ? item.storageBin.length : 0}}</p>
+                <p class="text-xs text-gray-500">{{item.storageBinCode}}</p>
               </div>
             </td>
             <td>
@@ -132,8 +132,8 @@
       </div>
       <div class="flex gap-3 items-center mt-6">
         <button type="submit"
-          class="flex items-center gap-2 px-4 py-2 bg-green-600
-                        text-white rounded-lg text-sm font-medium hover:bg-green-700
+          class="flex items-center gap-2 px-4 py-2 bg-green-600 
+                        text-white rounded-lg text-sm font-medium hover:bg-green-700 
                         transition-colors shadow-sm cursor-pointer
                         disabled:bg-gray-400 disabled:text-gray-700 disabled:opacity-75 disabled:cursor-not-allowed">Save</button>
         <button type="button"
