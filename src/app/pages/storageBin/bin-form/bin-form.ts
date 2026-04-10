@@ -3,6 +3,7 @@ import { StorageBinService } from "../storageBin.service";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
+import { StorageBinRequest } from "../storageBin.model";
 
 
 // Component Setup

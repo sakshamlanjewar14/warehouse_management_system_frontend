@@ -1,0 +1,222 @@
+<!-- space-y-6 → adds vertical spacing between children -->
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="flex sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Create Supplier</h1>
+            <p class="text-sm text-gray-500 mt-1">Create new supplier</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a routerLink="/suppliers"
+                class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors shadow-sm cursor-pointer">
+                <span class="material-icons text-sm"></span>
+                Back to supplier list
+            </a>
+        </div>
+    </div>
+
+    <!-- supplier From -->
+    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div class="py-1 px-3">
+            <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
+
+
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xxl:grid-cols-2 gap-4">
+                    <div>
+                         <!-- Supplier name -->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Supplier Name<span class="text-red-500">*</span>
+                            </label>
+                            <input formControlName="name" type="text" placeholder="e.g.,Tata Ltd"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none 
+                                focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                            @if (supplierForm.get('name')?.touched && supplierForm.get('name')?.invalid)
+                            {
+                            <small class="error">Supplier Code must be at least 3 characters.</small>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                         <!-- Suppliercode -->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Supplier Code<span class="text-red-500">*</span>
+                            </label>
+                            <input formControlName="supplierCode" type="text" placeholder="e.g.,sdf"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                            @if (supplierForm.get('supplierCode')?.touched && supplierForm.get('supplierCode')?.invalid)
+                            {
+                            <small class="error">Supplier Code must be at least 3 characters.</small>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xxl:grid-cols-2 gap-4">
+                    <div>
+                        <!-- supplier address1 -->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Address-1 <span class="text-red-500">*</span>
+                            </label>
+                            <input formControlName="address1" type="text"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                            @if (supplierForm.get('address1')?.touched && supplierForm.get('address1')?.invalid) {
+                            <small class="error">Address must have 3 characters.</small>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <!-- supplier address2 -->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Address-2 <span class="text-red-500">*</span>
+                            </label>
+                            <input formControlName="address2" type="text"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                            @if (supplierForm.get('address2')?.touched && supplierForm.get('address2')?.invalid) {
+                            <small class="error">Address must have 3 characters.</small>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xxl:grid-cols-2 gap-4">
+                    <div>
+                        <!-- phone-->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Phone Number <span class="text-red-500">*</span>
+                            </label>
+                            <input formControlName="phone" type="text"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                            @if (supplierForm.get('phone')?.touched && supplierForm.get('phone')?.invalid) {
+                            <small class="error">Phone Number must have 10 characters.</small>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <!-- city -->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                City <span class="text-red-500">*</span>
+                            </label>
+                            <select formControlName="city" type="text"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none 
+                                focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                                 <!-- getting list in select -->
+                                <option value="">-- Select Supplier city --</option>
+                                @for(city of cityList; track $index; let i = $index){
+                                    <option [value]="city.name">{{city.name}}</option>
+                                }
+                            </select>
+                            <!-- Validation Block -->
+                            @if (supplierForm.get('city')?.touched && supplierForm.get('city')?.invalid) {
+                            <small class="error">Product price must have 3 characters.</small>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xxl:grid-cols-2 gap-4">
+                    <div>
+                        <!-- state -->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                State <span class="text-red-500">*</span>
+                            </label>
+                            <select formControlName="state" type="text"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none 
+                                focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                                <!-- getting list in select -->
+                                <option value="">-- Select Supplier State --</option>
+                                @for(state of stateList; track $index; let i = $index){
+                                    <option [value]="state.name">{{state.name}}</option>
+                                }
+                            </select>
+                            @if (supplierForm.get('state')?.touched && supplierForm.get('state')?.invalid) {
+                            <small class="error">State must have 3 characters.</small>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <!-- country -->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Country <span class="text-red-500">*</span>
+                            </label>
+                            <select formControlName="country" type="text"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none 
+                                focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                                 <!-- getting list in select -->
+                                <option value="">-- Select Supplier Country --</option>
+                                @for(country of countryList; track $index; let i = $index){
+                                    <option [value]="country.name">{{country.name}}</option>
+                                }
+                            </select>
+                            @if (supplierForm.get('country')?.touched && supplierForm.get('country')?.invalid) {
+                            <small class="error">Country must have 3 characters.</small>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xxl:grid-cols-2 gap-4">
+                    <div>
+                        <!-- postalCode -->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Postal Code <span class="text-red-500">*</span>
+                            </label>
+                            <input formControlName="postalCode" type="text"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                            @if (supplierForm.get('postalCode')?.touched && supplierForm.get('postalCode')?.invalid) {
+                            <small class="error">PostalCode must have 3 characters.</small>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <!-- supplier email-->
+                        <div class="mt-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Email <span class="text-red-500">*</span>
+                            </label>
+                            <input formControlName="email" type="email" placeholder="e.g., tata1@gmail.com"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                            @if (supplierForm.get('email')?.touched && supplierForm.get('email')?.invalid) {
+                            <small class="error">Product sku must have 5 characters.</small>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add item list -->
+
+
+
+                <div class="flex gap-3 items-center mt-6">
+                    <button type="submit" [disabled]="supplierForm.invalid || isSubmitting()"
+                        class="flex items-center gap-2 px-4 py-2 bg-green-600 
+                        text-white rounded-lg text-sm font-medium hover:bg-green-700 
+                        transition-colors shadow-sm cursor-pointer
+                        disabled:bg-gray-400 disabled:text-gray-700 disabled:opacity-75 disabled:cursor-not-allowed">Save</button>
+
+                    <button type="button" (click)="clearForm()" class="flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg text-sm font-medium 
+                        hover:bg-yellow-700 transition-colors shadow-sm cursor-pointer">Clear</button>
+
+                    <a routerLink="/products" class="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg text-sm font-medium 
+                        hover:bg-orange-700 transition-colors shadow-sm cursor-pointer">Cancel</a>
+                </div>
+
+                @if (submitMessage()) {
+                <div class="alert success mt-6">{{ submitMessage() }}</div>
+                }
+            </form>
+        </div>
+    </div>
+</div>

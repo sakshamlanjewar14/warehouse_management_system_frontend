@@ -13,6 +13,8 @@ export const routes: Routes = [
           import('./pages/dashboard/dashboard')
           .then(m => m.Dashboard)
       },
+
+      
       // For Products
       {
         path: 'products',
@@ -85,6 +87,21 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/inboundShipment/inboundShipment-form/inboundShipment-form')
           .then(m => m.InboundShipmentForm)
+      },
+
+
+      // For supplier
+       {
+        path: 'suppliers',
+        loadComponent: () =>
+          import('./pages/supplier/supplier-list/supplier-list')
+          .then(m => m.SupplierList)
+      },
+       {
+        path: 'supplier-form',
+        loadComponent: () =>
+          import('./pages/supplier/supplier-form/supplier-form')
+          .then(m => m.SupplierForm)
       },
 
     ]

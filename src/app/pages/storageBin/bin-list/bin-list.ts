@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, OnInit, signal } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { StorageBinService } from "../storageBin.service";
+import { StorageBinResponse } from "../storageBin.model";
 
 
 @Component({

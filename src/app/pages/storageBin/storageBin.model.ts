@@ -1,4 +1,4 @@
-interface StorageBinResponse{
+export interface StorageBinResponse{
     // ? → optional field ---Means: this may or may not come from backend
     binId? : number;
     binCode : string;
@@ -8,7 +8,7 @@ interface StorageBinResponse{
     inventoryItems? :[];
 }
 
-interface StorageBinRequest{
+export interface StorageBinRequest{
     // ? → optional field ---Means: this may or may not come from backend
     binId? : number;
     binCode : string;

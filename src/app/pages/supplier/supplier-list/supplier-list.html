@@ -2,8 +2,8 @@
   <!-- Page Header -->
   <div class="flex sm:flex-row sm:items-center justify-between gap-4">
     <div>
-      <h1 class="text-2xl font-bold text-gray-900">InboundShipment ({{totalInboundShipmentsCount()}})</h1>
-      <p class="text-sm text-gray-500 mt-1">Manage InboundShipments in your Warehouses</p>
+      <h1 class="text-2xl font-bold text-gray-900">Suppliers ({{totalSuppliersCount()}})</h1>
+      <p class="text-sm text-gray-500 mt-1">Manage available suppliers in your Warehouses</p>
     </div>
     <div class="flex items-center gap-3">
       <button
@@ -11,10 +11,10 @@
         <span class="material-icons text-sm">download</span>
         Export
       </button>
-      <a routerLink="/inboundShipment-form"
+      <a routerLink="/supplier-form"
         class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors shadow-sm cursor-pointer">
         <span class="material-icons text-sm">add</span>
-        Add InboundShipment
+        Add supplier
       </a>
     </div>
   </div>
@@ -47,76 +47,67 @@
   </div> -->
 
 
-  <!-- Inboundshipment Table -->
+  <!-- supplier Table -->
   <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
     <div class="overflow-x-auto">
       <table class="w-full text-left">
+
         <thead class="bg-gray-50 border-b border-gray-200">
           <tr>
+
             <th class="px-6 py-4 w-12">
               <input type="checkbox"
                 class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
             </th>
-            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Shipment Id</th>
-            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Shipment Code</th>
-            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Supplier Name</th>
-            <!-- <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th> -->
-            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Expected Date</th>
-            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Received Date</th>
-            <!-- <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Refrence Number</th> -->
-            <!-- <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Note</th> -->
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">#</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Name</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Contact</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Address</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Items</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Action</th>
           </tr>
+
         </thead>
+
         <tbody class="divide-y divide-gray-100">
-          @for (inboundSipment of inboundShipments; track $index; let i = $index) {
+          @for (supplier of suppliers; track $index; let i = $index) {
           <tr class="hover:bg-gray-50 transition-colors">
+
             <td class="px-6 py-4">
               <input type="checkbox"
                 class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
             </td>
-            <td class="px-6 py-4">
-              <div class="flex items-center">
-                <div>
-                  <p class="font-medium text-sm text-gray-900">{{ inboundSipment.shipmentId }}</p>
-                </div>
-              </div>
-            </td>
+
             <td class="px-6 py-4">
               <div>
-                <p class="text-xs text-gray-500">{{ inboundSipment.shipmentCode}}</p>
+                <p class="font-medium text-sm text-gray-900">{{ (i+1) }}</p>
               </div>
             </td>
+
             <td class="px-6 py-4">
               <div>
-                <p class="text-xs text-gray-500">{{ inboundSipment.supplierName}}</p>
+                <p class="text-xs text-gray-500">{{ supplier.name }}</p>
               </div>
             </td>
-            <!-- <td class="px-6 py-4">
-              <span class="font-medium text-sm text-gray-900">{{inboundSipment.status}}</span>
-            </td> -->
-             <td class="px-6 py-4">
-              <div>
-                <p class="text-xs text-gray-500">{{ inboundSipment.expectedDate}}</p>
-              </div>
-            </td>
+
             <td class="px-6 py-4">
               <div>
-                <p class="text-xs text-gray-500">{{ inboundSipment.receivedDate}}</p>
+                <p class="text-xs text-gray-500">{{ supplier.email}}</p>
+                <p class="text-xs text-gray-500">{{ supplier.phone}}</p>
               </div>
             </td>
-             <!-- <td class="px-6 py-4">
-              <span class="font-medium text-sm text-gray-900">{{inboundSipment.referenceNumber}}</span>
-            </td>
-             <td class="px-6 py-4">
-              <div>
-                <p class="text-xs text-gray-500">{{ inboundSipment.notes}}</p>
-              </div>
-            </td> -->
+
             <td class="px-6 py-4">
-              <div>
-                <p class="text-xs text-gray-500">{{ inboundSipment.inboundShipmentItems.length}}</p>
-              </div>
+              <p class="font-medium text-sm text-gray-900">{{ supplier.address1 }}</p>
+              <p class="font-medium text-sm text-gray-900">{{ supplier.address2 }}</p>
+              <p class="font-medium text-sm text-gray-900">{{ supplier.city }}, {{supplier.state}}, {{supplier.postalCode}}, {{supplier.country}}</p>
             </td>
+
+            <td class="px-6 py-4">
+              <p class="text-xs text-gray-500">{{ supplier.supplierItem?.length ?? 0 }}</p>
+            </td>
+
+            
             <td>
               <div class="flex gap-2 items-center justify-center">
                 <button

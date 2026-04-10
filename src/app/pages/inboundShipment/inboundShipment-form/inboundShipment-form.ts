@@ -40,7 +40,7 @@ export class InboundShipmentForm implements OnInit {
     expectedDate: ['', [Validators.required]],
     receivedDate: ['', []],
     referenceNumber: ['', []],
-    notes: ['', []],
+    notes: ['', []],          
     inboundShipmentItems: this.formBuilder.array([])
   });
 

@@ -6,6 +6,8 @@ import { RouterModule } from "@angular/router";
 import { ItemService } from "../item.service";
 import { startWith } from "rxjs";
 import { ProductService } from "../../products/product.service";
+import { Product } from '../../products/product.model';
+import { StorageBinResponse } from '../../storageBin/storageBin.model';
 
 // Component Setup
 @Component({

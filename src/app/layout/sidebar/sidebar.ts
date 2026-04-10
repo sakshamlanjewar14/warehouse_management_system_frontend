@@ -16,7 +16,7 @@ export class Sidebar {
 
   mainNavItems = [
     { icon: 'home', label: 'Dashboard', route: '/home', badge: null, active: true },
-    { icon: 'box', label: 'Products', route: '/products', badge: null, active: false },
+    { icon: 'inventory_2', label: 'Products', route: '/products', badge: null, active: false },
     { icon: 'warehouse', label: 'Warehouse', route: '/warehouse', badge: null, active: false },
     {
       icon: 'archive', label: 'Storage Bin', route: '/storageBin', badge: null, active: false
@@ -25,6 +25,8 @@ export class Sidebar {
       icon: 'inventory_2', label: 'Inventory Item', route: '/inventoryitems', badge: null, active: false
     },{
       icon: 'local_shipping', label: 'Inbound Shipment', route: '/inboundShipment', badge: null, active: false
+    },{
+      icon: 'factory', label: 'Suppliers', route: '/suppliers', badge: null, active: false
     },
     // { icon: 'people', label: 'Customers', route: '/customers', badge: null },
     // { icon: 'article', label: 'Content', route: '/content', badge: null },
