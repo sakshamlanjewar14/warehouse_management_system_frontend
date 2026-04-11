@@ -100,20 +100,22 @@
             <td class="px-6 py-4">
               <p class="font-medium text-sm text-gray-900">{{ supplier.address1 }}</p>
               <p class="font-medium text-sm text-gray-900">{{ supplier.address2 }}</p>
-              <p class="font-medium text-sm text-gray-900">{{ supplier.city }}, {{supplier.state}}, {{supplier.postalCode}}, {{supplier.country}}</p>
+              <p class="font-medium text-sm text-gray-900">{{ supplier.city }}, {{supplier.state}},
+                {{supplier.postalCode}}, {{supplier.country}}</p>
             </td>
 
             <td class="px-6 py-4">
               <p class="text-xs text-gray-500">{{ supplier.supplierItem?.length ?? 0 }}</p>
             </td>
 
-            
+
             <td>
               <div class="flex gap-2 items-center justify-center">
                 <button
                   class="px-2 py-1 bg-yellow-600 text-white rounded-lg text-sm font-medium hover:bg-yellow-700 cursor-pointer">Edit</button>
-                <button
-                  class="px-2 py-1 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 cursor-pointer">Delete</button>
+                <button (click)="openModal()"
+                  class="px-2 py-1 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 cursor-pointer">Assign
+                  Product</button>
               </div>
 
             </td>
@@ -124,4 +126,48 @@
     </div>
   </div>
 
+</div>
+
+<div>
+  <dialog #productModal (close)="isModalOpen.set(false)">
+    <div class="modal-header border-b py-3 mb-3">
+      <h1 class="text-2xl font-bold text-gray-900">Assing Products To Suppliers</h1>
+      <p class="text-sm text-gray-500 mt-1">Select products from list below</p>
+    </div>
+
+    <div class="modal-body">
+      <select class="w-full px-4 py-3 bg-gray-50 
+          border border-gray-200 rounded-xl focus:outline-none 
+          focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+        (select)="onProductSelect($event)">
+        <!-- getting list in select -->
+        <option value="">-- Choose Product --</option>
+        @for (p of products; track p?.productId) {
+        <option [value]="p?.productId">{{ p.name }}</option>
+        }
+      </select>
+      <hr>
+      <table class="min-w-full border-collapse border border-gray-200">
+
+        <thead class="bg-gray-200">
+          <tr>
+            <th>#</th>
+            <th>Product name</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          
+        </tbody>
+
+
+      </table>
+    </div>
+
+    <div class="modal-actions">
+      <button (click)="closeModal()">Cancel</button>
+      <button class="primary" (click)="saveAndClose()">Save Changes</button>
+    </div>
+  </dialog>
 </div>
