@@ -1,7 +1,7 @@
 export interface InboundShipmentRequestDto{
     shipmentId?: number;
     shipmentCode: string;
-    supplierName: string;
+    supplierId: number;
     status?: string;
     expectedDate: Date;
     receivedDate?: Date;
@@ -10,7 +10,7 @@ export interface InboundShipmentRequestDto{
     inboundShipmentItems?: InboundShipmentItemRequestDto[];
 }
 
-export interface InboundShipmentItemRequestDto{
+export interface InboundShipmentItemRequestDto{                                                                                                                                                 
     shipmentItemId?: number;
     productId: number;
     expectedQty: number;
@@ -22,7 +22,7 @@ export interface InboundShipmentItemRequestDto{
 export interface InboundShipmentResponseDto{
     shipmentId?: number;
     shipmentCode: string;
-    supplierName: string;
+    supplierId: number;
     status: string;
     expectedDate: Date;
     receivedDate: Date;

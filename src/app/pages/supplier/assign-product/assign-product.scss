@@ -1,0 +1,12 @@
+.list{
+    max-height: calc(100vh - 275px);
+    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.item{
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+}

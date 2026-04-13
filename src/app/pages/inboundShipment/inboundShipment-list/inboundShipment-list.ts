@@ -9,7 +9,8 @@ import { InboundShipmentResponseDto } from '../inboundShipment.model';
   selector: 'app-inboundShipment-list',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './inboundShipment-list.html'
+  templateUrl: './inboundShipment-list.html',
+  styleUrls: ["./inboundShipment-list.scss"]
 })
 export class InboundShipmentList implements OnInit {
 

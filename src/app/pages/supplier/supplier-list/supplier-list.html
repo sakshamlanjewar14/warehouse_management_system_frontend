@@ -11,7 +11,7 @@
         <span class="material-icons text-sm">download</span>
         Export
       </button>
-      <a routerLink="/supplier-form"
+      <a routerLink="/suppliers/create"
         class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors shadow-sm cursor-pointer">
         <span class="material-icons text-sm">add</span>
         Add supplier
@@ -105,7 +105,7 @@
             </td>
 
             <td class="px-6 py-4">
-              <p class="text-xs text-gray-500">{{ supplier.supplierItem?.length ?? 0 }}</p>
+              <p class="text-xs text-gray-500">{{ supplier.supplierItems?.length ?? 0 }}</p>
             </td>
 
 
@@ -113,9 +113,10 @@
               <div class="flex gap-2 items-center justify-center">
                 <button
                   class="px-2 py-1 bg-yellow-600 text-white rounded-lg text-sm font-medium hover:bg-yellow-700 cursor-pointer">Edit</button>
-                <button (click)="openModal()"
+                <a 
+                  [routerLink]="['/suppliers/assign-product', supplier.supplierId]"
                   class="px-2 py-1 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 cursor-pointer">Assign
-                  Product</button>
+                  Product</a>
               </div>
 
             </td>

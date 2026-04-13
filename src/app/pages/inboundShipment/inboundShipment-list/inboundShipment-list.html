@@ -2,8 +2,8 @@
   <!-- Page Header -->
   <div class="flex sm:flex-row sm:items-center justify-between gap-4">
     <div>
-      <h1 class="text-2xl font-bold text-gray-900">InboundShipment ({{totalInboundShipmentsCount()}})</h1>
-      <p class="text-sm text-gray-500 mt-1">Manage InboundShipments in your Warehouses</p>
+      <h1 class="text-2xl font-bold text-gray-900">Incoming Shipment ({{totalInboundShipmentsCount()}})</h1>
+      <p class="text-sm text-gray-500 mt-1">Manage Incoming Shipments in your Warehouses</p>
     </div>
     <div class="flex items-center gap-3">
       <button
@@ -57,14 +57,13 @@
               <input type="checkbox"
                 class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
             </th>
-            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Shipment Id</th>
+            <!-- <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Shipment Id</th> -->
             <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Shipment Code</th>
             <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Supplier Name</th>
-            <!-- <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th> -->
             <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Expected Date</th>
             <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Received Date</th>
-            <!-- <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Refrence Number</th> -->
-            <!-- <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Note</th> -->
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+            <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Expected Product Count</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
@@ -74,13 +73,13 @@
               <input type="checkbox"
                 class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer">
             </td>
-            <td class="px-6 py-4">
+            <!-- <td class="px-6 py-4">
               <div class="flex items-center">
                 <div>
                   <p class="font-medium text-sm text-gray-900">{{ inboundSipment.shipmentId }}</p>
                 </div>
               </div>
-            </td>
+            </td> -->
             <td class="px-6 py-4">
               <div>
                 <p class="text-xs text-gray-500">{{ inboundSipment.shipmentCode}}</p>
@@ -88,13 +87,10 @@
             </td>
             <td class="px-6 py-4">
               <div>
-                <p class="text-xs text-gray-500">{{ inboundSipment.supplierName}}</p>
+                <p class="text-xs text-gray-500">{{ inboundSipment.supplierId}}</p>
               </div>
             </td>
-            <!-- <td class="px-6 py-4">
-              <span class="font-medium text-sm text-gray-900">{{inboundSipment.status}}</span>
-            </td> -->
-             <td class="px-6 py-4">
+            <td class="px-6 py-4">
               <div>
                 <p class="text-xs text-gray-500">{{ inboundSipment.expectedDate}}</p>
               </div>
@@ -104,13 +100,11 @@
                 <p class="text-xs text-gray-500">{{ inboundSipment.receivedDate}}</p>
               </div>
             </td>
-             <!-- <td class="px-6 py-4">
-              <span class="font-medium text-sm text-gray-900">{{inboundSipment.referenceNumber}}</span>
+            <td class="px-6 py-4">
+              <span class="font-medium text-sm text-gray-900">{{inboundSipment.status}}</span>
             </td>
-             <td class="px-6 py-4">
-              <div>
-                <p class="text-xs text-gray-500">{{ inboundSipment.notes}}</p>
-              </div>
+            <!-- <td class="px-6 py-4">
+              <span class="font-medium text-sm text-gray-900">{{inboundSipment.referenceNumber}}</span>
             </td> -->
             <td class="px-6 py-4">
               <div>
@@ -120,9 +114,11 @@
             <td>
               <div class="flex gap-2 items-center justify-center">
                 <button
-                  class="px-2 py-1 bg-yellow-600 text-white rounded-lg text-sm font-medium hover:bg-yellow-700 cursor-pointer">Edit</button>
+                  class="px-2 py-1 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 cursor-pointer"><span class="material-icons fs-15px">visibility</span></button>
                 <button
-                  class="px-2 py-1 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 cursor-pointer">Delete</button>
+                  class="px-2 py-1 bg-yellow-600 text-white rounded-lg text-sm font-medium hover:bg-yellow-700 cursor-pointer"> <span class="material-icons fs-15px">edit</span></button>
+                <button
+                  class="px-2 py-1 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 cursor-pointer"> <span class="material-icons fs-15px">delete</span></button>
               </div>
 
             </td>

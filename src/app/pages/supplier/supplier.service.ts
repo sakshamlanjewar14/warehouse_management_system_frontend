@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { SupplierRequestDto, SupplierResponseDto } from './supplier.model';
+import { SupplierItemRequestDto, SupplierItemResponseDto, SupplierRequestDto, SupplierResponseDto } from './supplier.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +20,9 @@ export class SupplierService {
     );
   }
 
-  getSupplierById(supplierId: number){
-
+  getSupplierById(supplierId: any): Observable<SupplierResponseDto>{
+    return this.httpClient.get<SupplierResponseDto>(this.baseUrl+"/"+supplierId)
+    .pipe(map((response: any) => response.data));
   }
 
   createSupplier(supplierData: SupplierRequestDto): Observable<SupplierResponseDto>{
@@ -31,6 +32,11 @@ export class SupplierService {
         return response.data;
       })
     );
+  }
+
+  assignProductsToSupplier(supplierId: number, assignedProductList: SupplierItemRequestDto[]) {
+    return this.httpClient.post(this.baseUrl+"/assign-products/"+supplierId, assignedProductList)
+    .pipe(map((response: any) => response.data));
   }
 
   updateSupplierById(supplierId: number, supplierDetail: any){

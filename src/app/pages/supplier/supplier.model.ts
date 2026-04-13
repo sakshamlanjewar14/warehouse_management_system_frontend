@@ -1,4 +1,6 @@
 
+
+
 export interface SupplierRequestDto{
 
     supplierId? : number;
@@ -28,7 +30,7 @@ export interface SupplierResponseDto{
     state : string;
     country : string;
     postalCode : string;
-    supplierItem? : [];
+    supplierItems? : SupplierItemResponseDto[];
 }
 
 export interface SupplierItemRequestDto{
@@ -37,7 +39,7 @@ export interface SupplierItemRequestDto{
     productName : string;
     price : number;
     quantity : number;
-    productid : number;
+    productId : number;
 }
 
 export interface SupplierItemResponseDto{
@@ -46,5 +48,5 @@ export interface SupplierItemResponseDto{
     productName : string;
     price : number;
     quantity : number;
-    productid : number;
+    productId : number;
 }

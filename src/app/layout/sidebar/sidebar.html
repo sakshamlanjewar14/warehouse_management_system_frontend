@@ -41,10 +41,10 @@
               class="sidebar-link flex items-center gap-3 px-3 py-2.5 text-gray-600 rounded-lg hover:bg-gray-50 transition-colors group relative overflow-hidden">
               <span 
                 class="material-icons text-gray-400 group-hover:text-gray-600"
-                [class.text-indigo-600]="item.active"
+              [class.text-indigo-600]="item.active"
                 [class.group-hover:text-indigo-600]="item.active">
-                {{ item.icon }}
-              </span>
+{{ item.icon }}
+</span>
               <span class="font-medium" [class.text-indigo-600]="item.active">{{ item.label }}</span>
               @if (item.badge) {
                 <span class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
