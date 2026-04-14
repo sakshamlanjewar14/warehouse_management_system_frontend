@@ -20,9 +20,23 @@ export class InboundShipmentService {
     );
   }
 
-  getShipmentById(shipmentId: number){
+  // getShipmentById(shipmentId: number):Observable<InboundShipmentResponseDto>{
+  //   return this.httpClient.get<InboundShipmentResponseDto[]>(this.baseUrl, shipmentId)
+  //   .pipe(
+  //     map((response: Data)=>{
+  //       return response.data;
+  //     })
+  //   );
 
-  }
+  // }
+
+  getShipmentById(shipmentId: number): Observable<InboundShipmentResponseDto> {
+  return this.httpClient
+    .get<{ data: InboundShipmentResponseDto }>(`${this.baseUrl}/${shipmentId}`)
+    .pipe(
+      map((response) => response.data)
+    );
+}
 
   createShipment(inboundShipmentData: InboundShipmentRequestDto): Observable<InboundShipmentResponseDto>{
     return this.httpClient.post<InboundShipmentRequestDto>(this.baseUrl, inboundShipmentData)

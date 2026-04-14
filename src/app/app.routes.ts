@@ -1,3 +1,4 @@
+
 import { Routes } from '@angular/router';
 import { MainLayout } from './layout/main-layout/main-layout';
 
@@ -88,6 +89,14 @@ export const routes: Routes = [
           import('./pages/inboundShipment/inboundShipment-form/inboundShipment-form')
             .then(m => m.InboundShipmentForm)
       },
+      {
+        path: 'inbound-shipment-details',
+        loadComponent: () =>
+          import('./pages/inboundShipment/inbound-shipment-details/inbound-shipment-details')
+            .then(m => m.InboundShipmentDetails)
+      },
+      
+
 
 
       // For supplier
