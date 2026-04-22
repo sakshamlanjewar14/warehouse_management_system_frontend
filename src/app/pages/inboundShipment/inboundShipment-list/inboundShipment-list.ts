@@ -1,7 +1,7 @@
-import { Component, signal, computed, inject, OnInit, ChangeDetectorRef } from '@angular/core';
+import { InboundShipmentService } from './../inboundShipment.service';
+import { Component, signal, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { InboundShipmentService } from '../inboundShipment.service';
 import { InboundShipmentResponseDto } from '../inboundShipment.model';
 
 
@@ -14,11 +14,7 @@ import { InboundShipmentResponseDto } from '../inboundShipment.model';
 })
 export class InboundShipmentList implements OnInit {
 
-  constructor(
-    public inboundShipmentService: InboundShipmentService
-  ){
-
-  }
+  private inboundShipmentService = inject(InboundShipmentService)
 
   inboundShipments: InboundShipmentResponseDto[] = [];
   totalInboundShipmentsCount = signal<number>(0);

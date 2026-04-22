@@ -119,6 +119,27 @@ export const routes: Routes = [
             .then(m => m.AssignProduct)
       },
 
+
+      // For OutboundShipment Item
+      {
+        path: 'outboundShipment',
+        loadComponent: () =>
+          import('./pages/outboundShipment/outbound-shipment-list/outbound-shipment-list')
+            .then(m => m.OutboundShipmentList)
+      },
+      {
+        path: 'outboundShipment-form',
+        loadComponent: () =>
+          import('./pages/outboundShipment/outbound-shipment-form/outbound-shipment-form')
+            .then(m => m.OutboundShipmentForm)
+      },
+      {
+        path: 'outbound-shipment-details',
+        loadComponent: () =>
+          import('./pages/outboundShipment/outbound-shipment-details/outbound-shipment-details')
+            .then(m => m.OutboundShipmentDetails)
+      },
+
     ]
   }
 ];

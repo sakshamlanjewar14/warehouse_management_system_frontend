@@ -102,6 +102,7 @@ export class InboundShipmentForm implements OnInit {
     });
     this.selectedProductIds.set(selectedIds);
   }
+  
 
   isProductSelected(productId: number, currentRowIndex: number): boolean {
     console.log("isProductSelected::", productId)
@@ -111,6 +112,7 @@ export class InboundShipmentForm implements OnInit {
     // Disable if the ID is used elsewhere, but NOT if it's the one in this row
     return productId != undefined && selected.includes(productId) && currentControlValue !== productId;
   }
+
 
   // Clear Form Function
   clearInboundShipmentForm() {
