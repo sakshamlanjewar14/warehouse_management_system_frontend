@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SupplierRequestDto } from '../supplier.model';
+import { ToastNotificationService } from '../../../shared/services/toast-notification.service';
 
 // Component Setup
 @Component({
@@ -17,6 +18,7 @@ export class SupplierForm {
   // Dependency Injection
   private formBuilder = inject(FormBuilder);
   private supplierService = inject(SupplierService);
+   private toastnotificationService = inject(ToastNotificationService);
 
   // Signals
   isSubmitting = signal(false);
@@ -78,8 +80,11 @@ export class SupplierForm {
       this.isSubmitting.set(true);
 
       console.log('Supplier Data:', this.supplierForm.value);
+
       // Get form data
       const supplierData = this.supplierForm.getRawValue() as SupplierRequestDto;
+
+
       // Call backend
       this.supplierService.createSupplier(supplierData)
         .subscribe({
@@ -88,11 +93,13 @@ export class SupplierForm {
             this.isSubmitting.set(false);
             this.submitMessage.set('Supplier saved successfully!');
             this.supplierForm.reset();
+            this.toastnotificationService.show("Supplier saved successfully!", 'success')
           },
           // Handle response--error
           error: (err) => {
             this.isSubmitting.set(false);
             this.submitMessage.set('Unable to save Supplier!');
+            this.toastnotificationService.show("Unable to save Supplier!", "error")
             console.log("Unable to save Supplier at backend", err);
           }
         });

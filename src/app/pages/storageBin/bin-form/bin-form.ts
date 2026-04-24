@@ -1,3 +1,4 @@
+import { ToastNotificationService } from './../../../shared/services/toast-notification.service';
 import { Component, inject, signal } from "@angular/core";
 import { StorageBinService } from "../storageBin.service";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -18,6 +19,7 @@ export class StorageBinForm{
     // Dependency Injection
   private formBuilder = inject(FormBuilder);
   private storageBinService = inject(StorageBinService);
+  private toastnotificationService = inject(ToastNotificationService);
 
    // Signals
   isSubmitting = signal(false);
@@ -39,6 +41,8 @@ export class StorageBinForm{
       console.log('StorageBin Data:', this.storageBinForm.value);
       // Get form data
       const storageBinData = this.storageBinForm.getRawValue() as StorageBinRequest;
+
+
       // Call backend
       this.storageBinService.createStorageBin(storageBinData)
         .subscribe({
@@ -47,11 +51,13 @@ export class StorageBinForm{
             this.isSubmitting.set(false);
             this.submitMessage.set('StorageBin saved successfully!');
             this.storageBinForm.reset();
+            this.toastnotificationService.show("StorageBin saved successfully!", "success")
           },
           // Handle response--error
           error: (err) => {
             this.isSubmitting.set(false);
             this.submitMessage.set('Unable to save storagebin!');
+            this.toastnotificationService.show("Unable to save storagebin!", "error")
             console.log("Unable to save storagebin at backend", err);
           }
         });

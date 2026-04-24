@@ -79,6 +79,8 @@ export class InboundShipmentForm implements OnInit {
     return this.inboundShipmentForm.get('inboundShipmentItems') as FormArray;
   }
 
+
+  // Adding the row with button
   addInboundShipmentItemRow() {
     const row = new FormGroup({
       productId: new FormControl('', [Validators.required, Validators.minLength(1)]),
@@ -89,7 +91,7 @@ export class InboundShipmentForm implements OnInit {
     this.inboundShipmentItems.push(row);
   }
   
-
+// Remove the row
   removeInboundShipmentItemRow(index: any) {
     this.inboundShipmentItems.removeAt(index);
   }
@@ -102,8 +104,9 @@ export class InboundShipmentForm implements OnInit {
     });
     this.selectedProductIds.set(selectedIds);
   }
-  
 
+  
+// For checking the product selected in any row. If selected, so it cant be add in another row
   isProductSelected(productId: number, currentRowIndex: number): boolean {
     console.log("isProductSelected::", productId)
     const selected = this.selectedProductIds();

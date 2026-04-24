@@ -1,3 +1,5 @@
+import { ToastNotificationService } from './../../../shared/services/toast-notification.service';
+import { ToastNotification } from './../../../shared/components/toast-notification/toast-notification';
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -17,7 +19,7 @@ export class ProductForm {
   // Dependency Injection
   private formBuilder = inject(FormBuilder);
   private productService = inject(ProductService);
-
+  private toastNotificationService = inject(ToastNotificationService);
   // Signals
   isSubmitting = signal(false);
   submitMessage = signal('');
@@ -48,11 +50,13 @@ export class ProductForm {
             this.isSubmitting.set(false);
             this.submitMessage.set('Product saved successfully!');
             this.productForm.reset();
+            this.toastNotificationService.show("Product saved successfully!", "success")
           },
           // Handle response--error
           error: (err) => {
             this.isSubmitting.set(false);
             this.submitMessage.set('Unable to save product!');
+             this.toastNotificationService.show("PUnable to save product!", "error")
             console.log("Unable to save product at backend", err);
           }
         });

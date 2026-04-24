@@ -8,6 +8,7 @@ import { startWith } from "rxjs";
 import { ProductService } from "../../products/product.service";
 import { Product } from '../../products/product.model';
 import { StorageBinResponse } from '../../storageBin/storageBin.model';
+import { ToastNotificationService } from '../../../shared/services/toast-notification.service';
 
 // Component Setup
 @Component({
@@ -25,6 +26,8 @@ export class InventoryItemForm implements OnInit {
   private productService = inject(ProductService);
   private cdr = inject(ChangeDetectorRef);
   private binService = inject(StorageBinService);
+  private toastNotificatonService = inject(ToastNotificationService)
+  
 
   // Signals
   isSubmitting = signal(false);
@@ -154,11 +157,13 @@ export class InventoryItemForm implements OnInit {
             this.isSubmitting.set(false);
             this.submitMessage.set('Item saved successfully!');
             this.itemForm.reset();
+            this.toastNotificatonService.show("Item saved successfully!", "success");
           },
           // Handle response--error
           error: (err) => {
             this.isSubmitting.set(false);
             this.submitMessage.set('Unable to save item!');
+            this.toastNotificatonService.show("Unable to save item!", "error");
             console.log("Unable to save item at backend", err);
           }
         });
