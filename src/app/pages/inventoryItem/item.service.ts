@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
+import { InventoryItemRequestDto, InventoryItemResponseDto } from "./item.model";
 
 
 

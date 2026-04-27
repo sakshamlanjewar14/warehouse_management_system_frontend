@@ -6,10 +6,11 @@ import { ProductService } from '../../products/product.service';
 import { Product } from '../../products/product.model';
 import { OutboundShipmentRequestDto } from '../outboundShipment.model';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-outbound-shipment-form',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
   templateUrl: './outbound-shipment-form.html',
   styleUrl: './outbound-shipment-form.scss',
 })

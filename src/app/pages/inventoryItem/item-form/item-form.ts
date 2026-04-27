@@ -9,6 +9,7 @@ import { ProductService } from "../../products/product.service";
 import { Product } from '../../products/product.model';
 import { StorageBinResponse } from '../../storageBin/storageBin.model';
 import { ToastNotificationService } from '../../../shared/services/toast-notification.service';
+import { InventoryItemRequestDto } from '../item.model';
 
 // Component Setup
 @Component({

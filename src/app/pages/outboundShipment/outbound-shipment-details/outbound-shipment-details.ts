@@ -1,12 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { OutboundShipmentService } from '../outboundShipment.service';
 import { OutboundShipmentResponseDto } from '../outboundShipment.model';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-outbound-shipment-details',
   standalone:true,
-  imports: [],
+  imports: [RouterModule, CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './outbound-shipment-details.html',
   styleUrl: './outbound-shipment-details.scss',
 })

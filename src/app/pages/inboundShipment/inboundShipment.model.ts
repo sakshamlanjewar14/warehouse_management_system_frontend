@@ -24,7 +24,7 @@ export interface InboundShipmentResponseDto{
     shipmentCode: string;
     supplierId: number;
     status: string;
-    expectedDate: Date;
+    expectedDate: Date; 
     receivedDate: Date;
     referenceNumber: string;
     notes: string;

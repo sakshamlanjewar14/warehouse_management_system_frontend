@@ -22,7 +22,7 @@ export class Sidebar {
     { icon: 'inventory_2', label: 'Inventory Item', route: '/inventoryitems', badge: null, active: false},
     { icon: 'factory', label: 'Suppliers', route: '/suppliers', badge: null, active: false},
     { icon: 'local_shipping', label: 'Inbound Shipment', route: '/inboundShipment', badge: null, active: false},
-    { icon: 'box', label: 'Outbound Shipment', route: '/outboundShipment', badge: null, active: false},
+    { icon: 'local_shipping', label: 'Outbound Shipment', route: '/outboundShipment', badge: null, active: false},
 
 
     // { icon: 'people', label: 'Customers', route: '/customers', badge: null },
