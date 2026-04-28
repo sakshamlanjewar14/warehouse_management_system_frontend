@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
-import { StorageBinRequest, StorageBinResponse } from "./storageBin.model";
+import { StorageBinRequestDto, StorageBinResponseDto } from "./storageBin.model";
 
 
 @Injectable({
@@ -12,8 +12,8 @@ export class StorageBinService {
 
   private readonly httpClient = inject(HttpClient);
 
-  getAllStorageBins(): Observable<StorageBinResponse[]> {
-    return this.httpClient.get<StorageBinResponse[]>(this.baseUrl)
+  getAllStorageBins(): Observable<StorageBinResponseDto[]> {
+    return this.httpClient.get<StorageBinResponseDto[]>(this.baseUrl)
       .pipe(
         map((Response: any) => {
           return Response.data;
@@ -25,8 +25,8 @@ export class StorageBinService {
 
   }
 
-  createStorageBin(storageBinData: StorageBinRequest): Observable<StorageBinResponse> {
-    return this.httpClient.post<StorageBinRequest>(this.baseUrl, storageBinData)
+  createStorageBin(storageBinData: StorageBinRequestDto): Observable<StorageBinResponseDto> {
+    return this.httpClient.post<StorageBinRequestDto>(this.baseUrl, storageBinData)
       .pipe(
         map((response: any) => {
           return response.data;

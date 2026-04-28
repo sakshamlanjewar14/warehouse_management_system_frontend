@@ -7,7 +7,7 @@ import { ItemService } from "../item.service";
 import { startWith } from "rxjs";
 import { ProductService } from "../../products/product.service";
 import { Product } from '../../products/product.model';
-import { StorageBinResponse } from '../../storageBin/storageBin.model';
+import { StorageBinResponseDto } from '../../storageBin/storageBin.model';
 import { ToastNotificationService } from '../../../shared/services/toast-notification.service';
 import { InventoryItemRequestDto } from '../item.model';
 
@@ -36,7 +36,7 @@ export class InventoryItemForm implements OnInit {
   totalQuantity = signal(0);
 
   products: Product[] = [];
-  bins: StorageBinResponse[] = [];
+  bins: StorageBinResponseDto[] = [];
 
   // Signal to track which bins are currently chosen in the form
   selectedBinIds = signal<number[]>([]);
@@ -44,8 +44,12 @@ export class InventoryItemForm implements OnInit {
   // Strongly typed Reactive Form
   // Form Creation
   itemForm = this.formBuilder.group({
-    productId: ['', [Validators.required, Validators.minLength(1)]],
+
+    quantity: [0 , [Validators.required]],
+    productId: [0, [Validators.required]],
+    storageBinId: [0 , [Validators.required]],
     rows: this.formBuilder.array([])
+
   });
 
   // A getter to easily access the 'items' FormArray in the template
@@ -54,8 +58,8 @@ export class InventoryItemForm implements OnInit {
   }
 
   get isProductSelected() {
-    const prod = this.itemForm.get('productId')?.value ?? '';
-    return prod.length > 0;
+    const prod = this.itemForm.get('productId')?.value ?? 0;
+    return prod > 0;
   }
 
 
@@ -82,7 +86,6 @@ export class InventoryItemForm implements OnInit {
           console.log("Unable to fetch bin list from backend", err);
         }
       })
-
 
     this.rows.valueChanges.subscribe(() => {
       this.enforceCapacityAndCalculateTotalQuantity();
@@ -174,7 +177,7 @@ export class InventoryItemForm implements OnInit {
   // Clear Form Function
   clearInventoryItemForm() {
     this.itemForm.reset();
-    this.itemForm.get('productId')?.setValue("");
+    this.itemForm.get('productId')?.setValue(0);
     this.cdr.markForCheck();
   }
 

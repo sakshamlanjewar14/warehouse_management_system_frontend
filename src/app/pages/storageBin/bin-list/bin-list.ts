@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, OnInit, signal } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { StorageBinService } from "../storageBin.service";
-import { StorageBinResponse } from "../storageBin.model";
+import { StorageBinResponseDto } from "../storageBin.model";
 
 
 @Component({
@@ -19,7 +19,7 @@ export class StorageBinList implements OnInit {
 
   }
 
-  storageBins: StorageBinResponse[] = [];
+  storageBins: StorageBinResponseDto[] = [];
   totalStorageBinCount = signal<number>(0);
 
   ngOnInit(): void {

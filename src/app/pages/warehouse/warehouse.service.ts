@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
+import { WarehouseResponseDto } from "./warehouse.model";
 
 @Injectable({
   providedIn: 'root',
@@ -13,9 +14,9 @@ export class WarehouseService{
      private readonly httpClient = inject(HttpClient);
 
     //  Calls backend
-     getAllWarehouses() : Observable<Warehouse[]>{
+     getAllWarehouses() : Observable<WarehouseResponseDto[]>{
         // Get data
-        return this.httpClient.get<Warehouse[]>(this.baseUrl)
+        return this.httpClient.get<WarehouseResponseDto[]>(this.baseUrl)
        .pipe(
              map((response: any) => {
                //console.log("getAllWarehouses::", response);
@@ -28,9 +29,9 @@ export class WarehouseService{
      
        }
      
-       createWarehouse(warehouseData: Warehouse): Observable<Warehouse>{
+       createWarehouse(warehouseData: WarehouseResponseDto): Observable<WarehouseResponseDto>{
         // Post Data
-         return this.httpClient.post<Warehouse>(this.baseUrl, warehouseData)
+         return this.httpClient.post<WarehouseResponseDto>(this.baseUrl, warehouseData)
          .pipe(
            map((response: any) => {
              //console.log("savedProduct::", response);

@@ -4,6 +4,7 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
+import { InventoryItemResponseDto } from "../item.model";
 
 @Component({
   selector: 'app-item-list',

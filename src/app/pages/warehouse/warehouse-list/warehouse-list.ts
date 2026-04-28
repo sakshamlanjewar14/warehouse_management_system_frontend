@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { WarehouseService } from '../warehouse.service';
+import { WarehouseResponseDto } from '../warehouse.model';
 
 @Component({
   selector: 'app-warehouse-list',
@@ -17,7 +18,7 @@ export class WarehouseList  implements OnInit{
 
   }
 
-  warehouses: Warehouse[] = [];
+  warehouses: WarehouseResponseDto[] = [];
   totalWarehousesCount = signal<number>(0);
 
   ngOnInit(): void {

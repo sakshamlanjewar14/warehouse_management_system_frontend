@@ -4,6 +4,7 @@ import { WarehouseService } from '../warehouse.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ToastNotificationService } from '../../../shared/services/toast-notification.service';
+import { WarehouseResponseDto } from '../warehouse.model';
 
 @Component({
   selector: 'app-warehouse-form',
@@ -31,7 +32,7 @@ export class WarehouseForm {
       this.isSubmitting.set(true);
 
       console.log('Warehouse Data:', this.warehouseForm.value);
-      const warehouseData = this.warehouseForm.getRawValue() as Warehouse;
+      const warehouseData = this.warehouseForm.getRawValue() as WarehouseResponseDto;
       this.warehouseService.createWarehouse(warehouseData)
         .subscribe({
           next: (savedWarehouse) => {

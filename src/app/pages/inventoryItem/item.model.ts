@@ -1,25 +1,23 @@
 
 export interface InventoryItemRequestDto {
-  //   productId: string;
-  // rows: InventoryItemQuantityRequestDto[];
 
-    inventoryItemId: number;
+  inventoryItemId? : number;
 
-    quantity: number;
+  quantity : number;
 
-     productId: number;
+  productId : number;
 
-    storageBinId: number;
+  storageBinId : number;
 }
 
 
 export interface InventoryItemResponseDto {
-  
-    inventoryItemId: number;
 
-    quantity: number;
+  inventoryItemId? : number;
 
-    productName: string;
+  quantity : number;
 
-    storageBinCode: string;
+  productName : string;
+
+  storageBinCode : string;
 }
