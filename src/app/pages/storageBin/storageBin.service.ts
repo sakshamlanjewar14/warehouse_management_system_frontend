@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { map, Observable } from "rxjs";
+import { map, Observable, tap } from "rxjs";
 import { StorageBinRequestDto, StorageBinResponseDto } from "./storageBin.model";
 
 
@@ -15,8 +15,12 @@ export class StorageBinService {
   getAllStorageBins(): Observable<StorageBinResponseDto[]> {
     return this.httpClient.get<StorageBinResponseDto[]>(this.baseUrl)
       .pipe(
+        tap((response) => {
+          console.log("Full API Response:", response);
+        }),
         map((Response: any) => {
           return Response.data;
+          console.log("getAllStorageBins" +Response.data)
         })
       );
   }
@@ -25,13 +29,20 @@ export class StorageBinService {
 
   }
 
-  createStorageBin(storageBinData: StorageBinRequestDto): Observable<StorageBinResponseDto> {
-    return this.httpClient.post<StorageBinRequestDto>(this.baseUrl, storageBinData)
+  createStorageBin(storageBinData: StorageBinRequestDto, warehouseId: number): Observable<StorageBinResponseDto> {
+    return this.httpClient.post<StorageBinRequestDto>(this.baseUrl + "/" + warehouseId, storageBinData)
+      // .pipe(
+      //   map((response: any) => {
+      //     return response.data;
+      //     console.log("Response:" response.Data)
+      //   })
+      // );
       .pipe(
-        map((response: any) => {
-          return response.data;
-        })
-      );
+        tap((response) => {
+          console.log("Full API Response:", response);
+        }),
+        map((response: any) => response.data)
+      )
   }
 
   updateStorageBinById(binId: number) {

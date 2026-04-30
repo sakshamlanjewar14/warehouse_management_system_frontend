@@ -25,7 +25,7 @@ export class StorageBinForm implements OnInit{
   private toastnotificationService = inject(ToastNotificationService);
   private cdr = inject(ChangeDetectorRef)
 
-   // Signals
+  // Signals
   isSubmitting = signal(false);
   submitMessage = signal('');
 
@@ -35,8 +35,8 @@ export class StorageBinForm implements OnInit{
   // Form Creation
   storageBinForm = this.formBuilder.group({
     binCode: ['', [Validators.required, Validators.minLength(1)]],
-    capacity: [0, [Validators.required, Validators.minLength(1)]],
-    warehouseName: ['', [Validators.required, Validators.minLength(1)]],
+    totalCapacity: [0, [Validators.required, Validators.min(1)]],
+    warehouseId: [0, [Validators.required]],
   });
 
    ngOnInit(): void {
@@ -51,16 +51,6 @@ export class StorageBinForm implements OnInit{
     });
   }
 
-  // isWarehouseSelected(warehouseId: number, currentRowIndex: number): boolean {
-  //   console.log("isWarehouseSelected::", warehouseId)
-  //   // const selected = this.selectedProductIds();
-  //   const currentControlValue = Number(this.storageBinForm.at(currentRowIndex).get('warehouseId')?.value);
-
-  //   // // Disable if the ID is used elsewhere, but NOT if it's the one in this row
-  //   // return warehouseId != undefined && selected.includes(warehouseId) && currentControlValue !== warehouseId;
-  // }
-
-
    // Check form is valid
   onSubmit() {
     if (this.storageBinForm.valid) {
@@ -73,7 +63,7 @@ export class StorageBinForm implements OnInit{
 
 
       // Call backend
-      this.storageBinService.createStorageBin(storageBinData)
+      this.storageBinService.createStorageBin(storageBinData, storageBinData.warehouseId)
         .subscribe({
           // Handle response--Success
           next: (savedStorageBin) => {
@@ -94,7 +84,7 @@ export class StorageBinForm implements OnInit{
   }
 
   // Clear Form Function
-  clearStorageBinForm() {
+  clearStorageBinForm(){
     this.storageBinForm.reset();
   }
 }

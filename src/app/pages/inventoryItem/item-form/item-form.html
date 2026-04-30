@@ -20,6 +20,7 @@
     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <div class="py-6 px-3">
             <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+
                 <!--Select Product-->
                 <div class="flex items-center justify-between">
                     <div class="w-2/5">
@@ -36,7 +37,6 @@
                             <option [value]="p?.productId">{{ p.name }}</option>
                             }
                         </select>
-
                         @if (itemForm.get('productId')?.touched && itemForm.get('productId')?.invalid) {
                         <small class="error">Please select product first.</small>
                         }
