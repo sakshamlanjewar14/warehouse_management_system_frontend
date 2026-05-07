@@ -63,7 +63,7 @@ export class InboundShipmentForm implements OnInit {
         },
         error: (err) => {
           console.log("Unable to fetch supplier list from backend", err);
-          this.toastNotificationService.show("Unable to fetch supplier list from backend", "error");
+          this.toastNotificationService.show("Unable to fetch supplier list", "error");
           this.cdr.markForCheck();
         }
       });

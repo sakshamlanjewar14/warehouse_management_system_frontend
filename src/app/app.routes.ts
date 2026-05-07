@@ -140,6 +140,21 @@ export const routes: Routes = [
             .then(m => m.OutboundShipmentDetails)
       },
 
+
+      
+      // For Stock transfer
+      {
+        path: 'stockTransfer',
+        loadComponent: () =>
+          import('./pages/stockTransfer/stock-transfer-list/stock-transfer-list')
+            .then(m => m.StockTransferList)
+      },
+      {
+        path: 'stockTransfer-form',
+        loadComponent: () =>
+          import('./pages/stockTransfer/stock-transfer-form/stock-transfer-form')
+            .then(m => m.StockTransferForm)
+      },
     ]
   }
 ];

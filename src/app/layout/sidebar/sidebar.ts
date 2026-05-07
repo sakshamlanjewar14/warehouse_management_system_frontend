@@ -23,6 +23,8 @@ export class Sidebar {
     { icon: 'factory', label: 'Suppliers', route: '/suppliers', badge: null, active: false},
     { icon: 'local_shipping', label: 'Inbound Shipment', route: '/inboundShipment', badge: null, active: false},
     { icon: 'local_shipping', label: 'Outbound Shipment', route: '/outboundShipment', badge: null, active: false},
+    { icon: 'ios_share', label: 'Stock Transfer', route: '/stockTransfer', badge: null, active: false},
+
 
 
     // { icon: 'people', label: 'Customers', route: '/customers', badge: null },
