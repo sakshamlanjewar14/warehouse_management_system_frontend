@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { StockTransferService } from '../stockTransfer.service';
-import { StockTransferResponseDto } from '../stockTransfer.model';
+import { StockTransferItemResponseDto, StockTransferResponseDto } from '../stockTransfer.model';
 
 @Component({
   selector: 'app-stock-transfer-list',
@@ -28,5 +28,12 @@ export class StockTransferList implements OnInit {
         console.log("Unable to fetch list from backend", err)
       }
     })
+  }
+
+  getTotalQuantity(stockTransferItems: StockTransferItemResponseDto[]){
+    const totalQty = stockTransferItems.reduce((accumulator, currentItem) => {
+      return accumulator + currentItem.quantity;
+    }, 0);
+    return totalQty;
   }
 }

@@ -34,7 +34,7 @@ export interface StockTransferResponseDto {
 
     status: TransferStatus;
 
-    stockTransferItems: StockTransferItemResponseDto[];
+    stockTransferItems: StockTransferItemResponseDto[] | [];
 }
 
 export interface StockTransferItemResponseDto {
@@ -43,7 +43,7 @@ export interface StockTransferItemResponseDto {
 
     stockTransferId: number;
 
-    product: Product[];
+    product: Product;
 
     quantity: number;
 }

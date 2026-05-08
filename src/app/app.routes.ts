@@ -150,10 +150,16 @@ export const routes: Routes = [
             .then(m => m.StockTransferList)
       },
       {
-        path: 'stockTransfer-form',
+        path: 'stockTransfer/stockTransfer-form',
         loadComponent: () =>
           import('./pages/stockTransfer/stock-transfer-form/stock-transfer-form')
             .then(m => m.StockTransferForm)
+      },
+      {
+        path: 'stockTransfer/stockTransfer-details/:id',
+        loadComponent: () =>
+          import('./pages/stockTransfer/stock-transfer-details/stock-transfer-details')
+            .then(m => m.StockTransferDetails)
       },
     ]
   }

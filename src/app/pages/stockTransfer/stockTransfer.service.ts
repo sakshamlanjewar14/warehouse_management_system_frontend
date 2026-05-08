@@ -9,10 +9,10 @@ import { StockTransferRequestDto, StockTransferResponseDto } from './stockTransf
 export class StockTransferService{
     baseUrl= "http://localhost:8080/api/v1/stock_transfer";
 
-    private readonly hjttpClient = inject(HttpClient);
+    private readonly httpClient = inject(HttpClient);
 
     createStockTransfer(stockTransferData: StockTransferRequestDto):Observable<StockTransferResponseDto>{
-        return this.hjttpClient.post<StockTransferRequestDto>(this.baseUrl, stockTransferData)
+        return this.httpClient.post<StockTransferRequestDto>(this.baseUrl, stockTransferData)
         .pipe(
             map((response: any)=>{
                 return response.data;
@@ -22,7 +22,7 @@ export class StockTransferService{
 
 
     getAllStockTransfer():Observable<StockTransferResponseDto[]>{
-        return this.hjttpClient.get<StockTransferResponseDto[]>(this.baseUrl)
+        return this.httpClient.get<StockTransferResponseDto[]>(this.baseUrl)
         .pipe(
             map((response:any)=>{
                 return response.data;
@@ -31,10 +31,11 @@ export class StockTransferService{
     }
 
 
-    getStockTransferById(): Observable<StockTransferResponseDto[]>{
-        return this.hjttpClient.get<StockTransferResponseDto[]>(this.baseUrl)
+    getStockTransferById(id:number): Observable<StockTransferResponseDto>{
+        return this.httpClient.get<StockTransferResponseDto>(`${this.baseUrl}/${id}`)
         .pipe(
             map((response: any)=>{
+                console.log(response);
                 return response.data;
             })
         );
