@@ -90,7 +90,7 @@ export const routes: Routes = [
             .then(m => m.InboundShipmentForm)
       },
       {
-        path: 'inbound-shipment-details',
+        path: 'inboundShipment/inbound-shipment-details/:shipmentId/:supplierId',
         loadComponent: () =>
           import('./pages/inboundShipment/inbound-shipment-details/inbound-shipment-details')
             .then(m => m.InboundShipmentDetails)

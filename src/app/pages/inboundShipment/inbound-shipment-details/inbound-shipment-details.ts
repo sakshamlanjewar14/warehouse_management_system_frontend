@@ -1,8 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { InboundShipmentResponseDto } from '../inboundShipment.model';
 import { InboundShipmentService } from '../inboundShipment.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { SupplierResponseDto } from '../../supplier/supplier.model';
 
 @Component({
   selector: 'app-inbound-shipment-details',
@@ -16,20 +17,25 @@ export class InboundShipmentDetails implements OnInit {
   // Dependency
   private shipmentService = inject(InboundShipmentService)
   private activatedRoute = inject(ActivatedRoute)
+  private cdr = inject(ChangeDetectorRef)
 
   // states
   shipment: InboundShipmentResponseDto | null=null;
+  supplier: SupplierResponseDto | null = null;
   isLoding=true;
 
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    const shipmentId = this.activatedRoute.snapshot.paramMap.get('shipmentId');
+    const supplierId = this.activatedRoute.snapshot.paramMap.get('supplierId') ?? 0;
 
-    if(id){
-      this.shipmentService.getShipmentById(+id).subscribe({
+    if(shipmentId){
+      this.shipmentService.getShipmentById(+shipmentId, +supplierId).subscribe({
         next:(response)=>{
-          this.shipment = response
+          this.shipment = response['inboundShipmentResponseDto'];
+          this.supplier = response['supplierResponseDto'];
           this.isLoding=false;
+          this.cdr.markForCheck();
         },
         error: () =>{
           this.isLoding=false;

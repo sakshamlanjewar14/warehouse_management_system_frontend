@@ -32,7 +32,8 @@ export class StockTransferService{
 
 
     getStockTransferById(id:number): Observable<StockTransferResponseDto>{
-        return this.httpClient.get<StockTransferResponseDto>(`${this.baseUrl}/${id}`)
+        return this.httpClient
+        .get<StockTransferResponseDto>(`${this.baseUrl}/${id}`)
         .pipe(
             map((response: any)=>{
                 console.log(response);
