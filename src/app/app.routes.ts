@@ -95,7 +95,28 @@ export const routes: Routes = [
           import('./pages/inboundShipment/inbound-shipment-details/inbound-shipment-details')
             .then(m => m.InboundShipmentDetails)
       },
-      
+
+
+      // For OutboundShipment Item
+      {
+        path: 'outboundShipment',
+        loadComponent: () =>
+          import('./pages/outboundShipment/outbound-shipment-list/outbound-shipment-list')
+            .then(m => m.OutboundShipmentList)
+      },
+      {
+        path: 'outboundShipment-form',
+        loadComponent: () =>
+          import('./pages/outboundShipment/outbound-shipment-form/outbound-shipment-form')
+            .then(m => m.OutboundShipmentForm)
+      },
+      {
+        path: 'outboundShipment/outbound-shipment-details/:shipmentId',
+        loadComponent: () =>
+          import('./pages/outboundShipment/outbound-shipment-details/outbound-shipment-details')
+            .then(m => m.OutboundShipmentDetails)
+      },
+
 
 
 
@@ -120,28 +141,8 @@ export const routes: Routes = [
       },
 
 
-      // For OutboundShipment Item
-      {
-        path: 'outboundShipment',
-        loadComponent: () =>
-          import('./pages/outboundShipment/outbound-shipment-list/outbound-shipment-list')
-            .then(m => m.OutboundShipmentList)
-      },
-      {
-        path: 'outboundShipment-form',
-        loadComponent: () =>
-          import('./pages/outboundShipment/outbound-shipment-form/outbound-shipment-form')
-            .then(m => m.OutboundShipmentForm)
-      },
-      {
-        path: 'outbound-shipment-details',
-        loadComponent: () =>
-          import('./pages/outboundShipment/outbound-shipment-details/outbound-shipment-details')
-            .then(m => m.OutboundShipmentDetails)
-      },
 
 
-      
       // For Stock transfer
       {
         path: 'stockTransfer',

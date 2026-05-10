@@ -7,5 +7,6 @@ export interface Product {
   price:number;
   weight: number;
   imageUrl: string;
+  createdAt: string;
   inventoryItems?: [];
 }

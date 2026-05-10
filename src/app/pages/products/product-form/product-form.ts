@@ -29,8 +29,8 @@ export class ProductForm {
   productForm = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
     description: ['', [Validators.required, Validators.minLength(5)]],
-    sku: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]],
-    barcode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]]
+    sku: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(8)]],
+    barcode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(8)]]
   });
 
   // Check form is valid

@@ -6,44 +6,48 @@ import { OutboundShipmentRequestDto, OutboundShipmentResponseDto } from "./outbo
 @Injectable({
     providedIn: 'root'
 })
-export class OutboundShipmentService{
-    baseUrl="http://localhost:8080/api/v1/outbound_shipment";
+export class OutboundShipmentService {
+    baseUrl = "http://localhost:8080/api/v1/outbound_shipment";
 
-    private readonly  httpClient= inject(HttpClient);
+    private readonly httpClient = inject(HttpClient);
 
-    getAllShipment(): Observable<OutboundShipmentResponseDto[]>{
-        return this.httpClient.get<OutboundShipmentResponseDto[]>(this.baseUrl)
-        .pipe(
-            map((response: any)=>{
-                return response.data;
-            })
-        )
-    }
-
-
-    getShipmentById(shipmentId: number): Observable<OutboundShipmentResponseDto>{
-        return this.httpClient
-        .get<{data: OutboundShipmentResponseDto}>(`${this.baseUrl}/${shipmentId}`)
-        .pipe(
-            map((response)=>response.data)
-        );
-    }
-
-    createShipment(outboundShipmentData: OutboundShipmentRequestDto):Observable<OutboundShipmentResponseDto>{
+    createShipment(outboundShipmentData: OutboundShipmentRequestDto): Observable<OutboundShipmentResponseDto> {
         return this.httpClient.post<OutboundShipmentRequestDto>(this.baseUrl, outboundShipmentData)
-        .pipe(
-            map((response:any)=>{
-                return response.data;
-            })
-        );
+            .pipe(
+                map((response: any) => {
+                    return response.data;
+                })
+            );
     }
 
-    updateShipment(shipmentId: number){
+    getAllShipment(): Observable<OutboundShipmentResponseDto[]> {
+        return this.httpClient.get<OutboundShipmentResponseDto[]>(this.baseUrl)
+            .pipe(
+                map((response: any) => {
+                    return response.data;
+                })
+            )
+    }
+
+
+    getShipmentById(shipmentId: number): Observable<OutboundShipmentResponseDto> {
+        return this.httpClient
+            .get<OutboundShipmentResponseDto>(`${this.baseUrl}/${shipmentId}`)
+            .pipe(
+                map((response: any) => {
+                    console.log(response);
+                    return response.data
+                })
+            );
+    }
+
+
+    updateShipment(shipmentId: number) {
 
     }
 
-     deleteShipment(shipmentId: number){
-  
-     }
+    deleteShipment(shipmentId: number) {
+
+    }
 
 }
