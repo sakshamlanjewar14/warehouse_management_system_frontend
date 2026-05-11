@@ -29,20 +29,69 @@
                         <input formControlName="name" type="text" placeholder="e.g.,Bluetooth"
                             class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
                         @if (productForm.get('name')?.touched && productForm.get('name')?.invalid) {
-                        <small class="error">Product name must be at least 3 characters.</small>
+
+                        @if (productForm.get('name')?.errors?.['required']) {
+                        <small class="error">
+                            Product name is required.
+                        </small>
+                        }
+
+                        @if (productForm.get('name')?.errors?.['minlength']) {
+                        <small class="error">
+                            Product name must be at least 3 characters.
+                        </small>
+                        }
+
+                        @if (productForm.get('name')?.errors?.['maxlength']) {
+                        <small class="error">
+                            Product name cannot exceed 50 characters.
+                        </small>
+                        }
+
+                        @if (productForm.get('name')?.errors?.['pattern']) {
+                        <small class="error">
+                            Only letters, numbers, spaces, hyphen and brackets are allowed.
+                        </small>
+                        }
+
                         }
                     </div>
 
                     <!-- Product Description -->
-                    <div >
+                    <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             Product Description <span class="text-red-500">*</span>
                         </label>
                         <input formControlName="description" type="text"
                             placeholder="e.g., Wireless Bluetooth Headphones Pro"
                             class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
-                        @if (productForm.get('description')?.touched && productForm.get('description')?.invalid) {
-                        <small class="error">Product description must be at least 5 characters.</small>
+                        @if (productForm.get('description')?.touched &&
+                        productForm.get('description')?.invalid) {
+
+                        @if (productForm.get('description')?.errors?.['required']) {
+                        <small class="error">
+                            Product description is required.
+                        </small>
+                        }
+
+                        @if (productForm.get('description')?.errors?.['minlength']) {
+                        <small class="error">
+                            Description must be at least 10 characters.
+                        </small>
+                        }
+
+                        @if (productForm.get('description')?.errors?.['maxlength']) {
+                        <small class="error">
+                            Description cannot exceed 500 characters.
+                        </small>
+                        }
+
+                        @if (productForm.get('description')?.errors?.['pattern']) {
+                        <small class="error">
+                            Invalid special characters detected.
+                        </small>
+                        }
+
                         }
                     </div>
                 </div>
@@ -55,9 +104,35 @@
                         </label>
                         <input formControlName="sku" type="text" placeholder="e.g., fdg12"
                             class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
-                        @if (productForm.get('sku')?.touched && productForm.get('sku')?.invalid) {
-                        <small class="error">Product sku must be at least 5 characters.</small>
+                        @if (productForm.get('sku')?.touched &&
+                        productForm.get('sku')?.invalid) {
+
+                        @if (productForm.get('sku')?.errors?.['required']) {
+                        <small class="error">
+                            Product SKU is required.
+                        </small>
                         }
+
+                        @if (productForm.get('sku')?.errors?.['minlength']) {
+                        <small class="error">
+                            SKU must be at least 5 characters.
+                        </small>
+                        }
+
+                        @if (productForm.get('sku')?.errors?.['maxlength']) {
+                        <small class="error">
+                            SKU cannot exceed 20 characters.
+                        </small>
+                        }
+
+                        @if (productForm.get('sku')?.errors?.['pattern']) {
+                        <small class="error">
+                            Only uppercase letters, numbers, hyphen (-) and underscore (_) are allowed.
+                        </small>
+                        }
+
+                        }
+
                     </div>
 
                     <!-- Product Barcode -->
@@ -65,10 +140,35 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             Product Barcode <span class="text-red-500">*</span>
                         </label>
-                        <input formControlName="barcode" type="text" placeholder="e.g.,45212"
+                        <input formControlName="barcode" type="text" placeholder="e.g.,45212" inputmode="numeric"
                             class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                        <!-- validations -->
                         @if (productForm.get('barcode')?.touched && productForm.get('barcode')?.invalid) {
-                        <small class="error">Product barcode must be at least 5 characters.</small>
+
+                        @if (productForm.get('barcode')?.errors?.['required']) {
+                        <small class="error">
+                            Barcode is required.
+                        </small>
+                        }
+
+                        @if (productForm.get('barcode')?.errors?.['minlength']) {
+                        <small class="error">
+                            Barcode must be at least 8 digits.
+                        </small>
+                        }
+
+                        @if (productForm.get('barcode')?.errors?.['maxlength']) {
+                        <small class="error">
+                            Barcode cannot exceed 13 digits.
+                        </small>
+                        }
+
+                        @if (productForm.get('barcode')?.errors?.['pattern']) {
+                        <small class="error">
+                            Barcode must contain numbers only.
+                        </small>
+                        }
+
                         }
                     </div>
                 </div>
@@ -79,19 +179,53 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             Product Price <span class="text-red-500">*</span>
                         </label>
-                        <input formControlName="price" type="text" 
+                        <input formControlName="price" type="number"
                             class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
                         <!-- Validation Block -->
-                        @if (productForm.get('price')?.touched && productForm.get('price')?.invalid) {
-                        <small class="error">Product price must have like Ex. 00.0</small>
+                        @if (productForm.get('price')?.touched &&
+                        productForm.get('price')?.invalid) {
+
+                        @if (productForm.get('price')?.errors?.['required']) {
+                        <small class="error">
+                            Product price is required.
+                        </small>
+                        }
+
+                        @if (productForm.get('price')?.errors?.['pattern']) {
+                        <small class="error">
+                            Enter valid price format (Example: 100 or 100.50)
+                        </small>
+                        }
+
                         }
                     </div>
 
                     <!-- Product Weight -->
                     <div class="mt-6">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Product Weight </label>
-                        <input formControlName="weight" type="text"
-                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">  
+                        <input formControlName="weight" type="text" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none 
+                            focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                        @if (productForm.get('weight')?.touched &&
+                        productForm.get('weight')?.invalid) {
+
+                        @if (productForm.get('weight')?.errors?.['min']) {
+                        <small class="error">
+                            Weight cannot be negative.
+                        </small>
+                        }
+
+                        @if (productForm.get('weight')?.errors?.['max']) {
+                        <small class="error">
+                            Weight exceeds allowed limit.
+                        </small>
+                        }
+
+                        @if (productForm.get('weight')?.errors?.['pattern']) {
+                        <small class="error">
+                            Enter valid weight format (Example: 1 or 1.250)
+                        </small>
+                        }
+                        }
                     </div>
                 </div>
 
@@ -101,8 +235,24 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             Product Image <span class="text-red-500">*</span>
                         </label>
-                        <input formControlName="imageUrl" type="file" placeholder="e.g.,Product Image"
-                            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                        <input formControlName="imageUrl" type="file" placeholder="e.g.,Product Image" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none 
+                            focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+                        @if (productForm.get('imageUrl')?.touched &&
+                        productForm.get('imageUrl')?.invalid) {
+
+                        @if (productForm.get('imageUrl')?.errors?.['required']) {
+                        <small class="error">
+                            Product image URL is required.
+                        </small>
+                        }
+
+                        @if (productForm.get('imageUrl')?.errors?.['pattern']) {
+                        <small class="error">
+                            Enter a valid image URL.
+                        </small>
+                        }
+
+                        }
                     </div>
                 </div>
 

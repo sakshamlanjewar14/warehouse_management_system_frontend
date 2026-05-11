@@ -27,10 +27,13 @@ export class ProductForm {
   // Strongly typed Reactive Form
   // Form Creation
   productForm = this.formBuilder.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
-    description: ['', [Validators.required, Validators.minLength(5)]],
-    sku: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(8)]],
-    barcode: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(8)]]
+    name: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(50),Validators.pattern(/^[a-zA-Z0-9\s\-()]+$/)]],
+    description: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(500),Validators.pattern(/^[a-zA-Z0-9\s.,\-()]+$/)]],
+    sku: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20),Validators.pattern(/^[A-Z0-9\-_]+$/)]],
+    barcode: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(13), Validators.pattern(/^[0-9]+$/)]],
+    price: [0, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
+    weight: [0, [Validators.min(0), Validators.max(99999), Validators.pattern(/^\d+(\.\d{1,3})?$/)]],
+    imageUrl: ['', [Validators.required, Validators.pattern(/^(https?:\/\/.*\.(?:png|jpg|jpeg|webp|gif))$/i)]],
   });
 
   // Check form is valid
@@ -56,7 +59,7 @@ export class ProductForm {
           error: (err) => {
             this.isSubmitting.set(false);
             this.submitMessage.set('Unable to save product!');
-             this.toastNotificationService.show("PUnable to save product!", "error")
+            this.toastNotificationService.show("PUnable to save product!", "error")
             console.log("Unable to save product at backend", err);
           }
         });
