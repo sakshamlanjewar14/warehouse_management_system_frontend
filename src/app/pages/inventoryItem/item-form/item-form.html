@@ -79,9 +79,11 @@
                                     }
                                 </select>
                             </th>
+
                             <th class="border border-gray-300 px-4 py-2 text-green-600">Available Bin Capacity: {{
                                 getBinCapacity(i) }}
                             </th>
+
                             <th class="border border-gray-300 px-4 py-2" [class.disableSB]="!isProductSelected">
                                 @let cap = getBinCapacity(i);
                                 @let qty = row.get('quantity')?.value;

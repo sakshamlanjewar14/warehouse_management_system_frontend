@@ -134,8 +134,8 @@ export class InventoryItemForm implements OnInit {
 
   addRow() {
     const row = new FormGroup({
-      storageBinId: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(1)] }),
-      quantity: new FormControl(0, { nonNullable: true, validators: [Validators.min(1)] })
+      storageBinId: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.min(1)] }),
+      quantity: new FormControl(0, { nonNullable: true, validators: [Validators.required, Validators.min(1)] })
     });
     this.rows.push(row);
   }

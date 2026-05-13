@@ -28,8 +28,22 @@
                         </label>
                         <input formControlName="name" type="text" placeholder="e.g., ABC Warehouse"
                             class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
-                        @if (warehouseForm.get('name')?.touched && warehouseForm.get('name')?.invalid) {
-                        <small class="error">Warehouse name must be at least 5 characters.</small>
+                        @if (warehouseForm.get('name')?.errors?.['required']) {
+                        <small class="error">Warehouse Name is required.</small>
+                        }
+
+                        @if (warehouseForm.get('name')?.errors?.['minlength']) {
+                        <small class="error">Warehouse Name must be at least 3 characters.</small>
+                        }
+
+                        @if (warehouseForm.get('name')?.errors?.['maxlength']) {
+                        <small class="error">Warehouse Name cannot exceed 100 characters.</small>
+                        }
+
+                        @if (warehouseForm.get('name')?.errors?.['pattern']) {
+                        <small class="error">
+                            Only letters, numbers, spaces, &, . and - are allowed.
+                        </small>
                         }
                     </div>
 
@@ -40,8 +54,26 @@
                         </label>
                         <input formControlName="location" type="text" placeholder="e.g., City"
                             class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
-                        @if (warehouseForm.get('location')?.touched && warehouseForm.get('location')?.invalid) {
-                        <small class="error">Warehouse Location must be at least 3 characters.</small>
+                        @if (warehouseForm.get('location')?.errors?.['required']) {
+                        <small class="error">Warehouse Location is required.</small>
+                        }
+
+                        @if (warehouseForm.get('location')?.errors?.['minlength']) {
+                        <small class="error">
+                            Warehouse Location must be at least 3 characters.
+                        </small>
+                        }
+
+                        @if (warehouseForm.get('location')?.errors?.['maxlength']) {
+                        <small class="error">
+                            Warehouse Location cannot exceed 100 characters.
+                        </small>
+                        }
+
+                        @if (warehouseForm.get('location')?.errors?.['pattern']) {
+                        <small class="error">
+                            Only letters, numbers, spaces, comma, dot and hyphen are allowed.
+                        </small>
                         }
                     </div>
                 </div>

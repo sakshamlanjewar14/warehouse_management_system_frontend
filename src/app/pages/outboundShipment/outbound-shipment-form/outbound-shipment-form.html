@@ -31,7 +31,22 @@
                             class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
                         @if (outboundShipmentForm.get('customerName')?.touched &&
                         outboundShipmentForm.get('customerName')?.invalid) {
-                        <small class="error">customer name must be at least 2 characters.</small>
+
+                        @if (outboundShipmentForm.get('customerName')?.errors?.['required']) {
+                        <small class="error">Customer name is required.</small>
+                        }
+
+                        @if (outboundShipmentForm.get('customerName')?.errors?.['minlength']) {
+                        <small class="error">Customer name must be at least 2 characters.</small>
+                        }
+
+                        @if (outboundShipmentForm.get('customerName')?.errors?.['maxlength']) {
+                        <small class="error">Customer name cannot exceed 50 characters.</small>
+                        }
+
+                        @if (outboundShipmentForm.get('customerName')?.errors?.['pattern']) {
+                        <small class="error">Only alphabets and spaces are allowed.</small>
+                        }
                         }
                     </div>
                     <div>
@@ -43,7 +58,24 @@
                             class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
                         @if (outboundShipmentForm.get('shipmentNumber')?.touched &&
                         outboundShipmentForm.get('shipmentNumber')?.invalid) {
-                        <small class="error">OutboundShipment number must be at least 3 characters.</small>
+
+                        @if (outboundShipmentForm.get('shipmentNumber')?.errors?.['required']) {
+                        <small class="error">Shipment number is required.</small>
+                        }
+
+                        @if (outboundShipmentForm.get('shipmentNumber')?.errors?.['minlength']) {
+                        <small class="error">Shipment number must be at least 3 characters.</small>
+                        }
+
+                        @if (outboundShipmentForm.get('shipmentNumber')?.errors?.['maxlength']) {
+                        <small class="error">Shipment number cannot exceed 20 characters.</small>
+                        }
+
+                        @if (outboundShipmentForm.get('shipmentNumber')?.errors?.['pattern']) {
+                        <small class="error">
+                            Only letters, numbers, and hyphen (-) are allowed.
+                        </small>
+                        }
                         }
                     </div>
                 </div>
@@ -59,7 +91,28 @@
                                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
                             @if (outboundShipmentForm.get('shipmentAddress')?.touched &&
                             outboundShipmentForm.get('shipmentAddress')?.invalid) {
-                            <small class="error">Enter address</small>
+
+                            @if (outboundShipmentForm.get('shipmentAddress')?.errors?.['required']) {
+                            <small class="error">Shipment address is required.</small>
+                            }
+
+                            @if (outboundShipmentForm.get('shipmentAddress')?.errors?.['minlength']) {
+                            <small class="error">
+                                Shipment address must be at least 3 characters.
+                            </small>
+                            }
+
+                            @if (outboundShipmentForm.get('shipmentAddress')?.errors?.['maxlength']) {
+                            <small class="error">
+                                Shipment address cannot exceed 200 characters.
+                            </small>
+                            }
+
+                            @if (outboundShipmentForm.get('shipmentAddress')?.errors?.['pattern']) {
+                            <small class="error">
+                                Enter a valid shipment address.
+                            </small>
+                            }
                             }
                         </div>
                     </div>
@@ -73,7 +126,28 @@
                                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
                             @if (outboundShipmentForm.get('trackingNumber')?.touched &&
                             outboundShipmentForm.get('trackingNumber')?.invalid) {
-                            <small class="error">Enter Refrence Number</small>
+
+                            @if (outboundShipmentForm.get('trackingNumber')?.errors?.['required']) {
+                            <small class="error">Tracking number is required.</small>
+                            }
+
+                            @if (outboundShipmentForm.get('trackingNumber')?.errors?.['minlength']) {
+                            <small class="error">
+                                Tracking number must be at least 5 characters.
+                            </small>
+                            }
+
+                            @if (outboundShipmentForm.get('trackingNumber')?.errors?.['maxlength']) {
+                            <small class="error">
+                                Tracking number cannot exceed 30 characters.
+                            </small>
+                            }
+
+                            @if (outboundShipmentForm.get('trackingNumber')?.errors?.['pattern']) {
+                            <small class="error">
+                                Only letters, numbers, and hyphen (-) are allowed.
+                            </small>
+                            }
                             }
                         </div>
                     </div>
@@ -94,8 +168,9 @@
                     <!-- for adding the items
                     <!-- Add row button -->
                     <div class="flex items-center justify-between mt-50px">
-                        <button type="button" [disabled]="outboundShipmentForm.get('customerName')?.invalid || outboundShipmentForm.get('shipmentNumber')?.invalid ||
-                            outboundShipmentForm.get('shipmentAddress')?.invalid ||outboundShipmentForm.get('trackingNumber')?.invalid" 
+                        <button type="button"
+                            [disabled]="outboundShipmentForm.get('customerName')?.invalid || outboundShipmentForm.get('shipmentNumber')?.invalid ||
+                            outboundShipmentForm.get('shipmentAddress')?.invalid ||outboundShipmentForm.get('trackingNumber')?.invalid"
                             (click)="addOutboundShipmentItemRow()" class="flex items-center gap-2 px-4 py-2 mt-8 bg-indigo-600 text-white 
                             rounded-lg text-sm font-medium hover:bg-indigo-700
                             disabled:bg-gray-400

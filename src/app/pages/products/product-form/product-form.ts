@@ -33,7 +33,7 @@ export class ProductForm {
     barcode: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(13), Validators.pattern(/^[0-9]+$/)]],
     price: [0, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
     weight: [0, [Validators.min(0), Validators.max(99999), Validators.pattern(/^\d+(\.\d{1,3})?$/)]],
-    imageUrl: ['', [Validators.required, Validators.pattern(/^(https?:\/\/.*\.(?:png|jpg|jpeg|webp|gif))$/i)]],
+    imageUrl: ['', [Validators.required]],
   });
 
   // Check form is valid

@@ -18,7 +18,7 @@ export class SupplierForm {
   // Dependency Injection
   private formBuilder = inject(FormBuilder);
   private supplierService = inject(SupplierService);
-   private toastnotificationService = inject(ToastNotificationService);
+  private toastnotificationService = inject(ToastNotificationService);
 
   // Signals
   isSubmitting = signal(false);
@@ -26,34 +26,34 @@ export class SupplierForm {
 
   // For getting an list in select on form
   stateList = [
-    {id:"1", name: "Maharashtra"},
-    {id:"2", name: "Goa"},
-    {id:"3", name: "Karnatka"},
-    {id:"4", name: "Panjab"},
-    {id:"5", name: "Hariyana"},
-    {id:"6", name: "Uttar Pradesh"},
-    {id:"7", name: "Madhya Pradesh"},
+    { id: "1", name: "Maharashtra" },
+    { id: "2", name: "Goa" },
+    { id: "3", name: "Karnatka" },
+    { id: "4", name: "Panjab" },
+    { id: "5", name: "Hariyana" },
+    { id: "6", name: "Uttar Pradesh" },
+    { id: "7", name: "Madhya Pradesh" },
   ]
 
   cityList = [
-    {id:"1", name: "Pune"},
-    {id:"2", name: "Mumbai"},
-    {id:"3", name: "Gondia"},
-    {id:"4", name: "Nagpur"},
-    {id:"5", name: "Delhi"},
-    {id:"6", name: "Chandigarh"},
-    {id:"7", name: "Bilaspur"},
+    { id: "1", name: "Pune" },
+    { id: "2", name: "Mumbai" },
+    { id: "3", name: "Gondia" },
+    { id: "4", name: "Nagpur" },
+    { id: "5", name: "Delhi" },
+    { id: "6", name: "Chandigarh" },
+    { id: "7", name: "Bilaspur" },
   ]
 
 
- countryList = [
-    {id:"1", name: "India"},
-    {id:"2", name: "Australia"},
-    {id:"3", name: "Brazil"},
-    {id:"4", name: "Colombia"},
-    {id:"5", name: "Denmark"},
-    {id:"6", name: "Egypt"},
-    {id:"7", name: "Germany"},
+  countryList = [
+    { id: "1", name: "India" },
+    { id: "2", name: "Australia" },
+    { id: "3", name: "Brazil" },
+    { id: "4", name: "Colombia" },
+    { id: "5", name: "Denmark" },
+    { id: "6", name: "Egypt" },
+    { id: "7", name: "Germany" },
   ]
 
 
@@ -61,16 +61,16 @@ export class SupplierForm {
   // Strongly typed Reactive Form
   // Form Creation
   supplierForm = this.formBuilder.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    supplierCode: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [ Validators.minLength(5)]],
-    phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-    address1: ['', [Validators.required, Validators.minLength(3)]],
-    address2: ['', [ Validators.minLength(3)]],
+    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern(/^[a-zA-Z\s]+$/)]],
+    supplierCode: ['', [ Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern(/^[A-Z0-9_-]+$/)]],
+    email: ['', [ Validators.required, Validators.email, Validators.maxLength(100), Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+    phone: ['', [ Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^[6-9]\d{9}$/)]],
+    address1: ['', [ Validators.required, Validators.minLength(3), Validators.maxLength(150), Validators.pattern(/^[a-zA-Z0-9\s,.\-/#]+$/)]],
+    address2: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(150), Validators.pattern(/^[a-zA-Z0-9\s,.\-/#]+$/)]],
     city: ['', [Validators.required]],
     state: ['', [Validators.required]],
     country: ['', [Validators.required]],
-    postalCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]]
+    postalCode: ['', [ Validators.required, Validators.pattern(/^[1-9][0-9]{5}$/)]]
   });
 
   // Check form is valid

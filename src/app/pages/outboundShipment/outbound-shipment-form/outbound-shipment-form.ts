@@ -32,11 +32,11 @@ export class OutboundShipmentForm implements OnInit {
 
   // form creation
   outboundShipmentForm = this.formBuilder.group({
-    customerName: ["", [Validators.required, Validators.minLength(2)]],
-    shipmentNumber: ['', [Validators.required, Validators.minLength(1)]],
+    customerName: ["", [ Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[a-zA-Z ]+$/)]],
+    shipmentNumber: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern(/^[a-zA-Z0-9-]+$/)]],
     // status:['',[Validators.required]],
-    shipmentAddress: ['', [Validators.required]],
-    trackingNumber: ['', [Validators.required, Validators.minLength(1)]],
+    shipmentAddress: ['', [ Validators.required, Validators.minLength(3), Validators.maxLength(200), Validators.pattern(/^[a-zA-Z0-9\s,.\-#/]+$/)]],
+    trackingNumber: ['', [ Validators.required, Validators.minLength(5), Validators.maxLength(30), Validators.pattern(/^[a-zA-Z0-9-]+$/)]],
     outboundShipmentItems: this.formBuilder.array([])
   });
 

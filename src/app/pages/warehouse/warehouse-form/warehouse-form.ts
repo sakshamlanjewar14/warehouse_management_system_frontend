@@ -22,9 +22,8 @@ export class WarehouseForm {
   submitMessage = signal('');
 
   warehouseForm = this.formBuilder.group({
-     name: ['', [Validators.required, Validators.minLength(3)]],
-     location : ['', [Validators.required, Validators.minLength(3)]],
-    //  capacity : ['', [Validators.required, Validators.minLength(1)]]
+     name: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(100), Validators.pattern(/^[a-zA-Z0-9\s&.-]+$/)]],
+     location : ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern(/^[a-zA-Z0-9\s,.-]+$/)]],
   }) 
 
   onSubmit(){

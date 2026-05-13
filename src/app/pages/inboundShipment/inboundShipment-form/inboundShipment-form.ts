@@ -42,7 +42,7 @@ export class InboundShipmentForm implements OnInit {
   // Strongly typed Reactive Form
   // Form Creation
   inboundShipmentForm = this.formBuilder.group({
-    shipmentCode: ['', [Validators.required, Validators.minLength(3)]],
+    shipmentCode: ['', [ Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern('^[a-zA-Z0-9-]+$')]],
     supplierId: [null, [Validators.required]],
     //status: ['', [Validators.required]],
     expectedDate: ['', [Validators.required]],
@@ -55,7 +55,7 @@ export class InboundShipmentForm implements OnInit {
 
   ngOnInit(): void {
     // get all supplier from service
-    this.supplierService.getAllSuppliers()
+    this.supplierService.getAllSuppliers()  
       .subscribe({
         next: (supplierListResponse) => {
           this.suppliers = supplierListResponse;

@@ -34,8 +34,8 @@ export class StorageBinForm implements OnInit{
   // Strongly typed Reactive Form
   // Form Creation
   storageBinForm = this.formBuilder.group({
-    binCode: ['', [Validators.required, Validators.minLength(1)]],
-    totalCapacity: [0, [Validators.required, Validators.min(1)]],
+    binCode: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern(/^[A-Za-z0-9-_]+$/)]],
+    totalCapacity: [0, [Validators.required, Validators.min(1), Validators.max(999999), Validators.pattern(/^[0-9]+$/)]],
     warehouseId: [0, [Validators.required]],
   });
 

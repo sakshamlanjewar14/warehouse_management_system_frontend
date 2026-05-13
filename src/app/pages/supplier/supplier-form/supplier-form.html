@@ -23,22 +23,35 @@
 
                 <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xxl:grid-cols-2 gap-4">
                     <div>
-                         <!-- Supplier name -->
+                        <!-- Supplier name -->
                         <div class="mt-6">
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Supplier Name<span class="text-red-500">*</span>
                             </label>
-                            <input formControlName="name" type="text" placeholder="e.g.,Tata Ltd"
-                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none 
+                            <input formControlName="name" type="text" placeholder="e.g.,Tata Ltd" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none 
                                 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
-                            @if (supplierForm.get('name')?.touched && supplierForm.get('name')?.invalid)
-                            {
-                            <small class="error">Supplier Code must be at least 3 characters.</small>
+                            @if (supplierForm.get('name')?.touched && supplierForm.get('name')?.invalid) {
+
+                            @if (supplierForm.get('name')?.errors?.['required']) {
+                            <small class="error">Supplier Name is required.</small>
+                            }
+
+                            @if (supplierForm.get('name')?.errors?.['minlength']) {
+                            <small class="error">Supplier Name must be at least 3 characters.</small>
+                            }
+
+                            @if (supplierForm.get('name')?.errors?.['maxlength']) {
+                            <small class="error">Supplier Name cannot exceed 50 characters.</small>
+                            }
+
+                            @if (supplierForm.get('name')?.errors?.['pattern']) {
+                            <small class="error">Only alphabets are allowed.</small>
+                            }
                             }
                         </div>
                     </div>
                     <div>
-                         <!-- Suppliercode -->
+                        <!-- Suppliercode -->
                         <div class="mt-6">
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Supplier Code<span class="text-red-500">*</span>
@@ -47,7 +60,24 @@
                                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
                             @if (supplierForm.get('supplierCode')?.touched && supplierForm.get('supplierCode')?.invalid)
                             {
+
+                            @if (supplierForm.get('supplierCode')?.errors?.['required']) {
+                            <small class="error">Supplier Code is required.</small>
+                            }
+
+                            @if (supplierForm.get('supplierCode')?.errors?.['minlength']) {
                             <small class="error">Supplier Code must be at least 3 characters.</small>
+                            }
+
+                            @if (supplierForm.get('supplierCode')?.errors?.['maxlength']) {
+                            <small class="error">Supplier Code cannot exceed 20 characters.</small>
+                            }
+
+                            @if (supplierForm.get('supplierCode')?.errors?.['pattern']) {
+                            <small class="error">
+                                Only uppercase letters, numbers, hyphen (-), and underscore (_) are allowed.
+                            </small>
+                            }
                             }
                         </div>
                     </div>
@@ -64,7 +94,24 @@
                             <input formControlName="address1" type="text"
                                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
                             @if (supplierForm.get('address1')?.touched && supplierForm.get('address1')?.invalid) {
-                            <small class="error">Address must have 3 characters.</small>
+
+                            @if (supplierForm.get('address1')?.errors?.['required']) {
+                            <small class="error">Address is required.</small>
+                            }
+
+                            @if (supplierForm.get('address1')?.errors?.['minlength']) {
+                            <small class="error">Address must be at least 3 characters.</small>
+                            }
+
+                            @if (supplierForm.get('address1')?.errors?.['maxlength']) {
+                            <small class="error">Address cannot exceed 150 characters.</small>
+                            }
+
+                            @if (supplierForm.get('address1')?.errors?.['pattern']) {
+                            <small class="error">
+                                Address contains invalid characters.
+                            </small>
+                            }
                             }
                         </div>
                     </div>
@@ -77,7 +124,24 @@
                             <input formControlName="address2" type="text"
                                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
                             @if (supplierForm.get('address2')?.touched && supplierForm.get('address2')?.invalid) {
-                            <small class="error">Address must have 3 characters.</small>
+
+                            @if (supplierForm.get('address2')?.errors?.['required']) {
+                            <small class="error">Address-2 is required.</small>
+                            }
+
+                            @if (supplierForm.get('address2')?.errors?.['minlength']) {
+                            <small class="error">Address-2 must be at least 3 characters.</small>
+                            }
+
+                            @if (supplierForm.get('address2')?.errors?.['maxlength']) {
+                            <small class="error">Address-2 cannot exceed 150 characters.</small>
+                            }
+
+                            @if (supplierForm.get('address2')?.errors?.['pattern']) {
+                            <small class="error">
+                                Address-2 contains invalid characters.
+                            </small>
+                            }
                             }
                         </div>
                     </div>
@@ -94,7 +158,23 @@
                             <input formControlName="phone" type="text"
                                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
                             @if (supplierForm.get('phone')?.touched && supplierForm.get('phone')?.invalid) {
-                            <small class="error">Phone Number must have 10 characters.</small>
+
+                            @if (supplierForm.get('phone')?.errors?.['required']) {
+                            <small class="error">Mobile Number is required.</small>
+                            }
+
+                            @if (supplierForm.get('phone')?.errors?.['minlength'] ||
+                            supplierForm.get('phone')?.errors?.['maxlength']) {
+                            <small class="error">
+                                Mobile Number must contain exactly 10 digits.
+                            </small>
+                            }
+
+                            @if (supplierForm.get('phone')?.errors?.['pattern']) {
+                            <small class="error">
+                                Enter a valid mobile number starting with 6, 7, 8, or 9.
+                            </small>
+                            }
                             }
                         </div>
                     </div>
@@ -105,18 +185,17 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 City <span class="text-red-500">*</span>
                             </label>
-                            <select formControlName="city"
-                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none 
+                            <select formControlName="city" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none 
                                 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
-                                 <!-- getting list in select -->
+                                <!-- getting list in select -->
                                 <option value="">-- Select Supplier city --</option>
                                 @for(city of cityList; track $index; let i = $index){
-                                    <option [value]="city.name">{{city.name}}</option>
+                                <option [value]="city.name">{{city.name}}</option>
                                 }
                             </select>
                             <!-- Validation Block -->
                             @if (supplierForm.get('city')?.touched && supplierForm.get('city')?.invalid) {
-                            <small class="error">Product price must have 3 characters.</small>
+                            <small class="error">Select city required.</small>
                             }
                         </div>
                     </div>
@@ -130,17 +209,16 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 State <span class="text-red-500">*</span>
                             </label>
-                            <select formControlName="state" 
-                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none 
+                            <select formControlName="state" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none 
                                 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
                                 <!-- getting list in select -->
                                 <option value="">-- Select Supplier State --</option>
                                 @for(state of stateList; track $index; let i = $index){
-                                    <option [value]="state.name">{{state.name}}</option>
+                                <option [value]="state.name">{{state.name}}</option>
                                 }
                             </select>
                             @if (supplierForm.get('state')?.touched && supplierForm.get('state')?.invalid) {
-                            <small class="error">State must have 3 characters.</small>
+                            <small class="error">Select state required.</small>
                             }
                         </div>
                     </div>
@@ -151,17 +229,16 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Country <span class="text-red-500">*</span>
                             </label>
-                            <select formControlName="country" 
-                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none 
+                            <select formControlName="country" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none 
                                 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
-                                 <!-- getting list in select -->
+                                <!-- getting list in select -->
                                 <option value="">-- Select Supplier Country --</option>
                                 @for(country of countryList; track $index; let i = $index){
-                                    <option [value]="country.name">{{country.name}}</option>
+                                <option [value]="country.name">{{country.name}}</option>
                                 }
                             </select>
                             @if (supplierForm.get('country')?.touched && supplierForm.get('country')?.invalid) {
-                            <small class="error">Country must have 3 characters.</small>
+                            <small class="error">Select country required.</small>
                             }
                         </div>
 
@@ -178,11 +255,20 @@
                             <input formControlName="postalCode" type="text"
                                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
                             @if (supplierForm.get('postalCode')?.touched && supplierForm.get('postalCode')?.invalid) {
-                            <small class="error">PostalCode must have 3 characters.</small>
+
+                            @if (supplierForm.get('postalCode')?.errors?.['required']) {
+                            <small class="error">Postal Code is required.</small>
+                            }
+
+                            @if (supplierForm.get('postalCode')?.errors?.['pattern']) {
+                            <small class="error">
+                                Enter a valid 6-digit postal code.
+                            </small>
+                            }
                             }
                         </div>
                     </div>
-                    
+
                     <div>
                         <!-- supplier email-->
                         <div class="mt-6">
@@ -192,7 +278,22 @@
                             <input formControlName="email" type="email" placeholder="e.g., tata1@gmail.com"
                                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
                             @if (supplierForm.get('email')?.touched && supplierForm.get('email')?.invalid) {
-                            <small class="error">Product sku must have 5 characters.</small>
+
+                            @if (supplierForm.get('email')?.errors?.['required']) {
+                            <small class="error">Email is required.</small>
+                            }
+
+                            @if (supplierForm.get('email')?.errors?.['email']) {
+                            <small class="error">Enter a valid email address.</small>
+                            }
+
+                            @if (supplierForm.get('email')?.errors?.['maxlength']) {
+                            <small class="error">Email cannot exceed 100 characters.</small>
+                            }
+
+                            @if (supplierForm.get('email')?.errors?.['pattern']) {
+                            <small class="error">Invalid email format.</small>
+                            }
                             }
                         </div>
                     </div>
