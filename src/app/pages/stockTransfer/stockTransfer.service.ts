@@ -43,8 +43,13 @@ export class StockTransferService{
     }
 
 
-    updateStockTransfer(id: number){
-
+    updateStockTransfer(id: number, stockTransferData: StockTransferRequestDto){
+        return this.httpClient.put<StockTransferRequestDto>(this.baseUrl+"/"+id, stockTransferData)
+        .pipe(
+            map((response: any)=>{
+                return response.data;
+            })
+        );
     }
 
     deleteStockTransfer(id: number){

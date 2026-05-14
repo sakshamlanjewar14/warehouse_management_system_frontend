@@ -13,7 +13,7 @@ export interface WarehouseRequestDto {
 }
 
 export interface WarehouseResponseDto {
-  warehouseId?: number;
+  warehouseId: number;
   name: string;
   location: string;
   capacity: number;

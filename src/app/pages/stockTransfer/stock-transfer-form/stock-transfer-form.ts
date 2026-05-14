@@ -7,7 +7,7 @@ import { ToastNotificationService } from '../../../shared/services/toast-notific
 import { Product } from '../../products/product.model';
 import { StockTransferService } from '../stockTransfer.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ProductService } from '../../products/product.service';
 
 @Component({
@@ -24,7 +24,10 @@ export class StockTransferForm implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private toastNotificationService = inject(ToastNotificationService);
   private stockTransferService = inject(StockTransferService);
+  private activatedRoute = inject(ActivatedRoute);
 
+
+  formMode: 'N' | 'E' = 'N';
 
   // Signals
   isSubmitting = signal(false);
@@ -35,16 +38,56 @@ export class StockTransferForm implements OnInit {
   warehouses: WarehouseResponseDto[] = [];
   selectedWarehouse: WarehouseResponseDto | null = null;
 
+  selectedStockTransfer: StockTransferResponseDto | null = null;
+
   // Strongly typed Reactive Form
   // Form Creation
   stockTransferForm = this.formBuilder.group({
-    sourceWarehouseId: [null, [Validators.required]],
-    destinationWarehouseId: [null, [Validators.required]],
+    sourceWarehouseId: [0, [Validators.required]],
+    destinationWarehouseId: [0, [Validators.required]],
     // status: ['', [Validators.required]],
     stockTransferItems: this.formBuilder.array([])
   });
 
   ngOnInit(): void {
+
+    this.activatedRoute.queryParamMap.subscribe(params => {
+      const stockTransferId = params.get('stockTransferId');
+      if (stockTransferId) {
+        this.formMode = 'E';
+        console.log("form mode in::", this.formMode);
+        this.stockTransferService.getStockTransferById(parseInt(stockTransferId))
+          .subscribe({
+            next: (response) => {
+              console.log("selectedStockTransfer::response", response);
+              this.selectedStockTransfer = response;
+              this.stockTransferForm.patchValue({
+                sourceWarehouseId: this.selectedStockTransfer.sourceWarehouse.warehouseId,
+                destinationWarehouseId: this.selectedStockTransfer.destinationWarehouse.warehouseId
+              });
+              this.selectedStockTransfer.stockTransferItems.forEach((item) => {
+                const row = new FormGroup({
+                  productId: new FormControl(item.product.productId, [Validators.required, Validators.minLength(1)]),
+                  quantity: new FormControl(item.quantity, [Validators.required, Validators.min(1)]),
+                });
+                this.stockTransferItems.push(row);
+              });
+              this.cdr.markForCheck();
+            },
+            error: (err) => {
+              console.log("Unable to fetch selectedStockTransfer from backend", err);
+              this.toastNotificationService.show("Unable to fetch selected stock transfer data", "error");
+              this.cdr.markForCheck();
+            }
+          })
+      }
+    });
+
+    console.log("form mode out::", this.formMode);
+
+    const stockTransferId = this.activatedRoute.snapshot.paramMap.get('id');
+
+
     // get all warehouse from service
     this.warehouseService.getAllWarehouses()
       .subscribe({
@@ -63,7 +106,7 @@ export class StockTransferForm implements OnInit {
       this.updateRows();
     });
 
-     // get all product from service
+    // get all product from service
     this.productService.getAllProducts()
       .subscribe({
         next: (productListResponse) => {
@@ -134,37 +177,66 @@ export class StockTransferForm implements OnInit {
       const formValue = this.stockTransferForm.value;
       const items = this.stockTransferItems.value;
 
-      //console.log("::formValue::",formValue, "::items::", items)
+      //console.log("::formValue::",formValue, "::items::", items
 
-      const stockTransferData: StockTransferRequestDto = {
-        sourceWarehouseId: formValue.sourceWarehouseId ?? 0,
-        destinationWarehouseId: formValue.destinationWarehouseId ?? 0,
-        // status: formValue.status ?? '',
-        stockTransferItems: items
-      };
+      if (this.formMode === 'E' && this.selectedStockTransfer) {
 
-      console.log("stockTransferData::", stockTransferData)
+         const editStockTransferData: StockTransferRequestDto = {
+          id: this.selectedStockTransfer.id,
+          sourceWarehouseId: formValue.sourceWarehouseId ?? 0,
+          destinationWarehouseId: formValue.destinationWarehouseId ?? 0,
+          stockTransferItems: items
+         }
 
-      // Call backend
-      this.stockTransferService.createStockTransfer(stockTransferData)
-        .subscribe({
-          // Handle response--Success
-          next: (savedStockTransfer) => {
-            this.isSubmitting.set(false);
-            this.submitMessage.set('Stock Transfer saved successfully!');
-            this.stockTransferForm.reset();
-            this.toastNotificationService.show("Stock Transfer saved successfully", "success");
-            this.cdr.markForCheck();
-          },
-          // Handle response--error
-          error: (err) => {
-            this.isSubmitting.set(false);
-            this.submitMessage.set('Unable to save Stock Transfer!');
-            console.log("Unable to save Stock Transfer at backend", err);
-            this.toastNotificationService.show("Unable to save Stock Transfer", "error");
-            this.cdr.markForCheck();
-          }
-        });
+        // Call backend
+        this.stockTransferService.updateStockTransfer(this.selectedStockTransfer.id, editStockTransferData)
+          .subscribe({
+            // Handle response--Success
+            next: (savedStockTransfer) => {
+              this.isSubmitting.set(false);
+              this.submitMessage.set('Stock Transfer updated successfully!');
+              this.stockTransferForm.reset();
+              this.toastNotificationService.show("Stock Transfer updated successfully", "success");
+              this.cdr.markForCheck();
+            },
+            // Handle response--error
+            error: (err) => {
+              this.isSubmitting.set(false);
+              this.submitMessage.set('Unable to update Stock Transfer!');
+              console.log("Unable to update Stock Transfer at backend", err);
+              this.toastNotificationService.show("Unable to update Stock Transfer", "error");
+              this.cdr.markForCheck();
+            }
+          });
+      } else {
+        const newStockTransferData: StockTransferRequestDto = {
+          sourceWarehouseId: formValue.sourceWarehouseId ?? 0,
+          destinationWarehouseId: formValue.destinationWarehouseId ?? 0,
+          // status: formValue.status ?? '',
+          stockTransferItems: items
+        };
+        // Call backend
+        this.stockTransferService.createStockTransfer(newStockTransferData)
+          .subscribe({
+            // Handle response--Success
+            next: (savedStockTransfer) => {
+              this.isSubmitting.set(false);
+              this.submitMessage.set('Stock Transfer saved successfully!');
+              this.stockTransferForm.reset();
+              this.toastNotificationService.show("Stock Transfer saved successfully", "success");
+              this.cdr.markForCheck();
+            },
+            // Handle response--error
+            error: (err) => {
+              this.isSubmitting.set(false);
+              this.submitMessage.set('Unable to save Stock Transfer!');
+              console.log("Unable to save Stock Transfer at backend", err);
+              this.toastNotificationService.show("Unable to save Stock Transfer", "error");
+              this.cdr.markForCheck();
+            }
+          });
+      }
+
     } else {
       this.toastNotificationService.show("Invalid form values", "error");
     }

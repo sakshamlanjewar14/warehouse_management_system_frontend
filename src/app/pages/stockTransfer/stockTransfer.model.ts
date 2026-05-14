@@ -26,7 +26,7 @@ export interface StockTransferItemRequestDto {
 
 export interface StockTransferResponseDto {
 
-    id?: number;
+    id: number;
 
     sourceWarehouse: WarehouseResponseDto;
 
