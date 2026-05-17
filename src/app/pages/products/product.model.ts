@@ -1,5 +1,5 @@
 export interface Product {
-  productId?: number;
+  productId: number;
   name: string;
   description: string;
   sku: string;
@@ -7,6 +7,6 @@ export interface Product {
   price:number;
   weight: number;
   imageUrl: string;
-  createdAt: string;
+  createdAt?: string;
   inventoryItems?: [];
 }
