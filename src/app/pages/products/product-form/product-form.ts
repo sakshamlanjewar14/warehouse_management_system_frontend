@@ -1,9 +1,9 @@
 import { ToastNotificationService } from './../../../shared/services/toast-notification.service';
 import { ToastNotification } from './../../../shared/components/toast-notification/toast-notification';
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ProductService } from '../product.service';
 import { Product } from '../product.model';
 
@@ -14,15 +14,22 @@ import { Product } from '../product.model';
   templateUrl: './product-form.html',
   styleUrl: './product-form.scss',
 })
-export class ProductForm {
+export class ProductForm implements OnInit{
 
   // Dependency Injection
   private formBuilder = inject(FormBuilder);
   private productService = inject(ProductService);
   private toastNotificationService = inject(ToastNotificationService);
+  private activatedRoute = inject(ActivatedRoute);
+  private cdr = inject(ChangeDetectorRef)
+
+  formMode: 'N' | 'E' = 'N';
+
   // Signals
   isSubmitting = signal(false);
   submitMessage = signal('');
+
+  selectedProduct: Product | null = null;
 
   // Strongly typed Reactive Form
   // Form Creation
@@ -36,8 +43,46 @@ export class ProductForm {
     imageUrl: ['', [Validators.required]],
   });
 
+
+  ngOnInit(): void {
+    this.activatedRoute.queryParamMap.subscribe(param=>{
+
+      const productId = param.get('productId')
+
+      if(productId){
+        this.formMode = 'E';
+        console.log("form mode in::", this.formMode);
+
+        this.productService.getProductById(parseInt(productId))
+        .subscribe({
+          next:(response)=>{
+            console.log("selectedProduct::response",response);
+            this.selectedProduct = response;
+            this.productForm.patchValue({
+              name:this.selectedProduct.name,
+              description: this.selectedProduct.description,
+              sku: this.selectedProduct.sku,
+              barcode: this.selectedProduct.barcode,
+              price: this.selectedProduct.price,
+              weight: this.selectedProduct.weight,
+              imageUrl: this.selectedProduct.imageUrl
+            });
+          },
+        error:(err)=>{
+          console.log("Unable to fetch selectedProduct from backend", err);
+          this.toastNotificationService.show("Unable to fetch selected product data", "error");
+          this.cdr.markForCheck();
+        }
+        })
+      }
+    });
+    console.log("form mode out::", this.formMode);
+    
+  }
+
   // Check form is valid
   onSubmit() {
+
     if (this.productForm.valid) {
       // Start loading
       this.isSubmitting.set(true);
@@ -45,6 +90,53 @@ export class ProductForm {
       console.log('Product Data:', this.productForm.value);
       // Get form data
       const productData = this.productForm.getRawValue() as Product;
+      const formValue = this.productForm.value
+
+      if(this.formMode === 'E' && this.selectedProduct){
+
+        const editProductData: Product ={
+          productId: this.selectedProduct.productId,
+          name: formValue.name ?? '',
+          description:formValue.description ?? '',
+          sku: formValue.sku ?? '',
+          barcode: formValue.barcode ?? '',
+          price: formValue.price ?? 0,
+          weight: formValue.weight ?? 0,
+          imageUrl: formValue.imageUrl ?? '',
+        }
+
+        // call backend
+        this.productService.updateProduct(this.selectedProduct.productId, editProductData)
+        .subscribe({
+          // handle response --- success
+          next:(savedProduct)=>{
+            this.isSubmitting.set(false);
+            this.submitMessage.set('Product updated successfully');
+            this.productForm.reset();
+            this.toastNotificationService.show("Product Updated Successfully","success");
+            this.cdr.markForCheck();
+          },
+          // handle response ----error
+          error:(err)=>{
+            this.isSubmitting.set(false);
+            this.submitMessage.set('Unable to update product');
+            console.log("Unable to update product at backend", err);
+            this.toastNotificationService.show("Unable to update product","error");
+            this.cdr.markForCheck();
+          }
+        });
+      }else{
+//      This return data to backend
+        const newStockTransferData: Product = {
+          name: formValue.name ?? '',
+          description:formValue.description ?? '',
+          sku: formValue.sku ?? '',
+          barcode: formValue.barcode ?? '',
+          price: formValue.price ?? 0,
+          weight: formValue.weight ?? 0,
+          imageUrl: formValue.imageUrl ?? '',
+                };
+
       // Call backend
       this.productService.createProduct(productData)
         .subscribe({
@@ -63,6 +155,9 @@ export class ProductForm {
             console.log("Unable to save product at backend", err);
           }
         });
+      }
+    }else{
+      this.toastNotificationService.show("Invalid form values","error");
     }
   }
 

@@ -21,9 +21,18 @@ export class ProductService {
     );
   }
 
-  getProductById(productId: number){
-
+  getProductById(productId: number):Observable<Product>{
+    return this.httpClient
+    .get<Product>(`${this.baseUrl}/${productId}`)
+    .pipe(
+      map((response: any)=>{
+        console.log(response);
+        return response.data;
+      })
+    );
+    
   }
+
 
   createProduct(productData: Product): Observable<Product>{
     return this.httpClient.post<Product>(this.baseUrl, productData)
@@ -35,8 +44,13 @@ export class ProductService {
     );
   }
 
-  updateProductById(productId: number, productDetail: any){
-
+  updateProduct(productId: number, productData: Product){
+    return this.httpClient.put<Product>(this.baseUrl+"/"+productId, productData)
+    .pipe(
+      map((response: any)=>{
+        return response.data;
+      })
+    )
   }
 
   deleteProductById(productId: number){

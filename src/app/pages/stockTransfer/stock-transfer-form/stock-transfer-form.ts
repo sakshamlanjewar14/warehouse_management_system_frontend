@@ -52,19 +52,24 @@ export class StockTransferForm implements OnInit {
   ngOnInit(): void {
 
     this.activatedRoute.queryParamMap.subscribe(params => {
+
       const stockTransferId = params.get('stockTransferId');
+      
       if (stockTransferId) {
         this.formMode = 'E';
         console.log("form mode in::", this.formMode);
+        
+        // Api call
         this.stockTransferService.getStockTransferById(parseInt(stockTransferId))
           .subscribe({
             next: (response) => {
-              console.log("selectedStockTransfer::response", response);
+              console.log("selectedStockTransfer::", response);
               this.selectedStockTransfer = response;
               this.stockTransferForm.patchValue({
                 sourceWarehouseId: this.selectedStockTransfer.sourceWarehouse.warehouseId,
                 destinationWarehouseId: this.selectedStockTransfer.destinationWarehouse.warehouseId
               });
+
               this.selectedStockTransfer.stockTransferItems.forEach((item) => {
                 const row = new FormGroup({
                   productId: new FormControl(item.product.productId, [Validators.required, Validators.minLength(1)]),

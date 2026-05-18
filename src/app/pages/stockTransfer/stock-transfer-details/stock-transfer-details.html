@@ -20,19 +20,27 @@
     <p class="text-sm text-gray-500">
     <h2>Stock Transfer Details</h2>
     <div class="grid grid-cols-3 grid-rows-3 gap-4">
-        <div class="bg-gray-100 p-4">
+        <!-- <div class="bg-gray-100 p-4">
             <div>
                 <p class="text-sm text-gray-500">Id</p>
                 <p class="font-medium text-gray-800">
                     {{transfer?.id}}
                 </p>
             </div>
-        </div>
+        </div> -->
         <div class="bg-gray-100 p-4">
             <div>
                 <p class="text-sm text-gray-500">Source Warehouse</p>
                 <p class="font-medium text-gray-800">
                     {{transfer?.sourceWarehouse?.name }}
+                </p>
+            </div>
+        </div>
+          <div class="bg-gray-100 p-4">
+            <div>
+                <p class="text-sm text-gray-500">Destination Warehouse</p>
+                <p class="font-medium text-gray-800">
+                    {{transfer?.destinationWarehouse?.name }}
                 </p>
             </div>
         </div>
@@ -47,20 +55,19 @@
         </div>
 
 
-        <div class="bg-gray-100 p-4">
-            <div>
-                <p class="text-sm text-gray-500">Destination Warehouse</p>
-                <p class="font-medium text-gray-800">
-                    {{transfer?.destinationWarehouse?.name }}
-                </p>
-            </div>
-        </div>
+      
         <div class="bg-gray-100 p-4">
             <div>
                 <p class="text-sm text-gray-500">Status</p>
                 <p class="font-medium text-gray-800">
                     {{transfer?.status}}
                 </p>
+            </div>
+        </div>
+         <div class="p-4 bg-gray-50">
+            <div>
+                <p class="text-sm text-gray-500"></p>
+                <p class="font-medium text-gray-800"></p>
             </div>
         </div>
         <div class="bg-gray-100 p-4">
@@ -84,9 +91,7 @@
         <div class="p-4 bg-gray-50">
             <div>
                 <p class="text-sm text-gray-500"></p>
-                <p class="font-medium text-gray-800">
-
-                </p>
+                <p class="font-medium text-gray-800"></p>
             </div>
         </div>
 

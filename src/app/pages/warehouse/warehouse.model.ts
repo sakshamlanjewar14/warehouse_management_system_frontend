@@ -7,6 +7,7 @@
 // }
 
 export interface WarehouseRequestDto {
+  warehouseId: number;
   name: string;
   location: string;
   capacity: number;
