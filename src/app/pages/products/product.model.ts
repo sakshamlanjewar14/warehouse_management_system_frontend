@@ -1,12 +1,38 @@
-export interface Product {
+import { InventoryItemResponseDto } from "../inventoryItem/item.model";
+
+// export interface Product {
+//   productId: number;
+//   name: string;
+//   description: string;
+//   sku: string;
+//   barcode: string;
+//   price: number;
+//   weight: number;
+//   imageUrl: string;
+//   createdAt?: string;
+//   inventoryItems?: [];
+// }
+
+export interface ProductRequestDto {
+  productId?: number;
+  name: string;
+  description: string;
+  sku: string;
+  barcode: string;
+  price: number;
+  weight: number;
+  imageUrl: string;
+}
+
+export interface ProductResponseDto {
   productId: number;
   name: string;
   description: string;
   sku: string;
   barcode: string;
-  price:number;
+  price: number;
   weight: number;
   imageUrl: string;
-  createdAt?: string;
-  inventoryItems?: [];
+  createdAt: string ;
+  inventoryItems: InventoryItemResponseDto[];
 }

@@ -14,5 +14,6 @@ export interface StorageBinResponseDto{
     totalCapacity : number;
     availableCapacity: number;
     warehouseName? : string;
+    warehouseId : number;
     inventoryItems? :[];
 }

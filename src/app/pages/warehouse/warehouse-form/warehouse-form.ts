@@ -30,6 +30,7 @@ selectedWarehouse: WarehouseResponseDto | null = null;
   warehouseForm = this.formBuilder.group({
      name: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(100), Validators.pattern(/^[a-zA-Z0-9\s&.-]+$/)]],
      location : ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100), Validators.pattern(/^[a-zA-Z0-9\s,.-]+$/)]],
+    //  capacity: [0,[Validators.required,  Validators.min(1), Validators.max(100000), Validators.pattern(/^[0-9]+$/)]]
   }) ;
 
 
@@ -70,14 +71,14 @@ selectedWarehouse: WarehouseResponseDto | null = null;
       this.isSubmitting.set(true);
 
       console.log('Warehouse Data:', this.warehouseForm.value);
-      const warehouseData = this.warehouseForm.getRawValue() as WarehouseResponseDto;
+      // const warehouseData = this.warehouseForm.getRawValue() as WarehouseResponseDto;
       const formValue = this.warehouseForm.value
 
       if(this.formMode === 'E' && this.selectedWarehouse){
         const editWarehouseData: WarehouseRequestDto = {
           warehouseId: this.selectedWarehouse.warehouseId,
-          name: this.selectedWarehouse.name,
-          location: this.selectedWarehouse.location
+          name: formValue.name ?? '',
+          location:formValue.location ?? ''
         }
 
         // call backend
@@ -101,31 +102,32 @@ selectedWarehouse: WarehouseResponseDto | null = null;
             }
           });
       }else{
-        
-      }
-
-
-
-
-
-
-
-      this.warehouseService.createWarehouse(warehouseData)
+        const newWarehouseData: WarehouseRequestDto={
+          name: formValue.name ?? '',
+          location: formValue.location ?? ''
+        };
+        // call backend
+         this.warehouseService.createWarehouse(newWarehouseData)
         .subscribe({
           next: (savedWarehouse) => {
             this.isSubmitting.set(false);
             this.submitMessage.set('Warehouse saved successfully!');
             this.warehouseForm.reset();
-            this.toastNotificationService.show("Warehouse saved successfully!", "success")
+            this.toastNotificationService.show("Warehouse saved successfully!", "success");
+            this.cdr.markForCheck();
           },
           // Handle response--error
           error: (err) => {
             this.isSubmitting.set(false);
             this.submitMessage.set('Unable to save warehouse!');
-            this.toastNotificationService.show("Unable to save warehouse!", "error")
-            console.log("Unable to save warehouse at backend", err);
+             console.log("Unable to save warehouse at backend", err);
+            this.toastNotificationService.show("Unable to save warehouse!", "error");
+            this.cdr.markForCheck();
           }
-        })
+        });
+      }
+    }else{
+      this.toastNotificationService.show("Invalid form values", "error")
     }
   }
 

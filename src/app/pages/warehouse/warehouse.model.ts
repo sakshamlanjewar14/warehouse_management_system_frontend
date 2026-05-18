@@ -7,10 +7,10 @@
 // }
 
 export interface WarehouseRequestDto {
-  warehouseId: number;
+  warehouseId?: number;
   name: string;
   location: string;
-  capacity: number;
+  capacity?: number;
 }
 
 export interface WarehouseResponseDto {

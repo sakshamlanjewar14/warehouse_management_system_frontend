@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/c
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OutboundShipmentService } from '../outboundShipment.service';
 import { ProductService } from '../../products/product.service';
-import { Product } from '../../products/product.model';
+import { ProductResponseDto } from '../../products/product.model';
 import { OutboundShipmentRequestDto } from '../outboundShipment.model';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -27,7 +27,7 @@ export class OutboundShipmentForm implements OnInit {
   isSubmitting = signal(false);
   submitMessage = signal('');
 
-  products: Product[] = [];
+  products: ProductResponseDto[] = [];
   selectedProductIds = signal<number[]>([]);
 
   // form creation

@@ -36,7 +36,7 @@ export class WarehouseService {
     );
   }
 
-  createWarehouse(warehouseData: WarehouseResponseDto): Observable<WarehouseResponseDto> {
+  createWarehouse(warehouseData: WarehouseRequestDto): Observable<WarehouseResponseDto> {
     // Post Data
     return this.httpClient.post<WarehouseResponseDto>(this.baseUrl, warehouseData)
       .pipe(
@@ -47,7 +47,7 @@ export class WarehouseService {
       );
   }
 
-  updateWarehouse(warehouseId: number, warehouseData: any) {
+  updateWarehouse(warehouseId: number, warehouseData: WarehouseRequestDto) {
     return this.httpClient.put<WarehouseRequestDto>(this.baseUrl + "/" + warehouseId, warehouseData)
       .pipe(
         map((response: any) => {

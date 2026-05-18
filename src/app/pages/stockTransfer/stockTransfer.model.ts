@@ -1,4 +1,5 @@
-import { Product } from "../products/product.model";
+
+import { ProductResponseDto } from "../products/product.model";
 import { WarehouseResponseDto } from "../warehouse/warehouse.model";
 
 export interface StockTransferRequestDto {
@@ -43,7 +44,7 @@ export interface StockTransferItemResponseDto {
 
     stockTransferId: number;
 
-    product: Product;
+    product: ProductResponseDto;
 
     quantity: number;
 }

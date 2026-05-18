@@ -3,9 +3,9 @@ import { Component, signal, computed, inject, OnInit, ChangeDetectorRef, viewChi
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SupplierResponseDto } from '../supplier.model';
-import { Product } from '../../products/product.model';
 import { ProductService } from "../../products/product.service";
 import { FormsModule } from "@angular/forms";
+import { ProductResponseDto } from '../../products/product.model';
 
 
 @Component({
@@ -26,8 +26,8 @@ export class SupplierList implements OnInit {
   
   // Track state with a Signal
   isModalOpen = signal(false);
-  products: Product[] = [];
-  selectedProduct: Product[] = [];
+  products: ProductResponseDto[] = [];
+  selectedProduct: ProductResponseDto[] = [];
 
 
   suppliers: SupplierResponseDto[] = [];

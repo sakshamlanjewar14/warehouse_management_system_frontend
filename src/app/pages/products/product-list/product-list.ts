@@ -2,7 +2,7 @@ import { Component, signal, computed, inject, OnInit, ChangeDetectorRef } from '
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../product.service';
 import { RouterModule } from '@angular/router';
-import { Product } from '../product.model';
+import { ProductResponseDto } from '../product.model';
 
 
 @Component({
@@ -22,7 +22,7 @@ export class ProductList implements OnInit {
 
   }
 
-  products: Product[] = [];
+  products: ProductResponseDto[] = [];
   totalProductsCount = signal<number>(0);
 
   ngOnInit(): void {

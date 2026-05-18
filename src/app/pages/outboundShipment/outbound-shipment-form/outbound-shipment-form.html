@@ -204,7 +204,7 @@
                                             <option value="">Select Product</option>
                                             @for (product of products; track product) {
                                             <option [value]="product.productId"
-                                                [disabled]="isProductSelected(product.productId ?? 0, i)">
+                                                [disabled]="isProductSelected(product.productId, i)">
                                                 {{ product.name }}
                                             </option>
                                             }

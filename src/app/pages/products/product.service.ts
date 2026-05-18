@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Product } from './product.model';
+import { ProductRequestDto, ProductResponseDto } from './product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +11,8 @@ export class ProductService {
 
   private readonly httpClient = inject(HttpClient);
 
-  getAllProducts() : Observable<Product[]>{
-    return this.httpClient.get<Product[]>(this.baseUrl)
+  getAllProducts() : Observable<ProductResponseDto[]>{
+    return this.httpClient.get<ProductResponseDto[]>(this.baseUrl)
     .pipe(
       map((response: any) => {
         //console.log("getAllProducts::", response);
@@ -21,9 +21,9 @@ export class ProductService {
     );
   }
 
-  getProductById(productId: number):Observable<Product>{
+  getProductById(productId: number):Observable<ProductResponseDto>{
     return this.httpClient
-    .get<Product>(`${this.baseUrl}/${productId}`)
+    .get<ProductResponseDto>(`${this.baseUrl}/${productId}`)
     .pipe(
       map((response: any)=>{
         console.log(response);
@@ -34,8 +34,8 @@ export class ProductService {
   }
 
 
-  createProduct(productData: Product): Observable<Product>{
-    return this.httpClient.post<Product>(this.baseUrl, productData)
+  createProduct(productData: ProductRequestDto): Observable<ProductResponseDto>{
+    return this.httpClient.post<ProductRequestDto>(this.baseUrl, productData)
     .pipe(
       map((response: any) => {
         //console.log("savedProduct::", response);
@@ -44,8 +44,8 @@ export class ProductService {
     );
   }
 
-  updateProduct(productId: number, productData: Product){
-    return this.httpClient.put<Product>(this.baseUrl+"/"+productId, productData)
+  updateProduct(productId: number, productData: ProductRequestDto){
+    return this.httpClient.put<ProductRequestDto>(this.baseUrl+"/"+productId, productData)
     .pipe(
       map((response: any)=>{
         return response.data;

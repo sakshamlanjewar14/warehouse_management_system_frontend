@@ -19,14 +19,10 @@ export class StorageBinService {
           console.log("Full API Response:", response);
         }),
         map((Response: any) => {
+           console.log("getAllStorageBins" + Response.data)
           return Response.data;
-          console.log("getAllStorageBins" +Response.data)
         })
       );
-  }
-
-  getStorageBinById(binId: Number) {
-
   }
 
   createStorageBin(storageBinData: StorageBinRequestDto, warehouseId: number): Observable<StorageBinResponseDto> {
@@ -42,10 +38,29 @@ export class StorageBinService {
           console.log("Full API Response:", response);
         }),
         map((response: any) => response.data)
-      )
+      );
   }
 
-  updateStorageBinById(binId: number) {
+  getstorageBinById(binId: number): Observable<StorageBinResponseDto> {
+    return this.httpClient
+      .get<StorageBinResponseDto>(`${this.baseUrl}/${binId}`)
+      .pipe(
+        map((response: any) => {
+          console.log(response);
+          return response.data;
+        })
+      );
+  }
+
+
+
+  updateStorageBinById( warehouseId: number, binId: number,storageBinData: StorageBinRequestDto):Observable<StorageBinResponseDto> {
+    return this.httpClient.put<StorageBinRequestDto>(this.baseUrl + "/" + warehouseId + "/" + binId , storageBinData) 
+      .pipe(
+        map((response: any) => {
+          return response.data;
+        })
+      );
 
   }
 

@@ -3,8 +3,8 @@
     <!-- Page Header -->
     <div class="flex sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">Create Storage Bin</h1>
-            <p class="text-sm text-gray-500 mt-1">Create new Storage Bin</p>
+            <h1 class="text-2xl font-bold text-gray-900">{{formMode == 'E' ? 'Edit' : 'Create'}} Storage Bin</h1>
+            <p class="text-sm text-gray-500 mt-1">{{formMode == 'E' ? 'Edit' : 'Create new'}} Storage Bin</p>
         </div>
         <div class="flex items-center gap-3">
             <a routerLink="/storagebin"
@@ -29,9 +29,9 @@
                         <select formControlName="warehouseId" class="w-full px-2 py-3 bg-gray-50 border border-gray-200 
                         rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 
                         focus:border-indigo-500 transition-all">
-                            <option Value="">-- Choose Warehouse--</option>
+                            <option value="">-- Choose Warehouse--</option>
                             @for (w of warehouses; track w?.warehouseId) {
-                            <option Value="w?.warehouseId">{{ w.name }}</option>
+                            <option [value]="w.warehouseId">{{ w.name }}</option>
                             }
                         </select>
                         @if (storageBinForm.get('warehouseId')?.touched &&
@@ -106,7 +106,9 @@
                         class="flex items-center gap-2 px-4 py-2 bg-green-600 
                         text-white rounded-lg text-sm font-medium hover:bg-green-700 
                         transition-colors shadow-sm cursor-pointer
-                        disabled:bg-gray-400 disabled:text-gray-700 disabled:opacity-75 disabled:cursor-not-allowed">Save</button>
+                        disabled:bg-gray-400 disabled:text-gray-700 disabled:opacity-75 disabled:cursor-not-allowed"
+                        [class.bg-green-600]="formMode == 'N'"
+                        [class.bg-yellow-600]="formMode == 'E'">{{formMode == 'E' ? 'Update' : 'Save'}}</button>
                     <button type="button" (click)="clearStorageBinForm()"
                         class="flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg text-sm font-medium hover:bg-yellow-700 transition-colors shadow-sm cursor-pointer">Clear</button>
                     <a routerLink="/storagebin"

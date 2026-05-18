@@ -6,10 +6,10 @@ import { RouterModule } from "@angular/router";
 import { ItemService } from "../item.service";
 import { startWith } from "rxjs";
 import { ProductService } from "../../products/product.service";
-import { Product } from '../../products/product.model';
 import { StorageBinResponseDto } from '../../storageBin/storageBin.model';
 import { ToastNotificationService } from '../../../shared/services/toast-notification.service';
 import { InventoryItemRequestDto } from '../item.model';
+import { ProductResponseDto } from '../../products/product.model';
 
 // Component Setup
 @Component({
@@ -35,7 +35,7 @@ export class InventoryItemForm implements OnInit {
   submitMessage = signal('');
   totalQuantity = signal(0);
 
-  products: Product[] = [];
+  products: ProductResponseDto[] = [];
   bins: StorageBinResponseDto[] = [];
 
   // Signal to track which bins are currently chosen in the form

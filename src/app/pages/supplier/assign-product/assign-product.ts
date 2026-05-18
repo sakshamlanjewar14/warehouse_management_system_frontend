@@ -5,7 +5,7 @@ import { SupplierService } from '../supplier.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SupplierItemRequestDto, SupplierItemResponseDto, SupplierResponseDto } from '../supplier.model';
 import { CommonModule } from '@angular/common';
-import { Product } from '../../products/product.model';
+import { ProductResponseDto } from '../../products/product.model';
 
 @Component({
   selector: 'app-assign-product',
@@ -17,7 +17,7 @@ export class AssignProduct implements OnInit {
 
   supplier: SupplierResponseDto | undefined;
   supplierId: string = '';
-  products: Product[] = [];
+  products: ProductResponseDto[] = [];
   availableProductList: SupplierItemResponseDto[] = [];
   assignedProductList: SupplierItemResponseDto[] = [];
 

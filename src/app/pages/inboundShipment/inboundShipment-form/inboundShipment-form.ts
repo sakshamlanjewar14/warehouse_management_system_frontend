@@ -5,7 +5,6 @@ import { FormBuilder, Validators, ReactiveFormsModule, FormsModule, FormArray, F
 import { RouterModule } from '@angular/router';
 import { InboundShipmentService } from '../inboundShipment.service';
 import { InboundShipmentRequestDto } from '../inboundShipment.model';
-import { Product } from '../../products/product.model';
 import { ProductService } from '../../products/product.service';
 import { SupplierItemResponseDto, SupplierResponseDto } from '../../supplier/supplier.model';
 import { SupplierService } from '../../supplier/supplier.service';

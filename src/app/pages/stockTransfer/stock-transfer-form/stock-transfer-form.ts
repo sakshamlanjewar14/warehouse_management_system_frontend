@@ -4,11 +4,11 @@ import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFo
 import { WarehouseService } from '../../warehouse/warehouse.service';
 import { WarehouseResponseDto } from '../../warehouse/warehouse.model';
 import { ToastNotificationService } from '../../../shared/services/toast-notification.service';
-import { Product } from '../../products/product.model';
 import { StockTransferService } from '../stockTransfer.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ProductService } from '../../products/product.service';
+import { ProductResponseDto } from '../../products/product.model';
 
 @Component({
   selector: 'app-stock-transfer-form',
@@ -33,7 +33,7 @@ export class StockTransferForm implements OnInit {
   isSubmitting = signal(false);
   submitMessage = signal('');
 
-  products: Product[] = [];
+  products: ProductResponseDto[] = [];
   selectedProductIds = signal<number[]>([]);
   warehouses: WarehouseResponseDto[] = [];
   selectedWarehouse: WarehouseResponseDto | null = null;
@@ -246,7 +246,4 @@ export class StockTransferForm implements OnInit {
       this.toastNotificationService.show("Invalid form values", "error");
     }
   }
-
-
-
 }
