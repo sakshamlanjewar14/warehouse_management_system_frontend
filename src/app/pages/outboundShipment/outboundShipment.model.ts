@@ -32,7 +32,7 @@ export interface OutboundShipmentItemRequestDto {
 
 export interface OutboundShipmentResponseDto {
     
-    shipmentId?: number;
+    shipmentId: number;
 
     shipmentNumber: string;
 
@@ -48,7 +48,8 @@ export interface OutboundShipmentResponseDto {
 }
 
 export interface OutboundShipmentItemResponseDto {
-    shipmentItemId?: number;
+
+    shipmentItemId: number;
 
     quantity: number;
 

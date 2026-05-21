@@ -16,7 +16,8 @@ import { ProductResponseDto } from '../../products/product.model';
 export class AssignProduct implements OnInit {
 
   supplier: SupplierResponseDto | undefined;
-  supplierId: string = '';
+  // supplierId: string = '';
+  supplierId!: number;
   products: ProductResponseDto[] = [];
   availableProductList: SupplierItemResponseDto[] = [];
   assignedProductList: SupplierItemResponseDto[] = [];
@@ -29,14 +30,18 @@ export class AssignProduct implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.supplierId = params.get('supplierId') ?? '';
+      // this.supplierId = params.get('supplierId') ?? '';
+      this.supplierId = Number(params.get('supplierId'));
       console.log("supplierId::", this.supplierId);
       this.loadSupplierFromBackend();
     });
   }
 
   loadSupplierFromBackend() {
-    if (this.supplierId == '') {
+    // if (this.supplierId == '') {
+    //   return;
+    // }
+    if (!(this.supplierId)) {
       return;
     }
     this.supplierService.getSupplierById(this.supplierId)

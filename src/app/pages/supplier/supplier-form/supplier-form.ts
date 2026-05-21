@@ -1,9 +1,9 @@
 import { SupplierService } from './../supplier.service';
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { SupplierRequestDto } from '../supplier.model';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { SupplierRequestDto, SupplierResponseDto } from '../supplier.model';
 import { ToastNotificationService } from '../../../shared/services/toast-notification.service';
 
 // Component Setup
@@ -13,16 +13,22 @@ import { ToastNotificationService } from '../../../shared/services/toast-notific
   templateUrl: './supplier-form.html',
   styleUrl: './supplier-form.scss',
 })
-export class SupplierForm {
+export class SupplierForm implements OnInit {
 
   // Dependency Injection
   private formBuilder = inject(FormBuilder);
   private supplierService = inject(SupplierService);
   private toastnotificationService = inject(ToastNotificationService);
+  private activatedRoute = inject(ActivatedRoute)
+  private cdr = inject(ChangeDetectorRef)
+
+formMode: 'N' | 'E' = 'N';
 
   // Signals
   isSubmitting = signal(false);
   submitMessage = signal('');
+
+selectedSupplier: SupplierResponseDto | null = null;
 
   // For getting an list in select on form
   stateList = [
@@ -73,6 +79,47 @@ export class SupplierForm {
     postalCode: ['', [ Validators.required, Validators.pattern(/^[1-9][0-9]{5}$/)]]
   });
 
+
+  ngOnInit(): void {
+    
+    this.activatedRoute.queryParamMap.subscribe(params=>{
+
+      const supplierId = params.get('supplierId');
+
+      if(supplierId){
+        this.formMode = 'E';
+        console.log("form mode in::", this.formMode);
+
+        // /Api Call
+        this.supplierService.getSupplierById(parseInt(supplierId))
+        .subscribe({
+          next: (response)=>{
+            console.log("selectedSupplier::", response);
+            this.selectedSupplier = response;
+            this.supplierForm.patchValue({
+              name: this.selectedSupplier.name,
+              supplierCode: this.selectedSupplier.supplierCode,
+              email: this.selectedSupplier.email,
+              phone: this.selectedSupplier.phone,
+              address1: this.selectedSupplier.address1,
+              address2: this.selectedSupplier.address2,
+              city: this.selectedSupplier.city,
+              state: this.selectedSupplier.state,
+              country: this.selectedSupplier.country,
+              postalCode: this.selectedSupplier.postalCode
+            });
+          },
+          error:(err)=>{
+            console.log("Unable to fetch selected supplier from backend", err);
+            this,this.toastnotificationService.show("Unable to fetch selected supplier data", "error");
+            this.cdr.markForCheck();
+          }
+        })
+      }
+    });
+    console.log("form mode out::", this.formMode);
+  }
+
   // Check form is valid
   onSubmit() {
     if (this.supplierForm.valid) {
@@ -82,11 +129,60 @@ export class SupplierForm {
       console.log('Supplier Data:', this.supplierForm.value);
 
       // Get form data
-      const supplierData = this.supplierForm.getRawValue() as SupplierRequestDto;
+      // const supplierData = this.supplierForm.getRawValue() as SupplierRequestDto;
+      const formValue = this.supplierForm.value;
 
+      if(this.formMode === 'E' && this.selectedSupplier){
 
-      // Call backend
-      this.supplierService.createSupplier(supplierData)
+        const editSupplierData: SupplierRequestDto = {
+          supplierId: this.selectedSupplier.supplierId,
+          name: formValue.name ?? '',
+          supplierCode: formValue.supplierCode ?? '',
+          email: formValue.email ?? '',
+          phone: formValue.phone ?? '',
+          address1: formValue.address1 ?? '',
+          address2: formValue.address2 ?? '',
+          city: formValue.city ?? '',
+          state: formValue.state ?? '',
+          country: formValue.country ?? '',
+          postalCode: formValue.postalCode ?? ''
+        }
+
+        // Call backend
+        this.supplierService.updateSupplierById(this.selectedSupplier.supplierId, editSupplierData)
+        .subscribe({
+          // handle response ---seccess
+          next:(savedSupplier)=>{
+            this.isSubmitting.set(false);
+            this.submitMessage.set("Supplier updated successfully");
+            this.supplierForm.reset();
+            this.toastnotificationService.show("Supplier updated successfully");
+            this.cdr.markForCheck();
+          },
+          // Handle response---error
+          error:(err)=>{
+            this.isSubmitting.set(false);
+            this.submitMessage.set("Unable to update supplier");
+            console.log("Unable to update supplier at backend", err);
+            this.toastnotificationService.show("Unable to update supplier", "error");
+            this.cdr.markForCheck();
+          }
+        });
+      }else{
+        const newSupplierData: SupplierRequestDto = {
+          name: formValue.name ?? '',
+          supplierCode: formValue.supplierCode ?? '',
+          email: formValue.email ?? '',
+          phone: formValue.phone ?? '',
+          address1: formValue.address1 ?? '',
+          address2: formValue.address2 ?? '',
+          city: formValue.city ?? '',
+          state: formValue.state ?? '',
+          country: formValue.country ?? '',
+          postalCode: formValue.postalCode ?? ''
+        };
+        // Call backend
+      this.supplierService.createSupplier(newSupplierData)
         .subscribe({
           // Handle response--Success
           next: (savedSupplier) => {
@@ -103,6 +199,9 @@ export class SupplierForm {
             console.log("Unable to save Supplier at backend", err);
           }
         });
+      }
+    }else{
+      this.toastnotificationService.show("Invalid form values", "error");
     }
   }
 

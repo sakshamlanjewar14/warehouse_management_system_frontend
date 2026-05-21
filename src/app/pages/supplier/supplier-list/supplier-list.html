@@ -112,6 +112,7 @@
             <td>
               <div class="flex gap-2 items-center justify-center">
                 <button
+                [routerLink]="['/suppliers/create']" [queryParams]="{supplierId: supplier.supplierId}"
                   class="px-2 py-1 bg-yellow-600 text-white rounded-lg text-sm font-medium hover:bg-yellow-700 cursor-pointer">Edit</button>
                 <a 
                   [routerLink]="['/suppliers/assign-product', supplier.supplierId]"

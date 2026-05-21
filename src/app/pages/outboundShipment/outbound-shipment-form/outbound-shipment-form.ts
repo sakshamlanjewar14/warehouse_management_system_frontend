@@ -4,9 +4,9 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators, FormsModule
 import { OutboundShipmentService } from '../outboundShipment.service';
 import { ProductService } from '../../products/product.service';
 import { ProductResponseDto } from '../../products/product.model';
-import { OutboundShipmentRequestDto } from '../outboundShipment.model';
+import { OutboundShipmentRequestDto, OutboundShipmentResponseDto } from '../outboundShipment.model';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-outbound-shipment-form',
@@ -22,6 +22,10 @@ export class OutboundShipmentForm implements OnInit {
   private outboundShipmentService = inject(OutboundShipmentService)
   private cdr = inject(ChangeDetectorRef)
   private toastNotificatonService = inject(ToastNotificationService)
+  private activatedRoute = inject(ActivatedRoute);
+
+
+  formMode: 'N' | 'E' = 'N';
 
   // Signals
   isSubmitting = signal(false);
@@ -30,29 +34,73 @@ export class OutboundShipmentForm implements OnInit {
   products: ProductResponseDto[] = [];
   selectedProductIds = signal<number[]>([]);
 
+  selectedOutboundShipment: OutboundShipmentResponseDto | null = null;
+
   // form creation
   outboundShipmentForm = this.formBuilder.group({
-    customerName: ["", [ Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[a-zA-Z ]+$/)]],
+    customerName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern(/^[a-zA-Z ]+$/)]],
     shipmentNumber: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern(/^[a-zA-Z0-9-]+$/)]],
     // status:['',[Validators.required]],
-    shipmentAddress: ['', [ Validators.required, Validators.minLength(3), Validators.maxLength(200), Validators.pattern(/^[a-zA-Z0-9\s,.\-#/]+$/)]],
-    trackingNumber: ['', [ Validators.required, Validators.minLength(5), Validators.maxLength(30), Validators.pattern(/^[a-zA-Z0-9-]+$/)]],
+    shipmentAddress: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(200), Validators.pattern(/^[a-zA-Z0-9\s,.\-#/]+$/)]],
+    trackingNumber: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30), Validators.pattern(/^[a-zA-Z0-9-]+$/)]],
     outboundShipmentItems: this.formBuilder.array([])
   });
 
 
   ngOnInit(): void {
+
+    this.activatedRoute.queryParamMap.subscribe(params => {
+
+      const shipmentId = params.get('shipmentid');
+
+      if (shipmentId) {
+        this.formMode = 'E';
+        console.log("form mode in::", this.formMode);
+
+        this.outboundShipmentService.getShipmentById(parseInt(shipmentId))
+          .subscribe({
+            next: (response) => {
+              console.log("selected::", response);
+              this.selectedOutboundShipment = response;
+              this.outboundShipmentForm.patchValue({
+
+                customerName: this.selectedOutboundShipment.customerName,
+                shipmentNumber: this.selectedOutboundShipment.shipmentNumber,
+                shipmentAddress: this.selectedOutboundShipment.shipmentAddress,
+                trackingNumber: this.selectedOutboundShipment.trackingNumber
+
+              });
+
+              this.selectedOutboundShipment.outboundShipmentItems.forEach((item) => {
+                const row = new FormGroup({
+                  productId: new FormControl(item.productId, [Validators.required, Validators.minLength(1)]),
+                  quantity: new FormControl(item.quantity, [Validators.required, Validators.min(1)]),
+                });
+                this.outboundShipmentItems.push(row);
+              });
+              this.cdr.markForCheck();
+            },
+            error: (err) => {
+              console.log("Unable to fetch outbound shipment from backend", err);
+              this.toastNotificatonService.show("Unable to fetch selected outbound shipment data", "error");
+              this.cdr.markForCheck();
+            }
+          })
+      }
+    });
+    console.log("form mode out::", this.formMode);
+
     this.productService.getAllProducts().subscribe({
       next: (productListResponse) => {
         this.products = productListResponse;
-         this.cdr.markForCheck();
+        this.cdr.markForCheck();
       },
       error: (err) => {
-         console.log("Unable to fetch product list from backend", err);
+        console.log("Unable to fetch product list from backend", err);
       }
     });
 
-     this.outboundShipmentItems.valueChanges.subscribe(() => {
+    this.outboundShipmentItems.valueChanges.subscribe(() => {
       this.updateRows();
     });
   }
@@ -62,7 +110,7 @@ export class OutboundShipmentForm implements OnInit {
     return this.outboundShipmentForm.get('outboundShipmentItems') as FormArray;
   }
 
-    // Adding the row with button
+  // Adding the row with button
   addOutboundShipmentItemRow() {
     const row = new FormGroup({
       productId: new FormControl('', [Validators.required, Validators.minLength(1)]),
@@ -81,7 +129,7 @@ export class OutboundShipmentForm implements OnInit {
     this.selectedProductIds.set(selectedIds);
   }
 
-  
+
   isProductSelected(productId: number, currentRowIndex: number): boolean {
     console.log("isProductSelected::", productId)
     const selected = this.selectedProductIds();
@@ -113,9 +161,48 @@ export class OutboundShipmentForm implements OnInit {
       const formValue = this.outboundShipmentForm.value;
       const items = this.outboundShipmentItems.value;
 
-      console.log("::formValue::",formValue, "::items::", items)
+      console.log("::formValue::", formValue, "::items::", items)
 
-      const outboundShipmentData: OutboundShipmentRequestDto = {
+      if (this.formMode === 'E' && this.selectedOutboundShipment) {
+
+        const editOutboundShipmentData: OutboundShipmentRequestDto = {
+          shipmentId: this.selectedOutboundShipment.shipmentId,
+          customerName: formValue.customerName ?? '',
+          shipmentNumber: formValue.shipmentNumber ?? '',
+          shipmentAddress: formValue.shipmentAddress ?? '',
+          trackingNumber: formValue.trackingNumber ?? '',
+          outboundShipmentItems: items
+        }
+
+        this.outboundShipmentService.updateShipment(this.selectedOutboundShipment.shipmentId, editOutboundShipmentData)
+          .subscribe({
+            // Handle response--Success
+            next: (savedStockTransfer) => {
+              this.isSubmitting.set(false);
+              this.submitMessage.set('Outbound shipment updated successfully!');
+              this.outboundShipmentForm.reset();
+              this.toastNotificatonService.show("Outbound shipment updated successfully", "success");
+              this.cdr.markForCheck();
+            },
+            // Handle response--error
+            error: (err) => {
+              this.isSubmitting.set(false);
+              this.submitMessage.set('Unable to update Outbound shipment!');
+              console.log("Unable to update Outbound shipment at backend", err);
+              this.toastNotificatonService.show("Unable to update Outbound shipment", "error");
+              this.cdr.markForCheck();
+            }
+          });
+      } else {
+        const newOutboundShipmentData: OutboundShipmentRequestDto = {
+          customerName: formValue.customerName ?? '',
+          shipmentNumber: formValue.shipmentNumber ?? '',
+          shipmentAddress: formValue.shipmentAddress ?? '',
+          trackingNumber: formValue.trackingNumber ?? '',
+          outboundShipmentItems: items
+        };
+
+         const outboundShipmentData: OutboundShipmentRequestDto = {
         customerName: formValue.customerName ?? '',
         shipmentNumber: formValue.shipmentNumber ?? '',
         shipmentAddress: formValue.shipmentAddress ?? '',
@@ -127,7 +214,7 @@ export class OutboundShipmentForm implements OnInit {
       console.log("outboundShipmentData::", outboundShipmentData)
 
       // Call backend
-      this.outboundShipmentService.createShipment(outboundShipmentData)
+      this.outboundShipmentService.createShipment(newOutboundShipmentData)
         .subscribe({
           // Handle response--Success
           next: (savedOutboundShipment) => {
@@ -146,6 +233,7 @@ export class OutboundShipmentForm implements OnInit {
             this.cdr.markForCheck();
           }
         });
+      }
     } else {
       this.toastNotificatonService.show("Invalid form values", "error");
     }

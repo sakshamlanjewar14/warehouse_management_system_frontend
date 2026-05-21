@@ -118,6 +118,7 @@
                   [routerLink]="['/inboundShipment/inbound-shipment-details',inboundSipment.shipmentId, inboundSipment.supplierId]" class="px-2 py-1 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 
                   cursor-pointer"><span class="material-icons fs-15px">visibility</span></a>
                 <button
+                [routerLink]="['/inboundShipment-form']" [queryParams]="{shipmentId: inboundSipment.shipmentId}"
                   class="px-2 py-1 bg-yellow-600 text-white rounded-lg text-sm font-medium hover:bg-yellow-700 
                   cursor-pointer"> <span class="material-icons fs-15px">edit</span></button>
                 <button

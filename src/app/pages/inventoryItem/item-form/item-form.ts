@@ -2,13 +2,13 @@ import { StorageBinService } from './../../storageBin/storageBin.service';
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, OnInit, signal, ViewEncapsulation } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { RouterModule } from "@angular/router";
+import { ActivatedRoute, RouterModule } from "@angular/router";
 import { ItemService } from "../item.service";
 import { startWith } from "rxjs";
 import { ProductService } from "../../products/product.service";
 import { StorageBinResponseDto } from '../../storageBin/storageBin.model';
 import { ToastNotificationService } from '../../../shared/services/toast-notification.service';
-import { InventoryItemRequestDto } from '../item.model';
+import { InventoryItemRequestDto, InventoryItemResponseDto } from '../item.model';
 import { ProductResponseDto } from '../../products/product.model';
 
 // Component Setup
@@ -28,7 +28,9 @@ export class InventoryItemForm implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private binService = inject(StorageBinService);
   private toastNotificatonService = inject(ToastNotificationService)
-  
+  private activatedRoute = inject(ActivatedRoute)
+
+  formMode: 'N' | 'E' = 'N';
 
   // Signals
   isSubmitting = signal(false);
@@ -38,18 +40,16 @@ export class InventoryItemForm implements OnInit {
   products: ProductResponseDto[] = [];
   bins: StorageBinResponseDto[] = [];
 
+  selectedInventoryItem: InventoryItemResponseDto | null = null;
+
   // Signal to track which bins are currently chosen in the form
   selectedBinIds = signal<number[]>([]);
 
   // Strongly typed Reactive Form
   // Form Creation
   itemForm = this.formBuilder.group({
-
-    quantity: [0 , [Validators.required]],
     productId: [0, [Validators.required]],
-    storageBinId: [0 , [Validators.required]],
     rows: this.formBuilder.array([])
-
   });
 
   // A getter to easily access the 'items' FormArray in the template
@@ -64,6 +64,36 @@ export class InventoryItemForm implements OnInit {
 
 
   ngOnInit(): void {
+
+    this.activatedRoute.queryParamMap.subscribe(params => {
+
+      const inventoryItemId = params.get('inventoryItemId');
+
+      if (inventoryItemId) {
+        this.formMode = 'E';
+        console.log("form mode in::", this.formMode);
+
+        // Api call
+        this.itemService.getInventoryItemById(parseInt(inventoryItemId))
+          .subscribe({
+            next: (response) => {
+              console.log("selectedInventoryItem::", response);
+              this.selectedInventoryItem = response;
+              this.itemForm.patchValue({
+                productId: this.selectedInventoryItem.productId
+
+              });
+            },
+            error: (err) => {
+              console.log("Unable to fetch inventory item from backend", err);
+              this.toastNotificatonService.show("Unable to fetch selected inventory item data", "error");
+              this.cdr.markForCheck();
+            }
+          })
+      }
+    });
+    console.log("form mode out::", this.formMode);
+
     this.productService.getAllProducts()
       .subscribe({
         next: (productListResponse) => {
@@ -152,33 +182,73 @@ export class InventoryItemForm implements OnInit {
 
       console.log('Item Data:', this.itemForm.value);
       // Get form data
-      const itemData = this.itemForm.getRawValue() as InventoryItemRequestDto;
-      // // Call backend
-      this.itemService.createItem(itemData)
-        .subscribe({
-          // Handle response--Success
-          next: (savedItem) => {
-            this.isSubmitting.set(false);
-            this.submitMessage.set('Item saved successfully!');
-            this.itemForm.reset();
-            this.toastNotificatonService.show("Item saved successfully!", "success");
-          },
-          // Handle response--error
-          error: (err) => {
-            this.isSubmitting.set(false);
-            this.submitMessage.set('Unable to save item!');
-            this.toastNotificatonService.show("Unable to save item!", "error");
-            console.log("Unable to save item at backend", err);
-          }
-        });
+      //const itemData = this.itemForm.getRawValue() as InventoryItemRequestDto;
+      const formValue = this.itemForm.value;
+
+      if (this.formMode === 'E' && this.selectedInventoryItem) {
+
+        const editInventoryItemData: InventoryItemRequestDto = {
+          inventoryItemId: this.selectedInventoryItem.inventoryItemId,
+          quantity: formValue.quantity  ?? 0,
+          productId: formValue.productId ?? 0,
+          storageBinId: formValue.storageBinId ?? 0
+        }
+
+        // Call backend
+        this.itemService.updateInventoryItemById(this.selectedInventoryItem.inventoryItemId, editInventoryItemData)
+          .subscribe({
+            // Handle response---success
+            next: (savedInventoryItem) => {
+              this.isSubmitting.set(false);
+              this.submitMessage.set('Inventory item saved successfully');
+              this.itemForm.reset();
+              this.toastNotificatonService.show("Inventory item saved successfully");
+              this.cdr.markForCheck();
+            },
+            // handle response---error
+            error: (err) => {
+              this.isSubmitting.set(false);
+              this.submitMessage.set("Unable to update inventory item");
+              console.log("Unable to update inventory item at backend");
+              this.toastNotificatonService.show("Unable to update inventory item", "error");
+              this.cdr.markForCheck();
+            }
+          });
+      } else {
+        const newInventoryItem: InventoryItemRequestDto = {
+          quantity: formValue.quantity ?? 0,
+          productId: formValue.productId ?? 0,
+          storageBinId: formValue.storageBinId ?? 0
+        };
+
+        // // Call backend
+        this.itemService.createItem(itemData)
+          .subscribe({
+            // Handle response--Success
+            next: (savedItem) => {
+              this.isSubmitting.set(false);
+              this.submitMessage.set('Item saved successfully!');
+              this.itemForm.reset();
+              this.toastNotificatonService.show("Item saved successfully!", "success");
+            },
+            // Handle response--error
+            error: (err) => {
+              this.isSubmitting.set(false);
+              this.submitMessage.set('Unable to save item!');
+              this.toastNotificatonService.show("Unable to save item!", "error");
+              console.log("Unable to save item at backend", err);
+            }
+          });
+      }
+    } else {
+      this.toastNotificatonService.show("Invalid form values", "error");
     }
   }
 
-  // Clear Form Function
-  clearInventoryItemForm() {
-    this.itemForm.reset();
-    this.itemForm.get('productId')?.setValue(0);
-    this.cdr.markForCheck();
-  }
-
+   // Clear Form Function
+    clearInventoryItemForm() {
+      this.itemForm.reset();
+      this.itemForm.get('productId')?.setValue(0);
+      this.cdr.markForCheck();
+    }
 }

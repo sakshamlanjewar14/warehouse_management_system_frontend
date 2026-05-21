@@ -1,8 +1,8 @@
-import { ShipmentStatus } from './../inboundShipment.model';
+import { InboundShipmentResponseDto, ShipmentStatus } from './../inboundShipment.model';
 import { ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, ReactiveFormsModule, FormsModule, FormArray, FormGroup, FormControl } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { InboundShipmentService } from '../inboundShipment.service';
 import { InboundShipmentRequestDto } from '../inboundShipment.model';
 import { ProductService } from '../../products/product.service';
@@ -26,9 +26,12 @@ export class InboundShipmentForm implements OnInit {
   private supplierService = inject(SupplierService)
   private cdr = inject(ChangeDetectorRef)
   private toastNotificationService = inject(ToastNotificationService);
+  private activatedRoute = inject(ActivatedRoute);
+
+  formMode: 'N' | 'E' = 'N';
 
   // Signals
-  
+
   isSubmitting = signal(false);
   submitMessage = signal('');
 
@@ -36,13 +39,15 @@ export class InboundShipmentForm implements OnInit {
   selectedProductIds = signal<number[]>([]);
   suppliers: SupplierResponseDto[] = [];
 
+  selectedInboundShipment: InboundShipmentResponseDto | null = null;
+
   shipmentStatuses = Object.keys(ShipmentStatus).filter((key) => isNaN(Number(key)));
 
   // Strongly typed Reactive Form
   // Form Creation
   inboundShipmentForm = this.formBuilder.group({
-    shipmentCode: ['', [ Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern('^[a-zA-Z0-9-]+$')]],
-    supplierId: [null, [Validators.required]],
+    shipmentCode: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern('^[a-zA-Z0-9-]+$')]],
+    supplierId: [0, [Validators.required]],
     //status: ['', [Validators.required]],
     expectedDate: ['', [Validators.required]],
     // receivedDate: ['', []],
@@ -53,8 +58,54 @@ export class InboundShipmentForm implements OnInit {
 
 
   ngOnInit(): void {
+
+    this.activatedRoute.queryParamMap.subscribe(params => {
+
+      const shipmenntId = params.get('shipmentId');
+
+      if (shipmenntId) {
+
+        this.formMode = 'E';
+        console.log("form mode in::", this.formMode);
+
+        this.inboundShipmentService.getShipmentById(parseInt(shipmenntId))
+          .subscribe({
+            next: (response) => {
+              console.log("selectedInboundShipment::", response);
+              this.selectedInboundShipment = response;
+              this.inboundShipmentForm.patchValue({
+
+                shipmentCode: this.selectedInboundShipment?.shipmentCode,
+                supplierId: this.selectedInboundShipment?.supplierId,
+                expectedDate: this.selectedInboundShipment?.expectedDate? new Date(this.selectedInboundShipment.expectedDate)
+                    .toISOString()
+                    .split('T')[0]
+                  : null,
+                referenceNumber: this.selectedInboundShipment?.referenceNumber,
+                notes: this.selectedInboundShipment?.notes,
+              });
+
+              this.selectedInboundShipment?.inboundShipmentItems.forEach((item) => {
+                const row = new FormGroup({
+                  productId: new FormControl(item.productId, [Validators.required, Validators.minLength(1)]),
+                  expectedQty: new FormControl(item.expectedQty, [Validators.required, Validators.min(1)]),
+                });
+                this.inboundShipmentItems.push(row);
+              });
+              this.cdr.markForCheck();
+            },
+            error: (err) => {
+              console.log("Unable to fetch selected inboundshipment from backend", err);
+              this.toastNotificationService.show("Unable to fetch selected inboundshipment data", "error");
+              this.cdr.markForCheck();
+            }
+          })
+      }
+    });
+    console.log("form mode out::", this.formMode);
+
     // get all supplier from service
-    this.supplierService.getAllSuppliers()  
+    this.supplierService.getAllSuppliers()
       .subscribe({
         next: (supplierListResponse) => {
           this.suppliers = supplierListResponse;
@@ -89,8 +140,8 @@ export class InboundShipmentForm implements OnInit {
     });
     this.inboundShipmentItems.push(row);
   }
-  
-// Remove the row
+
+  // Remove the row
   removeInboundShipmentItemRow(index: any) {
     this.inboundShipmentItems.removeAt(index);
   }
@@ -104,8 +155,8 @@ export class InboundShipmentForm implements OnInit {
     this.selectedProductIds.set(selectedIds);
   }
 
-  
-// For checking the product selected in any row. If selected, so it cant be add in another row
+
+  // For checking the product selected in any row. If selected, so it cant be add in another row
   isProductSelected(productId: number, currentRowIndex: number): boolean {
     console.log("isProductSelected::", productId)
     const selected = this.selectedProductIds();
@@ -125,8 +176,8 @@ export class InboundShipmentForm implements OnInit {
 
   onSupplierSelect(event: any) {
     const selectedOption = event.target as HTMLSelectElement;
-    const supplierId = selectedOption.value;
-    if (supplierId && supplierId.length > 0) {
+    const supplierId = Number(selectedOption.value);
+    if (supplierId && supplierId > 0) {
       this.supplierService.getSupplierById(supplierId)
         .subscribe({
           next: (response) => {
@@ -160,40 +211,83 @@ export class InboundShipmentForm implements OnInit {
 
       //console.log("::formValue::",formValue, "::items::", items)
 
-      const inboundShipmentData: InboundShipmentRequestDto = {
-        shipmentCode: formValue.shipmentCode ?? '',
-        supplierId: formValue.supplierId ?? 0,
-        //status: formValue.status ?? '',
-        expectedDate: new Date(formValue.expectedDate ?? ''),
-        //receivedDate: new Date(formValue.receivedDate ?? ''),
-        referenceNumber: formValue.referenceNumber ?? '',
-        notes: formValue.notes ?? '',
-        inboundShipmentItems: items
-      };
+      if (this.formMode === 'E' && this.selectedInboundShipment) {
 
-      console.log("inboundShipmentData::", inboundShipmentData)
+        const editInboundShipmentData: InboundShipmentRequestDto = {
+          shipmentId: this.selectedInboundShipment.shipmentId,
+          shipmentCode: formValue.shipmentCode ?? '',
+          supplierId: formValue.supplierId ?? 0,
+          expectedDate: new Date(formValue.expectedDate ?? ''),
+          referenceNumber: formValue.referenceNumber ?? '',
+          notes: formValue.notes ?? '',
+          inboundShipmentItems: items
+        };
 
-      // Call backend
-      this.inboundShipmentService.createShipment(inboundShipmentData)
-        .subscribe({
-          // Handle response--Success
-          next: (savedInboundShipment) => {
-            this.isSubmitting.set(false);
-            this.submitMessage.set('InboundShipment saved successfully!');
-            this.inboundShipmentForm.reset();
-            this.toastNotificationService.show("Inbound Shipment saved successfully", "success");
-            this.cdr.markForCheck();
-          },
-          // Handle response--error
-          error: (err) => {
-            this.isSubmitting.set(false);
-            this.submitMessage.set('Unable to save InboundShipment!');
-            console.log("Unable to save InboundShipment at backend", err);
-            this.toastNotificationService.show("Unable to save Incoming Shipment", "error");
-            this.cdr.markForCheck();
-          }
-        });
-    }else{
+        // Call backend
+        this.inboundShipmentService.updateShipment(this.selectedInboundShipment.shipmentId, editInboundShipmentData)
+          .subscribe({
+            // Handle response--Success
+            next: (savedInboundShipment) => {
+              this.isSubmitting.set(false);
+              this.submitMessage.set('Inbound shipment updated successfully!');
+              this.inboundShipmentForm.reset();
+              this.toastNotificationService.show("Inbound shipment updated successfully", "success");
+              this.cdr.markForCheck();
+            },
+            // Handle response--error
+            error: (err) => {
+              this.isSubmitting.set(false);
+              this.submitMessage.set('Unable to update Inbound shipment!');
+              console.log("Unable to update Inbound shipment at backend", err);
+              this.toastNotificationService.show("Unable to update Inbound shipment", "error");
+              this.cdr.markForCheck();
+            }
+          });
+      } else {
+        const newInboundShipmentData: InboundShipmentRequestDto = {
+          shipmentCode: formValue.shipmentCode ?? '',
+          supplierId: formValue.supplierId ?? 0,
+          expectedDate: new Date(formValue.expectedDate ?? ''),
+          referenceNumber: formValue.referenceNumber ?? '',
+          notes: formValue.notes ?? '',
+          inboundShipmentItems: items
+        };
+
+        const inboundShipmentData: InboundShipmentRequestDto = {
+          shipmentCode: formValue.shipmentCode ?? '',
+          supplierId: formValue.supplierId ?? 0,
+          //status: formValue.status ?? '',
+          expectedDate: new Date(formValue.expectedDate ?? ''),
+          //receivedDate: new Date(formValue.receivedDate ?? ''),
+          referenceNumber: formValue.referenceNumber ?? '',
+          notes: formValue.notes ?? '',
+          inboundShipmentItems: items
+        };
+
+        console.log("inboundShipmentData::", inboundShipmentData)
+
+        // Call backend
+        this.inboundShipmentService.createShipment(newInboundShipmentData)
+          .subscribe({
+            // Handle response--Success
+            next: (savedInboundShipment) => {
+              this.isSubmitting.set(false);
+              this.submitMessage.set('InboundShipment saved successfully!');
+              this.inboundShipmentForm.reset();
+              this.toastNotificationService.show("Inbound Shipment saved successfully", "success");
+              this.cdr.markForCheck();
+            },
+            // Handle response--error
+            error: (err) => {
+              this.isSubmitting.set(false);
+              this.submitMessage.set('Unable to save InboundShipment!');
+              console.log("Unable to save InboundShipment at backend", err);
+              this.toastNotificationService.show("Unable to save Incoming Shipment", "error");
+              this.cdr.markForCheck();
+            }
+          });
+      }
+    } else {
       this.toastNotificationService.show("Invalid form values", "error");
     }
   }

@@ -20,7 +20,7 @@ export class SupplierService {
     );
   }
 
-  getSupplierById(supplierId: any): Observable<SupplierResponseDto>{
+  getSupplierById(supplierId: number): Observable<SupplierResponseDto>{
     return this.httpClient.get<SupplierResponseDto>(this.baseUrl+"/"+supplierId)
     .pipe(map((response: any) => response.data));
   }
@@ -39,7 +39,13 @@ export class SupplierService {
     .pipe(map((response: any) => response.data));
   }
 
-  updateSupplierById(supplierId: number, supplierDetail: any){
+  updateSupplierById(supplierId: number, supplierData: SupplierRequestDto){
+    return this.httpClient.put<SupplierRequestDto>(this.baseUrl+"/"+supplierId, supplierData)
+    .pipe(
+      map((response: any)=>{
+        return response.data;
+      })
+    );
 
   }
 

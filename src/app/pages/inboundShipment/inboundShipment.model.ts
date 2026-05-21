@@ -20,7 +20,7 @@ export interface InboundShipmentItemRequestDto{
 }
 
 export interface InboundShipmentResponseDto{
-    shipmentId?: number;
+    shipmentId: number;
     shipmentCode: string;
     supplierId: number;
     status: string;

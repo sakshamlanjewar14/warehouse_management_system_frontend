@@ -1,3 +1,4 @@
+import { OutboundShipmentDetails } from './outbound-shipment-details/outbound-shipment-details';
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
@@ -42,8 +43,13 @@ export class OutboundShipmentService {
     }
 
 
-    updateShipment(shipmentId: number) {
-
+    updateShipment(shipmentId: number, outboundShipmentData: OutboundShipmentRequestDto) {
+        return this.httpClient.put<OutboundShipmentRequestDto>(this.baseUrl+"/"+shipmentId, outboundShipmentData)
+        .pipe(
+            map((response: any)=>{
+                return response.data;
+            })
+        );
     }
 
     deleteShipment(shipmentId: number) {

@@ -19,7 +19,7 @@ export interface SupplierRequestDto{
 
 export interface SupplierResponseDto{
 
-    supplierId? : number;
+    supplierId : number;
     name : string;
     supplierCode : string;
     email : string;

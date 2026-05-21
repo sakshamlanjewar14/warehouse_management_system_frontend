@@ -31,9 +31,8 @@ export class InboundShipmentService {
   }
 
 
-  getShipmentById(shipmentId: number, supplierId: number): Observable<any> {
-    return this.httpClient
-      .get<{ data: InboundShipmentResponseDto }>(`${this.baseUrl}/${shipmentId}?supplierId=${supplierId}`)
+  getShipmentDetails(shipmentId: number,supplierId:number){
+    return this.httpClient.get<{ data: InboundShipmentResponseDto }>(`${this.baseUrl}/${shipmentId}?supplierId=${supplierId}`)
       .pipe(
         map((response: any) => {
           console.log(response);
@@ -42,7 +41,26 @@ export class InboundShipmentService {
       );
   }
 
-  updateShipment(shipmentId: number) {
+
+  getShipmentById(shipmentId: number): Observable<InboundShipmentResponseDto> {
+    return this.httpClient.get<{ data: InboundShipmentResponseDto }>(`${this.baseUrl}/${shipmentId}`)
+      .pipe(
+        map((response: any) => {
+          console.log(response);
+          return response.data
+        })
+      );
+  }
+
+
+
+  updateShipment(shipmentId: number, shipmentData: InboundShipmentRequestDto) {
+    return this.httpClient.put<InboundShipmentRequestDto>(this.baseUrl+"/"+shipmentId, shipmentData)
+    .pipe(
+      map((response:any)=>{
+        return response.data;
+      })
+    );
 
   }
 

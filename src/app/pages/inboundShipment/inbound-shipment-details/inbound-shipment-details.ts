@@ -30,7 +30,7 @@ export class InboundShipmentDetails implements OnInit {
     const supplierId = this.activatedRoute.snapshot.paramMap.get('supplierId') ?? 0;
 
     if(shipmentId){
-      this.shipmentService.getShipmentById(+shipmentId, +supplierId).subscribe({
+      this.shipmentService.getShipmentDetails(+shipmentId, +supplierId).subscribe({
         next:(response)=>{
           this.shipment = response['inboundShipmentResponseDto'];
           this.supplier = response['supplierResponseDto'];

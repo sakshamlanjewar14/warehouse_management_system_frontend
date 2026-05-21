@@ -22,8 +22,14 @@ export class ItemService {
     );
   }
 
-  getItemById(inventoryItemId: number){
-
+  getInventoryItemById(inventoryItemId: number): Observable<InventoryItemResponseDto>{
+    return this.httpClient.get<InventoryItemResponseDto>(`${this.baseUrl}/${inventoryItemId}`)
+    .pipe(
+      map((response: any)=>{
+        console.log(response);
+        return response.data;
+      })
+    );
   }
 
   createItem(itemData: InventoryItemRequestDto): Observable<InventoryItemResponseDto[]>{
@@ -36,8 +42,13 @@ export class ItemService {
     );
   }
 
-  updateItemById(inventoryItemId: number, inventoryItemDetails: any){
-
+  updateInventoryItemById(inventoryItemId: number, inventoryItemData: InventoryItemRequestDto){
+    return this.httpClient.put<InventoryItemRequestDto>(this.baseUrl+"/"+inventoryItemId, inventoryItemData)
+    .pipe(
+      map((response: any)=>{
+        return response.data;
+      })
+    );
   }
 
   deleteProductById(inventoryItemId: number){

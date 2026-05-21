@@ -43,10 +43,12 @@ export class StockTransferForm implements OnInit {
   // Strongly typed Reactive Form
   // Form Creation
   stockTransferForm = this.formBuilder.group({
+
     sourceWarehouseId: [0, [Validators.required]],
     destinationWarehouseId: [0, [Validators.required]],
     // status: ['', [Validators.required]],
     stockTransferItems: this.formBuilder.array([])
+    
   });
 
   ngOnInit(): void {
@@ -54,7 +56,7 @@ export class StockTransferForm implements OnInit {
     this.activatedRoute.queryParamMap.subscribe(params => {
 
       const stockTransferId = params.get('stockTransferId');
-      
+       
       if (stockTransferId) {
         this.formMode = 'E';
         console.log("form mode in::", this.formMode);
@@ -66,6 +68,7 @@ export class StockTransferForm implements OnInit {
               console.log("selectedStockTransfer::", response);
               this.selectedStockTransfer = response;
               this.stockTransferForm.patchValue({
+                
                 sourceWarehouseId: this.selectedStockTransfer.sourceWarehouse.warehouseId,
                 destinationWarehouseId: this.selectedStockTransfer.destinationWarehouse.warehouseId
               });
@@ -241,7 +244,6 @@ export class StockTransferForm implements OnInit {
             }
           });
       }
-
     } else {
       this.toastNotificationService.show("Invalid form values", "error");
     }
